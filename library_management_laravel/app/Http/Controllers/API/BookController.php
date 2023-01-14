@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreBookRequest;
 use App\Models\Book;
 use App\Models\Category;
 use App\Models\Image;
-use Illuminate\Http\Request;
+use App\Models\Shelf;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
@@ -30,11 +32,11 @@ class BookController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreBookRequest $request)
     {
         $book = Book::create($request->only(['title', 'author', 'publisher', 'date_published']));
         Category::create([
-            'name' => $request->category_name,
+            'name' => $request->category,
             'categoryable_id' => $book->id,
             'categoryable_type' => Book::class
         ]);
@@ -82,6 +84,17 @@ class BookController extends Controller
         ]);
     }
 
+    public function filterWithShelf($shelf_no)
+    {
+        $books = Book::select('books.*', 'shelves.shelf_no')
+            ->rightJoin('shelves', 'books.id', 'shelves.book_id')
+            ->where('shelves.shelf_no', $shelf_no)
+            ->get();
+        return response()->json([
+            'books' => $books
+        ], 200);
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -89,13 +102,13 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreBookRequest $request, $id)
     {
-        $book = Book::find($id)->update($request->only(['title', 'author', 'publisher', 'date_published']));
+        $isUpdated = Book::find($id)->update($request->only(['title', 'author', 'publisher', 'date_published']));
 
-        if ($request->has('category_name')) {
+        if ($request->has('category')) {
             Category::where('categoryable_id', $id)->update([
-                'name' => $request->category_name,
+                'name' => $request->category,
             ]);
         }
 
@@ -103,9 +116,7 @@ class BookController extends Controller
             $this->storeImage($request, $id);
         }
 
-        return response([
-            'isUpdated' => $book
-        ], 200);
+        return response(['isUpdated' => $isUpdated], 200);
     }
 
     /**
@@ -119,6 +130,7 @@ class BookController extends Controller
         $isDeleted = Book::find($id)->delete();
         Category::where('categoryable_id', $id)->delete();
         Image::where('imageable_id', $id)->delete();
+        Shelf::where('book_id', $id)->delete();
         return response([
             'isDeleted' => $isDeleted
         ], 200);

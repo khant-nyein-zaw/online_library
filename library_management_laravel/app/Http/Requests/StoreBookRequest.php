@@ -1,0 +1,47 @@
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\File;
+
+class StoreBookRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, mixed>
+     */
+    public function rules()
+    {
+        return [
+            'title' => ['required', 'max:255', Rule::unique('books', 'title')->ignore($this->book)],
+            'author' => 'required|max:255',
+            'publisher' => 'required|max:255',
+            'date_published' => 'required|date',
+            'category' => 'required',
+            'image' => File::image()
+        ];
+    }
+
+    public function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'message' => 'request not validated',
+            'errors' => $validator->errors()
+        ]));
+    }
+}
