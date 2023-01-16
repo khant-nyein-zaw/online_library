@@ -8,7 +8,6 @@ use App\Models\Book;
 use App\Models\Category;
 use App\Models\Image;
 use App\Models\Shelf;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
@@ -20,7 +19,9 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = Book::with(['category', 'image'])->get();
+        $books = Book::with(['category', 'image'])
+            ->orderBy('created_at', 'desc')
+            ->get();
         return response()->json([
             'books' => $books
         ]);
@@ -40,7 +41,7 @@ class BookController extends Controller
             'categoryable_id' => $book->id,
             'categoryable_type' => Book::class
         ]);
-        $this->storeImage($request, $book->id);
+        // $this->storeImage($request, $book->id);
         return response()->json([
             'createdBook' => $book
         ]);

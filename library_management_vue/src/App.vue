@@ -126,7 +126,9 @@
       </aside>
       <div class="layout-page">
         <div class="content-wrapper">
-          <router-view />
+          <div class="container-xxl flex-grow-1 container-p-y">
+            <router-view />
+          </div>
         </div>
       </div>
       <div class="layout-overlay layout-menu-toggle"></div>

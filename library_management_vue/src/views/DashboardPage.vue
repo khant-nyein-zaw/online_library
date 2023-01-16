@@ -1,258 +1,156 @@
 <template>
-  <div class="container-xxl flex-grow-1 container-p-y">
-    <div class="row">
-      <div class="col-lg-3 mb-4">
-        <div class="card">
-          <div class="card-body">
-            <div
-              class="card-title d-flex align-items-start justify-content-between"
-            >
-              <div class="avatar flex-shrink-0">
-                <img
-                  src="assets/img/icons/unicons/chart-success.png"
-                  alt="chart success"
-                  class="rounded"
-                />
-              </div>
-              <div class="dropdown">
-                <button
-                  class="btn p-0"
-                  type="button"
-                  id="cardOpt3"
-                  data-bs-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  <i class="bx bx-dots-vertical-rounded"></i>
-                </button>
-                <div
-                  class="dropdown-menu dropdown-menu-end"
-                  aria-labelledby="cardOpt3"
-                >
-                  <a class="dropdown-item" href="javascript:void(0);"
-                    >View More</a
-                  >
-                  <a class="dropdown-item" href="javascript:void(0);">Delete</a>
-                </div>
-              </div>
+  <div class="row mb-4">
+    <div class="col-lg-3">
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title d-flex align-items-start">
+            <div class="avatar flex-shrink-0">
+              <i class="bx bxs-book-content fs-2 text-success rounded"></i>
             </div>
-            <span class="fw-semibold d-block mb-1">Profit</span>
-            <h3 class="card-title mb-2">$12,628</h3>
-            <small class="text-success fw-semibold"
-              ><i class="bx bx-up-arrow-alt"></i> +72.80%</small
-            >
           </div>
-        </div>
-      </div>
-      <div class="col-lg-3 mb-4">
-        <div class="card">
-          <div class="card-body">
-            <div
-              class="card-title d-flex align-items-start justify-content-between"
-            >
-              <div class="avatar flex-shrink-0">
-                <img
-                  src="assets/img/icons/unicons/chart-success.png"
-                  alt="chart success"
-                  class="rounded"
-                />
-              </div>
-              <div class="dropdown">
-                <button
-                  class="btn p-0"
-                  type="button"
-                  id="cardOpt3"
-                  data-bs-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  <i class="bx bx-dots-vertical-rounded"></i>
-                </button>
-                <div
-                  class="dropdown-menu dropdown-menu-end"
-                  aria-labelledby="cardOpt3"
-                >
-                  <a class="dropdown-item" href="javascript:void(0);"
-                    >View More</a
-                  >
-                  <a class="dropdown-item" href="javascript:void(0);">Delete</a>
-                </div>
-              </div>
-            </div>
-            <span class="fw-semibold d-block mb-1">Profit</span>
-            <h3 class="card-title mb-2">$12,628</h3>
-            <small class="text-success fw-semibold"
-              ><i class="bx bx-up-arrow-alt"></i> +72.80%</small
-            >
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-3 mb-4">
-        <div class="card">
-          <div class="card-body">
-            <div
-              class="card-title d-flex align-items-start justify-content-between"
-            >
-              <div class="avatar flex-shrink-0">
-                <img
-                  src="assets/img/icons/unicons/chart-success.png"
-                  alt="chart success"
-                  class="rounded"
-                />
-              </div>
-              <div class="dropdown">
-                <button
-                  class="btn p-0"
-                  type="button"
-                  id="cardOpt3"
-                  data-bs-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  <i class="bx bx-dots-vertical-rounded"></i>
-                </button>
-                <div
-                  class="dropdown-menu dropdown-menu-end"
-                  aria-labelledby="cardOpt3"
-                >
-                  <a class="dropdown-item" href="javascript:void(0);"
-                    >View More</a
-                  >
-                  <a class="dropdown-item" href="javascript:void(0);">Delete</a>
-                </div>
-              </div>
-            </div>
-            <span class="fw-semibold d-block mb-1">Profit</span>
-            <h3 class="card-title mb-2">$12,628</h3>
-            <small class="text-success fw-semibold"
-              ><i class="bx bx-up-arrow-alt"></i> +72.80%</small
-            >
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-3 mb-4">
-        <div class="card">
-          <div class="card-body">
-            <div
-              class="card-title d-flex align-items-start justify-content-between"
-            >
-              <div class="avatar flex-shrink-0">
-                <img
-                  src="assets/img/icons/unicons/chart-success.png"
-                  alt="chart success"
-                  class="rounded"
-                />
-              </div>
-              <div class="dropdown">
-                <button
-                  class="btn p-0"
-                  type="button"
-                  id="cardOpt3"
-                  data-bs-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  <i class="bx bx-dots-vertical-rounded"></i>
-                </button>
-                <div
-                  class="dropdown-menu dropdown-menu-end"
-                  aria-labelledby="cardOpt3"
-                >
-                  <a class="dropdown-item" href="javascript:void(0);"
-                    >View More</a
-                  >
-                  <a class="dropdown-item" href="javascript:void(0);">Delete</a>
-                </div>
-              </div>
-            </div>
-            <span class="fw-semibold d-block mb-1">Profit</span>
-            <h3 class="card-title mb-2">$12,628</h3>
-            <small class="text-success fw-semibold"
-              ><i class="bx bx-up-arrow-alt"></i> +72.80%</small
-            >
-          </div>
+          <span class="fw-semibold d-block mb-1">Rented Books</span>
+          <h3 class="card-title mb-2">9</h3>
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-lg-12">
-        <!-- Borderless Table -->
-        <div class="card">
-          <h5 class="card-header">Recently Added Books</h5>
-          <div class="table-responsive text-nowrap">
-            <table class="table table-borderless">
-              <thead>
-                <tr>
-                  <th>Title</th>
-                  <th>Author</th>
-                  <th>Publisher</th>
-                  <th>Date of publication</th>
-                  <th>Category</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <i class="fab fa-angular fa-lg text-danger me-3"></i>
-                    <strong>Angular Project</strong>
-                  </td>
-                  <td>Albert Cook</td>
-                  <td>
-                    <ul
-                      class="list-unstyled users-list m-0 avatar-group d-flex align-items-center"
-                    >
-                      <li
-                        data-bs-toggle="tooltip"
-                        data-popup="tooltip-custom"
-                        data-bs-placement="top"
-                        class="avatar avatar-xs pull-up"
-                        title="Lilian Fuller"
-                      >
-                        <img
-                          src="assets/img/avatars/5.png"
-                          alt="Avatar"
-                          class="rounded-circle"
-                        />
-                      </li>
-                      <li
-                        data-bs-toggle="tooltip"
-                        data-popup="tooltip-custom"
-                        data-bs-placement="top"
-                        class="avatar avatar-xs pull-up"
-                        title="Sophia Wilkerson"
-                      >
-                        <img
-                          src="assets/img/avatars/6.png"
-                          alt="Avatar"
-                          class="rounded-circle"
-                        />
-                      </li>
-                      <li
-                        data-bs-toggle="tooltip"
-                        data-popup="tooltip-custom"
-                        data-bs-placement="top"
-                        class="avatar avatar-xs pull-up"
-                        title="Christina Parker"
-                      >
-                        <img
-                          src="assets/img/avatars/7.png"
-                          alt="Avatar"
-                          class="rounded-circle"
-                        />
-                      </li>
-                    </ul>
-                  </td>
-                  <td>
-                    <span class="badge bg-label-primary me-1">Active</span>
-                  </td>
-                  <td>Horror</td>
-                </tr>
-              </tbody>
-            </table>
+    <div class="col-lg-3">
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title d-flex align-items-start">
+            <div class="avatar flex-shrink-0">
+              <i class="bx bxs-book-content fs-2 text-primary rounded"></i>
+            </div>
           </div>
+          <span class="fw-semibold d-block mb-1">Total Books</span>
+          <h3 class="card-title mb-2">9</h3>
         </div>
-        <!--/ Borderless Table -->
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title d-flex align-items-start">
+            <div class="avatar flex-shrink-0">
+              <i class="bx bxs-book-content fs-2 text-danger rounded"></i>
+            </div>
+          </div>
+          <span class="fw-semibold d-block mb-1">Not returned</span>
+          <h3 class="card-title mb-2">9</h3>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title d-flex align-items-start">
+            <div class="avatar flex-shrink-0">
+              <i class="bx bxs-book-content fs-2 text-info rounded"></i>
+            </div>
+          </div>
+          <span class="fw-semibold d-block mb-1">Available Books</span>
+          <h3 class="card-title mb-2">9</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Book List -->
+  <div class="row" v-if="bookList.length">
+    <div class="col-lg-12">
+      <div class="card">
+        <h5 class="card-header">Book List</h5>
+        <div class="table-responsive text-nowrap">
+          <table class="table table-borderless">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Publisher</th>
+                <th>Date of publication</th>
+                <th>Category</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="book in bookList" :key="book.id">
+                <td>
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="avatar avatar-l pull-up" v-if="book.image">
+                      <img
+                        :src="book.image.filename"
+                        alt="Avatar"
+                        class="rounded-circle"
+                      />
+                    </div>
+                    <div class="avatar avatar-l pull-up" v-else>
+                      <img
+                        src="assets/img/avatars/5.png"
+                        alt="Avatar"
+                        class="rounded-circle"
+                      />
+                    </div>
+                    <strong>{{ book.title }}</strong>
+                  </div>
+                </td>
+                <td>{{ book.author }}</td>
+                <td>
+                  <span class="badge bg-label-primary me-1">{{
+                    book.publisher
+                  }}</span>
+                </td>
+                <td>
+                  {{ book.date_published }}
+                </td>
+                <td>{{ book.category.name }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div v-if="processing" class="d-flex justify-content-center mt-5">
+    <div class="demo-inline-spacing">
+      <div class="spinner-grow text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <div class="spinner-grow text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <div class="spinner-grow text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
       </div>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  name: "DashboardPage",
+  data() {
+    return {
+      bookList: [],
+      processing: false,
+    };
+  },
+  methods: {
+    getBookList() {
+      this.processing = true;
+      this.axios
+        .get("/api/books")
+        .then((res) => {
+          res.data.books.forEach((book) => {
+            if (book.image) {
+              book.image.filename =
+                "http://localhost:8000/storage/" + book.image.filename;
+            }
+          });
+          this.bookList = res.data.books;
+          this.processing = false;
+        })
+        .catch((err) => console.log(err));
+    },
+  },
+  mounted() {
+    this.getBookList();
+  },
+};
+</script>

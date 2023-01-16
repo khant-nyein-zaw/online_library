@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Dashboard from "@/views/DashboardPage.vue";
-import Books from "@/views/BooksPage.vue";
+import Books from "@/views/Books/BooksPage.vue";
 import IssueBook from "@/views/IssueBookPage.vue";
 import Shelf from "@/views/ShelfPage.vue";
 
