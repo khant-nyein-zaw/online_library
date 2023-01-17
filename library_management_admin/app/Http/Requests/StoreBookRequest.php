@@ -37,14 +37,6 @@ class StoreBookRequest extends FormRequest
         ];
     }
 
-    public function failedValidation(Validator $validator)
-    {
-        throw new HttpResponseException(response()->json([
-            'message' => 'Validation failed',
-            'errors' => $validator->errors()
-        ]));
-    }
-
     public function messages()
     {
         return [

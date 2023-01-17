@@ -1,31 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Dashboard from "@/views/DashboardPage.vue";
-import Books from "@/views/Books/BooksPage.vue";
-import IssueBook from "@/views/IssueBookPage.vue";
-import Shelf from "@/views/ShelfPage.vue";
 
-const routes = [
-  {
-    path: "/",
-    name: "Dashboard",
-    component: Dashboard,
-  },
-  {
-    path: "/books",
-    name: "Books",
-    component: Books,
-  },
-  {
-    path: "/issue-book",
-    name: "IssueBook",
-    component: IssueBook,
-  },
-  {
-    path: "/shelf",
-    name: "Shelf",
-    component: Shelf,
-  },
-];
+const routes = [];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
