@@ -129,6 +129,12 @@
                             Shelf
                         </a>
                     </li>
+                    <li class="menu-item">
+                        <form action="{{ route('logout') }}" method="POST" class="menu-link d-inline">
+                            @csrf
+                            <input type="submit" value="Logout" class="btn btn-danger">
+                        </form>
+                    </li>
                 </ul>
             </aside>
             <div class="layout-page">

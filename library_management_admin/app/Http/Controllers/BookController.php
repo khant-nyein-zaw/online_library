@@ -8,7 +8,10 @@ use App\Models\Shelf;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreBookRequest;
+use App\Imports\ImportBooks;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BookController extends Controller
 {
@@ -23,16 +26,6 @@ class BookController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(5);
         return view('books.index', compact('books'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -58,11 +51,13 @@ class BookController extends Controller
      */
     public function storeImage($request, $bookId)
     {
-        $existingRecord = Image::where('imageable_id', $bookId)->first();
         $newFileName = uniqid() . "_" . $request->file('image')->getClientOriginalName();
 
-        if (isset($existingRecord)) {
-            Storage::delete('public/' . $existingRecord->filename);
+        if (Image::where('imageable_id', $bookId)->exists()) {
+            // delete current file from storage
+            $filename = Image::where('imageable_id', $bookId)->pluck('filename')->first();
+            Storage::delete('public/' . $filename);
+            // update new image
             $request->file('image')->storeAs('public', $newFileName);
             Image::where('imageable_id', $bookId)->update([
                 'filename' => $newFileName
@@ -89,19 +84,16 @@ class BookController extends Controller
         return view('books.show', compact('book'));
     }
 
-    /**
-     * show books from each shelf
-     */
-    public function filterWithShelf($shelf_no)
-    {
-        $books = Book::select('books.*', 'shelves.shelf_no')
-            ->rightJoin('shelves', 'books.id', 'shelves.book_id')
-            ->where('shelves.shelf_no', $shelf_no)
-            ->get();
-        return response()->json([
-            'books' => $books
-        ], 200);
-    }
+    // public function filterWithShelf($shelf_no)
+    // {
+    //     $books = Book::select('books.*', 'shelves.shelf_no')
+    //         ->rightJoin('shelves', 'books.id', 'shelves.book_id')
+    //         ->where('shelves.shelf_no', $shelf_no)
+    //         ->get();
+    //     return response()->json([
+    //         'books' => $books
+    //     ], 200);
+    // }
 
     /**
      * Update the specified resource in storage.
@@ -110,13 +102,19 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreBookRequest $request, $id)
     {
         Book::find($id)->update($request->only(['title', 'author', 'publisher', 'date_published']));
 
-        if ($request->has('category')) {
+        if (Category::where('categoryable_id', $id)->exists()) {
             Category::where('categoryable_id', $id)->update([
                 'name' => $request->category,
+            ]);
+        } else {
+            Category::create([
+                'name' => $request->category,
+                'categoryable_id' => $id,
+                'categoryable_type' => Book::class
             ]);
         }
 
@@ -138,12 +136,28 @@ class BookController extends Controller
         Book::find($id)->delete();
         Category::where('categoryable_id', $id)->delete();
 
-        $currentImage = Image::firstWhere('imageable_id', $id);
-        $filename = $currentImage->filename;
-        Storage::delete('public/' . $filename);
-        $currentImage->delete();
+        if (Image::where('imageable_id', $id)->exists()) {
+            $image = Image::firstWhere('imageable_id', $id);
+            Storage::delete('public/' . $image->filename);
+            $image->delete();
+        }
 
         Shelf::where('book_id', $id)->delete();
         return redirect()->route('books.index');
+    }
+
+    /**
+     * Store books data from importing with excel
+     */
+    public function import(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'file' => 'required|file|mimes:xls,xlsx'
+        ]);
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+        Excel::import(new ImportBooks, $request->file('file')->storeAs('public', 'books.xlsx'));
+        return back()->with(['success' => 'Stored books successfully']);
     }
 }

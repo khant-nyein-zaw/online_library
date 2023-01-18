@@ -37,8 +37,12 @@
                                         <td>
                                             <span class="badge bg-label-primary me-1">{{ $book->publisher }}</span>
                                         </td>
-                                        <td>{{ $book->date_published }}</td>
-                                        <td>{{ $book->category->name }}</td>
+                                        <td>{{ date('M d Y', strtotime($book->date_published)) }}</td>
+                                        @if ($book->category)
+                                            <td>{{ $book->category->name }}</td>
+                                        @else
+                                            <td class="text-warning text-capitalize">Please add category to this book!</td>
+                                        @endif
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -57,7 +61,46 @@
             <div class="card mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">Add New Book</h5>
-                    <small class="text-muted float-end">Book Informations</small>
+                    <div>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalCenter">
+                            Import from excel
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modalCenterTitle">Modal title</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <form action="{{ route('books.import') }}" method="POST" enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col mb-3">
+                                                    <label class="form-label">File</label>
+                                                    <input type="file" name="file"
+                                                        class="form-control @error('file') is-invalid @enderror">
+                                                    @error('file')
+                                                        <small class="text-danger">{{ $message }}</small>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                data-bs-dismiss="modal">
+                                                Close
+                                            </button>
+                                            <button type="submit" class="btn btn-primary">Import</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('books.store') }}" method="POST" enctype="multipart/form-data">
@@ -110,7 +153,9 @@
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
-                        <button type="submit" class="btn btn-primary">Save</button>
+                        <div class="d-flex justify-content-start align-items-center gap-3">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
                     </form>
                 </div>
             </div>
