@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Exports\ShelvesExport;
+use App\Http\Requests\StoreShelfRequest;
 use App\Imports\ShelvesImport;
+use App\Models\Book;
+use App\Models\Shelf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
@@ -17,17 +20,8 @@ class ShelfController extends Controller
      */
     public function index()
     {
-        return view('shelf.index');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $books = Book::all();
+        return view('shelf.index', compact('books'));
     }
 
     /**
@@ -36,9 +30,15 @@ class ShelfController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreShelfRequest $request)
     {
-        //
+        foreach ($request->input('book_id') as $book_id) {
+            Shelf::create([
+                'shelf_no' => $request->shelf_no,
+                'book_id' => $book_id
+            ]);
+        }
+        return back()->with(['success' => 'Books have been added to the shelf']);
     }
 
     /**

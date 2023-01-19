@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreShelfRequest extends FormRequest
 {
@@ -24,8 +25,16 @@ class StoreShelfRequest extends FormRequest
     public function rules()
     {
         return [
-            'book_id' => 'required|integer',
-            'shelf_no' => 'required|integer'
+            'shelf_no' => 'required',
+            'book_id' => ['required', 'array'],
+            'book_id.*' => Rule::unique('shelves', 'book_id')->ignore($this->shelves)
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'book_id.*' => 'Book #:position is already added to another shelf'
         ];
     }
 }
