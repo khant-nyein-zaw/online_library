@@ -25,16 +25,16 @@
                                 @foreach ($books as $book)
                                     <tr>
                                         <td>
-                                            <div class="d-flex align-items-center gap-3">
+                                            <a href="{{ route('books.show', $book->id) }}"
+                                                class="d-flex align-items-center gap-2">
                                                 @if ($book->image)
                                                     <div class="avatar avatar-l pull-up">
                                                         <img src="{{ asset('storage/' . $book->image->filename) }}"
                                                             alt="Avatar" class="rounded-circle" />
                                                     </div>
                                                 @endif
-                                                <a
-                                                    href="{{ route('books.show', $book->id) }}"><strong>{{ $book->title }}</strong></a>
-                                            </div>
+                                                <strong>{{ $book->title }}</strong>
+                                            </a>
                                         </td>
                                         <td>{{ $book->author }}</td>
                                         <td>
@@ -67,7 +67,7 @@
                     <div>
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalCenter">
-                            Import from excel
+                            Import Csv or Excel file
                         </button>
                         <!-- Modal -->
                         <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
@@ -106,6 +106,12 @@
                     </div>
                 </div>
                 <div class="card-body">
+                    @if (Session::has('success'))
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>{{ Session::get('success') }}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
                     <form action="{{ route('books.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-3">

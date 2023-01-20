@@ -115,7 +115,7 @@
                         </a>
                     </li>
                     <li class="menu-item">
-                        <a class="menu-link" href="#">
+                        <a class="menu-link" href="{{ route('users.index') }}">
                             <i class="menu-icon tf-icons bx bx-user-circle"></i>
                             Members
                         </a>

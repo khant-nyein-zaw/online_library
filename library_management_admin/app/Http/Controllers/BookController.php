@@ -148,17 +148,17 @@ class BookController extends Controller
     }
 
     /**
-     * Store books data from importing with excel
+     * Store books' data with importing from excel
      */
     public function import(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'file' => 'required|file|mimes:xls,xlsx'
+            'file' => 'required|file|mimes:xls,xlsx,csv'
         ]);
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
-        Excel::import(new ImportBooks, $request->file('file')->storeAs('files', 'books.xlsx'));
+        Excel::import(new ImportBooks, $request->file('file'));
         return back()->with(['success' => 'Stored books successfully']);
     }
 
@@ -167,6 +167,6 @@ class BookController extends Controller
      */
     public function exportBooks()
     {
-        return Excel::download(new ExportBooks, 'books.xlsx');
+        return Excel::download(new ExportBooks, 'books.csv', \Maatwebsite\Excel\Excel::CSV);
     }
 }

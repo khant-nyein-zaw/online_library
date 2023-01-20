@@ -10,4 +10,9 @@ class Shelf extends Model
     use HasFactory;
 
     protected $fillable = ['book_id', 'shelf_no'];
+
+    // public function books()
+    // {
+    //     return $this->hasMany(Book::class);
+    // }
 }

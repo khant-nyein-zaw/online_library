@@ -20,4 +20,9 @@ class Book extends Model
     {
         return $this->morphOne(Image::class, 'imageable');
     }
+
+    // public function shelf()
+    // {
+    //     $this->belongsTo(Shelf::class);
+    // }
 }
