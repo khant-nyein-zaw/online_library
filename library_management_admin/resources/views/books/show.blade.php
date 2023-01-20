@@ -1,4 +1,4 @@
-@extends('layout.master')
+@extends('layouts.master')
 
 @section('content')
     <div class="row">
@@ -24,7 +24,7 @@
                         <form action="{{ route('books.destroy', $book->id) }}" method="post">
                             @method('DELETE')
                             @csrf
-                            <input class="btn btn-outline-danger" type="submit" value="Delete Book" />
+                            <input class="btn btn-danger" type="submit" value="Delete Book" />
                         </form>
                     </div>
                 </div>

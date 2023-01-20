@@ -32,10 +32,7 @@
 
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
-
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/apex-charts/apex-charts.css') }}" />
-
-    <!-- Page CSS -->
 
     <!-- Helpers -->
     <script src="{{ asset('assets/vendor/js/helpers.js') }}"></script>
@@ -119,6 +116,12 @@
                     </li>
                     <li class="menu-item">
                         <a class="menu-link" href="#">
+                            <i class="menu-icon tf-icons bx bx-user-circle"></i>
+                            Members
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="#">
                             <i class="menu-icon tf-icons bx bx-table"></i>
                             Issue Books
                         </a>
@@ -150,8 +153,8 @@
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     <script src="{{ asset('assets/vendor/libs/jquery/jquery.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/popper/popper.js') }}"></script>
-    <script src="{{ asset('assets/vendor/js/bootstrap.js') }}"></script>
+    {{-- <script src="{{ asset('assets/vendor/libs/popper/popper.js') }}"></script> --}}
+    {{-- <script src="{{ asset('assets/vendor/js/bootstrap.js') }}"></script> --}}
     <script src="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
 
     <script src="{{ asset('assets/vendor/js/menu.js') }}"></script>

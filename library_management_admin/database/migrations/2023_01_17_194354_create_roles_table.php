@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('roles', function (Blueprint $table) {
             $table->id();
+            $table->string('role_name'); // admin -> library staff | user -> visitors or members
+            $table->integer('user_id');
             $table->timestamps();
         });
     }

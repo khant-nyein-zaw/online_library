@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ExportBooks;
 use App\Models\Book;
 use App\Models\Image;
 use App\Models\Shelf;
@@ -157,7 +158,15 @@ class BookController extends Controller
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
-        Excel::import(new ImportBooks, $request->file('file')->storeAs('public', 'books.xlsx'));
+        Excel::import(new ImportBooks, $request->file('file')->storeAs('files', 'books.xlsx'));
         return back()->with(['success' => 'Stored books successfully']);
+    }
+
+    /**
+     * export excel data
+     */
+    public function exportBooks()
+    {
+        return Excel::download(new ExportBooks, 'books.xlsx');
     }
 }

@@ -1,4 +1,4 @@
-@extends('layout.master')
+@extends('layouts.master')
 
 @section('content')
     <!-- Book List -->
@@ -6,7 +6,10 @@
         <div class="row mb-4">
             <div class="col-lg-12">
                 <div class="card">
-                    <h5 class="card-header">Recently added books</h5>
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5>Recently added books</h5>
+                        <a href="{{ route('books.export') }}" class="btn btn-info">Download Book List</a>
+                    </div>
                     <div class="table-responsive text-nowrap">
                         <table class="table table-borderless">
                             <thead>
