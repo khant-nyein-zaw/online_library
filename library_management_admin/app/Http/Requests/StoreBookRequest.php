@@ -33,14 +33,16 @@ class StoreBookRequest extends FormRequest
             'publisher' => 'required|max:255',
             'date_published' => 'required|date',
             'category' => 'required',
-            'image' => File::image()
+            'image' => File::image(),
+            'shelf_id' => 'required|integer'
         ];
     }
 
     public function messages()
     {
         return [
-            'title.unique' => 'This book already exists in the library'
+            'title.unique' => 'This book already exists in the library',
+            'shelf_id.required' => 'You have to specify which shelf you want to put this book'
         ];
     }
 }

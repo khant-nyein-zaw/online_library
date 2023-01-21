@@ -12,8 +12,6 @@ class ShelvesExport implements FromCollection
      */
     public function collection()
     {
-        return Shelf::select('shelves.shelf_no', 'books.*')
-            ->leftJoin('books', 'shelves.book_id', 'books.id')
-            ->get();
+        return Shelf::all();
     }
 }

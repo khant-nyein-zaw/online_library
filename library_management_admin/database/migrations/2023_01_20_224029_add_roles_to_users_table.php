@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->foreignId('role_id')->after('email_verified_at');
+            $table->foreignId('role_id')->after('email_verified_at')->constrained('roles');
         });
     }
 

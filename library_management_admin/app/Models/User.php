@@ -61,7 +61,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * get the user roles
+     * get the user role
      */
     public function role()
     {

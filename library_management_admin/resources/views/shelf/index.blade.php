@@ -2,25 +2,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <form action="{{ route('shelves.import') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="mb-3">
-                            <label class="form-label">Import shelves from excel</label>
-                            <input type="file" name="file" class="form-control @error('file') is-invalid @enderror" />
-                            @error('file')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-                        <button type="submit" class="btn btn-sm btn-primary">Import</button>
-                        <a href="{{ route('shelves.export') }}" class="btn btn-sm btn-info">Download Shelf List</a>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-8">
+        <div class="col-md-5">
             @if (Session::has('success'))
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
                     <strong>{{ Session::get('success') }}</strong>
@@ -30,6 +12,7 @@
             <div class="card mb-4">
                 <div class="card-header d-flex align-items-center justify-content-between">
                     <h5 class="mb-0">Add books to shelf</h5>
+                    <a href="{{ route('shelves.export') }}" class="btn btn-sm btn-info">Download Shelf List</a>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('shelves.store') }}" method="POST">
@@ -48,7 +31,7 @@
                         <div class="row mb-3">
                             <label class="col-sm-2 col-form-label">Books</label>
                             <div class="col-sm-10">
-                                <select multiple name="book_id[]"
+                                <select multiple name="book_id[]" style="min-height: 20rem;"
                                     class="form-select @error('book_id.*') is-invalid @enderror">
                                     <option>Choose Books</option>
                                     @foreach ($books as $book)
@@ -70,5 +53,44 @@
                 </div>
             </div>
         </div>
+        {{-- <div class="col-md-7">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5>Shelf List</h5>
+                    <a href="{{ route('books.export') }}" class="btn btn-info">Download Book List</a>
+                </div>
+                <div class="table-responsive text-nowrap">
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                                <th>Shelf Number</th>
+                                <th>Book Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($shelfList as $shelf)
+                                <tr>
+                                    <td>{{ $shelf->shelf_no }}</td>
+                                    <td>{{ $shelf->bookCount }}</td>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <a href="{{ route('shelves.show', $shelf->shelf_no) }}"
+                                                class="btn btn-sm btn-success">View
+                                                More</a>
+                                            <form action="{{ route('shelves.destroy', $shelf->id) }}" method="post"
+                                                class="d-inline">
+                                                @method('DELETE')
+                                                @csrf
+                                                <input class="btn btn-sm btn-danger" type="submit" value="Delete Shelf" />
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div> --}}
     </div>
 @endsection

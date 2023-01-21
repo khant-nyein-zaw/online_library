@@ -21,6 +21,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/export-books', [BookController::class, 'exportBooks'])->name('books.export');
     // shelves
     Route::resource('/shelves', ShelfController::class);
-    Route::post('/import', [ShelfController::class, 'import'])->name('shelves.import');
     Route::get('/export-shelves', [ShelfController::class, 'exportShelves'])->name('shelves.export');
 });

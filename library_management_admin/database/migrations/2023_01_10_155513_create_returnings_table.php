@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('returnings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('borrowing_id');
-            $table->integer('user_id');
-            $table->integer('book_id');
+            $table->foreignId('borrowing_id')->constrained('borrowings');
+            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('book_id')->constrained('books');
             $table->date('date_returned');
             $table->date('due_date');
             $table->decimal('fine');

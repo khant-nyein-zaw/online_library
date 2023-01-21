@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Book;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,10 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('shelves', function (Blueprint $table) {
-            $table->id();
-            $table->string('shelf_no');
-            $table->timestamps();
+        Schema::table('books', function (Blueprint $table) {
+            $table->foreignId('shelf_id')->after('date_published')->constrained('shelves')->onDelete('cascade');
         });
     }
 
@@ -28,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('shelves');
+        Schema::table('books', function (Blueprint $table) {
+            $table->dropColumn('shelf_id');
+        });
     }
 };

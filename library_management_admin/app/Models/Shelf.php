@@ -9,10 +9,10 @@ class Shelf extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['book_id', 'shelf_no'];
+    protected $fillable = ['shelf_no'];
 
-    // public function books()
-    // {
-    //     return $this->hasMany(Book::class);
-    // }
+    public function book()
+    {
+        return $this->hasMany(Book::class);
+    }
 }

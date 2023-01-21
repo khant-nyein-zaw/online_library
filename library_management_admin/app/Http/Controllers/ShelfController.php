@@ -4,11 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Exports\ShelvesExport;
 use App\Http\Requests\StoreShelfRequest;
-use App\Imports\ShelvesImport;
 use App\Models\Book;
 use App\Models\Shelf;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ShelfController extends Controller
@@ -20,8 +19,7 @@ class ShelfController extends Controller
      */
     public function index()
     {
-        $books = Book::all();
-        return view('shelf.index', compact('books'));
+        return view('shelf.index');
     }
 
     /**
@@ -32,13 +30,7 @@ class ShelfController extends Controller
      */
     public function store(StoreShelfRequest $request)
     {
-        foreach ($request->input('book_id') as $book_id) {
-            Shelf::create([
-                'shelf_no' => $request->shelf_no,
-                'book_id' => $book_id
-            ]);
-        }
-        return back()->with(['success' => 'Books have been added to the shelf']);
+        //
     }
 
     /**
@@ -87,25 +79,10 @@ class ShelfController extends Controller
     }
 
     /**
-     * import excel data
-     */
-    public function import(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'file' => 'required|file'
-        ]);
-        if ($validator->fails()) {
-            return back()->withInput()->withErrors($validator);
-        }
-        Excel::import(new ShelvesImport, $request->file('file')->storeAs('files', 'shelves.xlsx'));
-        return back();
-    }
-
-    /**
      * export excel data
      */
     public function exportShelves()
     {
-        return Excel::download(new ShelvesExport, 'shelves.xlsx');
+        return Excel::download(new ShelvesExport, 'shelves.csv', \Maatwebsite\Excel\Excel::CSV);
     }
 }

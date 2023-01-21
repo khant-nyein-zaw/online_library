@@ -19,7 +19,11 @@ class DatabaseSeeder extends Seeder
         ]);
 
         \App\Models\Role::factory()->create([
-            'role_name' => 'user',
+            'role_name' => 'member',
+        ]);
+
+        \App\Models\Role::factory()->create([
+            'role_name' => 'visitor',
         ]);
     }
 }

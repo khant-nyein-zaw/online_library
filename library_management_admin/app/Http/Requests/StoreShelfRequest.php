@@ -26,15 +26,6 @@ class StoreShelfRequest extends FormRequest
     {
         return [
             'shelf_no' => 'required',
-            'book_id' => ['required', 'array'],
-            'book_id.*' => Rule::unique('shelves', 'book_id')->ignore($this->shelves)
-        ];
-    }
-
-    public function messages()
-    {
-        return [
-            'book_id.*' => 'Book #:position is already added to another shelf'
         ];
     }
 }

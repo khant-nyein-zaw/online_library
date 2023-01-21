@@ -10,4 +10,9 @@ class Borrowing extends Model
     use HasFactory;
 
     protected $fillable = ['book_id', 'user_id', 'date_borrowed', 'due_date'];
+
+    public function returning()
+    {
+        return $this->hasOne(Returning::class);
+    }
 }
