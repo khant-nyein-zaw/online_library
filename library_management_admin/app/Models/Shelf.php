@@ -11,7 +11,7 @@ class Shelf extends Model
 
     protected $fillable = ['shelf_no'];
 
-    public function book()
+    public function books()
     {
         return $this->hasMany(Book::class);
     }

@@ -73,6 +73,20 @@
                             @enderror
                         </div>
                         <div class="mb-3">
+                            <label class="form-label">Shelf Number</label>
+                            <select name="shelf_id" class="form-select @error('shelf_id') is-invalid @enderror">
+                                <option>Choose Shelf Number</option>
+                                @foreach ($shelves as $shelf)
+                                    <option value="{{ $shelf->id }}"
+                                        {{ $shelf->id === $book->shelf->id ? 'selected' : '' }}>{{ $shelf->shelf_no }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('shelf_id')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label">Category of Book</label>
                             <input type="text" class="form-control @error('category') is-invalid @enderror"
                                 name="category" value="{{ old('category', $book->category ? $book->category->name : '') }}"

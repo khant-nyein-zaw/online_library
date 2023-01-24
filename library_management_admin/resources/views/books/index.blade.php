@@ -19,6 +19,7 @@
                                     <th>Publisher</th>
                                     <th>Date of publication</th>
                                     <th>Category</th>
+                                    <th>Shelf Number</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -46,6 +47,7 @@
                                         @else
                                             <td class="text-warning text-capitalize">Please add category to this book!</td>
                                         @endif
+                                        <td>{{ $book->shelf->shelf_no }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -78,7 +80,8 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
-                                    <form action="{{ route('books.import') }}" method="POST" enctype="multipart/form-data">
+                                    <form action="{{ route('books.import') }}" method="POST"
+                                        enctype="multipart/form-data">
                                         @csrf
                                         <div class="modal-body">
                                             <div class="row">
@@ -143,6 +146,19 @@
                             <input type="date" class="form-control @error('date_published') is-invalid @enderror"
                                 name="date_published" value="{{ old('date_published') }}" />
                             @error('date_published')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Shelf Number</label>
+                            <select name="shelf_id" class="form-select @error('shelf_id') is-invalid @enderror">
+                                <option>Choose Shelf Number</option>
+                                @foreach ($shelves as $shelf)
+                                    <option value="{{ $shelf->id }}">{{ $shelf->shelf_no }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('shelf_id')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>

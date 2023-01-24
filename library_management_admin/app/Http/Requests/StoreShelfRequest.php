@@ -25,7 +25,7 @@ class StoreShelfRequest extends FormRequest
     public function rules()
     {
         return [
-            'shelf_no' => 'required',
+            'shelf_no' => ['required', 'min:2', Rule::unique('shelves', 'shelf_no')->ignore($this->shelves)],
         ];
     }
 }

@@ -42,7 +42,7 @@ class StoreBookRequest extends FormRequest
     {
         return [
             'title.unique' => 'This book already exists in the library',
-            'shelf_id.required' => 'You have to specify which shelf you want to put this book'
+            'shelf_id.integer' => 'Please choose a shelf number'
         ];
     }
 }

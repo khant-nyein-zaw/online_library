@@ -11,6 +11,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        dd(User::with('role')->get()->toArray());
+        $users = User::whereRelation('role', 'role_name', 'member')->get();
+        return view('members.index', compact('users'));
     }
 }

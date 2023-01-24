@@ -23,10 +23,11 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = Book::with(['category', 'image'])
+        $books = Book::with(['category', 'image', 'shelf'])
             ->orderBy('created_at', 'desc')
             ->paginate(5);
-        return view('books.index', compact('books'));
+        $shelves = Shelf::all();
+        return view('books.index', compact('books', 'shelves'));
     }
 
     /**
@@ -37,13 +38,15 @@ class BookController extends Controller
      */
     public function store(StoreBookRequest $request)
     {
-        $book = Book::create($request->only(['title', 'author', 'publisher', 'date_published']));
+        $book = Book::create($request->only(['title', 'author', 'publisher', 'date_published', 'shelf_id']));
         Category::create([
             'name' => $request->category,
             'categoryable_id' => $book->id,
             'categoryable_type' => Book::class
         ]);
-        $this->storeImage($request, $book->id);
+        if ($request->hasFile('image')) {
+            $this->storeImage($request, $book->id);
+        }
         return back();
     }
 
@@ -81,20 +84,10 @@ class BookController extends Controller
      */
     public function show($id)
     {
-        $book = Book::with(['category', 'image'])->firstWhere('id', $id);
-        return view('books.show', compact('book'));
+        $book = Book::with(['category', 'image', 'shelf'])->firstWhere('id', $id);
+        $shelves = Shelf::all();
+        return view('books.show', compact('book', 'shelves'));
     }
-
-    // public function filterWithShelf($shelf_no)
-    // {
-    //     $books = Book::select('books.*', 'shelves.shelf_no')
-    //         ->rightJoin('shelves', 'books.id', 'shelves.book_id')
-    //         ->where('shelves.shelf_no', $shelf_no)
-    //         ->get();
-    //     return response()->json([
-    //         'books' => $books
-    //     ], 200);
-    // }
 
     /**
      * Update the specified resource in storage.
@@ -105,7 +98,7 @@ class BookController extends Controller
      */
     public function update(StoreBookRequest $request, $id)
     {
-        Book::find($id)->update($request->only(['title', 'author', 'publisher', 'date_published']));
+        Book::find($id)->update($request->only(['title', 'author', 'publisher', 'date_published', 'shelf_id']));
 
         if (Category::where('categoryable_id', $id)->exists()) {
             Category::where('categoryable_id', $id)->update([
@@ -143,7 +136,6 @@ class BookController extends Controller
             $image->delete();
         }
 
-        Shelf::where('book_id', $id)->delete();
         return redirect()->route('books.index');
     }
 

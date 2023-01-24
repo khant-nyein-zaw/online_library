@@ -4,14 +4,14 @@
     <div class="row">
         <div class="col-md-5">
             @if (Session::has('success'))
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
                     <strong>{{ Session::get('success') }}</strong>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
             <div class="card mb-4">
                 <div class="card-header d-flex align-items-center justify-content-between">
-                    <h5 class="mb-0">Add books to shelf</h5>
+                    <h5 class="mb-0">Add a new shelf</h5>
                     <a href="{{ route('shelves.export') }}" class="btn btn-sm btn-info">Download Shelf List</a>
                 </div>
                 <div class="card-body">
@@ -28,22 +28,6 @@
                                 <small class="text-danger offset-sm-2">{{ $message }}</small>
                             @enderror
                         </div>
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label">Books</label>
-                            <div class="col-sm-10">
-                                <select multiple name="book_id[]" style="min-height: 20rem;"
-                                    class="form-select @error('book_id.*') is-invalid @enderror">
-                                    <option>Choose Books</option>
-                                    @foreach ($books as $book)
-                                        <option value="{{ $book->id }}">{{ $book->title }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            @error('book_id.*')
-                                <small class="text-danger offset-sm-2">{{ $message }}</small>
-                            @enderror
-                        </div>
                         <div class="row justify-content-end">
                             <div class="col-sm-10">
                                 <button type="submit" class="btn btn-sm btn-primary">Save</button>
@@ -53,35 +37,44 @@
                 </div>
             </div>
         </div>
-        {{-- <div class="col-md-7">
+        <div class="col-md-7">
+            @if (Session::has('deleted'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>{{ Session::get('deleted') }}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5>Shelf List</h5>
-                    <a href="{{ route('books.export') }}" class="btn btn-info">Download Book List</a>
                 </div>
                 <div class="table-responsive text-nowrap">
                     <table class="table table-borderless">
                         <thead>
                             <tr>
                                 <th>Shelf Number</th>
-                                <th>Book Count</th>
+                                <th>Books</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($shelfList as $shelf)
+                            @foreach ($shelves as $shelf)
                                 <tr>
                                     <td>{{ $shelf->shelf_no }}</td>
-                                    <td>{{ $shelf->bookCount }}</td>
+                                    <td>{{ $shelf->books_count }}</td>
                                     <td>
                                         <div class="d-flex align-items-center gap-2">
-                                            <a href="{{ route('shelves.show', $shelf->shelf_no) }}"
-                                                class="btn btn-sm btn-success">View
-                                                More</a>
+                                            <a href="{{ route('shelves.show', $shelf->id) }}"
+                                                class="btn btn-sm btn-info rounded">
+                                                <i class='bx bx-detail'></i>
+                                            </a>
                                             <form action="{{ route('shelves.destroy', $shelf->id) }}" method="post"
                                                 class="d-inline">
                                                 @method('DELETE')
                                                 @csrf
-                                                <input class="btn btn-sm btn-danger" type="submit" value="Delete Shelf" />
+                                                <button class="btn btn-sm btn-danger rounded" type="submit">
+                                                    <i class="bx bx-trash"></i>
+                                                </button>
                                             </form>
                                         </div>
                                     </td>
@@ -91,6 +84,6 @@
                     </table>
                 </div>
             </div>
-        </div> --}}
+        </div>
     </div>
 @endsection

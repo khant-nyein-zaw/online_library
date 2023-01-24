@@ -6,8 +6,6 @@ use App\Exports\ShelvesExport;
 use App\Http\Requests\StoreShelfRequest;
 use App\Models\Book;
 use App\Models\Shelf;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ShelfController extends Controller
@@ -19,7 +17,8 @@ class ShelfController extends Controller
      */
     public function index()
     {
-        return view('shelf.index');
+        $shelves = Shelf::withCount('books')->get();
+        return view('shelf.index', compact('shelves'));
     }
 
     /**
@@ -30,7 +29,8 @@ class ShelfController extends Controller
      */
     public function store(StoreShelfRequest $request)
     {
-        //
+        Shelf::create($request->all());
+        return back()->with(['success' => 'Stored shelf successfully']);
     }
 
     /**
@@ -41,18 +41,10 @@ class ShelfController extends Controller
      */
     public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        $shelf = Shelf::find($id);
+        $books = Book::whereBelongsTo($shelf)->get();
+        $shelf_no = $shelf->shelf_no;
+        return view('shelf.show', compact('books', 'shelf_no'));
     }
 
     /**
@@ -62,9 +54,10 @@ class ShelfController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreShelfRequest $request, $id)
     {
-        //
+        Shelf::find($id)->update($request->all());
+        return redirect()->route('shelves.index');
     }
 
     /**
@@ -75,7 +68,8 @@ class ShelfController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Shelf::find($id)->delete();
+        return back()->with(['deleted' => 'Selected shlef was permanently deleted.']);
     }
 
     /**
