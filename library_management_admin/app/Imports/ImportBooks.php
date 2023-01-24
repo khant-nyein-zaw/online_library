@@ -21,6 +21,7 @@ class ImportBooks implements ToModel, WithHeadingRow
             'author' => $row['author'],
             'publisher' => $row['publisher'],
             'date_published' => $row['date_published'],
+            'category_id' => $row['category_id'],
             'shelf_id' => $row['shelf_id']
         ]);
     }

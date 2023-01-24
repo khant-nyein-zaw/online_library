@@ -9,20 +9,20 @@ class Book extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'author', 'publisher', 'date_published', 'shelf_id'];
+    protected $fillable = ['title', 'author', 'publisher', 'date_published', 'category_id', 'shelf_id'];
 
     public function category()
     {
-        return $this->morphOne(Category::class, 'categoryable');
-    }
-
-    public function image()
-    {
-        return $this->morphOne(Image::class, 'imageable');
+        return $this->belongsTo(Category::class);
     }
 
     public function shelf()
     {
         return $this->belongsTo(Shelf::class);
+    }
+
+    public function image()
+    {
+        return $this->morphOne(Image::class, 'imageable');
     }
 }

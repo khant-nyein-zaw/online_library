@@ -127,6 +127,12 @@
                         </a>
                     </li>
                     <li class="menu-item">
+                        <a class="menu-link" href="{{ route('categories.index') }}">
+                            <i class="menu-icon tf-icons bx bx-category"></i>
+                            Category
+                        </a>
+                    </li>
+                    <li class="menu-item">
                         <a class="menu-link" href="{{ route('shelves.index') }}">
                             <i class="menu-icon tf-icons bx bx-library"></i>
                             Shelf

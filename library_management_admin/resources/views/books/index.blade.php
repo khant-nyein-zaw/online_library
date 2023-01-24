@@ -163,10 +163,15 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Category of Book</label>
-                            <input type="text" class="form-control @error('category') is-invalid @enderror"
-                                name="category" value="{{ old('category') }}" placeholder="eg. Fantasy Fiction" />
-                            @error('category')
+                            <label class="form-label">Category</label>
+                            <select name="category_id" class="form-select @error('category_id') is-invalid @enderror">
+                                <option>Choose Category</option>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}">{{ $category->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('category_id')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>

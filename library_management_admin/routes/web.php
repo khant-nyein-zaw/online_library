@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ShelfController;
 use App\Http\Controllers\UserController;
@@ -19,6 +20,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('/books', BookController::class);
     Route::post('/import-books', [BookController::class, 'import'])->name('books.import');
     Route::get('/export-books', [BookController::class, 'exportBooks'])->name('books.export');
+    // categories
+    Route::resource('/categories', CategoryController::class);
     // shelves
     Route::resource('/shelves', ShelfController::class);
     Route::get('/export-shelves', [ShelfController::class, 'exportShelves'])->name('shelves.export');

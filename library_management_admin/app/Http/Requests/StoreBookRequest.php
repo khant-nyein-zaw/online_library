@@ -32,7 +32,7 @@ class StoreBookRequest extends FormRequest
             'author' => 'required|max:255',
             'publisher' => 'required|max:255',
             'date_published' => 'required|date',
-            'category' => 'required',
+            'category_id' => 'required|integer',
             'image' => File::image(),
             'shelf_id' => 'required|integer'
         ];
@@ -42,6 +42,7 @@ class StoreBookRequest extends FormRequest
     {
         return [
             'title.unique' => 'This book already exists in the library',
+            'category_id.integer' => 'Please choose a category',
             'shelf_id.integer' => 'Please choose a shelf number'
         ];
     }

@@ -6,10 +6,10 @@ use App\Exports\ExportBooks;
 use App\Models\Book;
 use App\Models\Image;
 use App\Models\Shelf;
-use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreBookRequest;
 use App\Imports\ImportBooks;
+use App\Models\Category;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
@@ -27,7 +27,8 @@ class BookController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(5);
         $shelves = Shelf::all();
-        return view('books.index', compact('books', 'shelves'));
+        $categories = Category::all();
+        return view('books.index', compact('books', 'categories', 'shelves'));
     }
 
     /**
@@ -38,12 +39,7 @@ class BookController extends Controller
      */
     public function store(StoreBookRequest $request)
     {
-        $book = Book::create($request->only(['title', 'author', 'publisher', 'date_published', 'shelf_id']));
-        Category::create([
-            'name' => $request->category,
-            'categoryable_id' => $book->id,
-            'categoryable_type' => Book::class
-        ]);
+        $book = Book::create($request->only(['title', 'author', 'publisher', 'date_published', 'category_id', 'shelf_id']));
         if ($request->hasFile('image')) {
             $this->storeImage($request, $book->id);
         }
@@ -85,8 +81,9 @@ class BookController extends Controller
     public function show($id)
     {
         $book = Book::with(['category', 'image', 'shelf'])->firstWhere('id', $id);
+        $categories = Category::all();
         $shelves = Shelf::all();
-        return view('books.show', compact('book', 'shelves'));
+        return view('books.show', compact('book', 'shelves', 'categories'));
     }
 
     /**
@@ -98,19 +95,7 @@ class BookController extends Controller
      */
     public function update(StoreBookRequest $request, $id)
     {
-        Book::find($id)->update($request->only(['title', 'author', 'publisher', 'date_published', 'shelf_id']));
-
-        if (Category::where('categoryable_id', $id)->exists()) {
-            Category::where('categoryable_id', $id)->update([
-                'name' => $request->category,
-            ]);
-        } else {
-            Category::create([
-                'name' => $request->category,
-                'categoryable_id' => $id,
-                'categoryable_type' => Book::class
-            ]);
-        }
+        Book::find($id)->update($request->only(['title', 'author', 'publisher', 'date_published', 'category_id', 'shelf_id']));
 
         if ($request->hasFile('image')) {
             $this->storeImage($request, $id);
@@ -128,7 +113,6 @@ class BookController extends Controller
     public function destroy($id)
     {
         Book::find($id)->delete();
-        Category::where('categoryable_id', $id)->delete();
 
         if (Image::where('imageable_id', $id)->exists()) {
             $image = Image::firstWhere('imageable_id', $id);

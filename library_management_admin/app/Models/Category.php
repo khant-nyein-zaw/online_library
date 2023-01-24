@@ -9,10 +9,10 @@ class Category extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'categoryable_id', 'categoryable_type'];
+    protected $fillable = ['name'];
 
-    public function categoryable()
+    public function books()
     {
-        return $this->morphTo();
+        return $this->hasMany(Book::class);
     }
 }
