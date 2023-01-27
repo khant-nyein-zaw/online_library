@@ -15,4 +15,14 @@ class Borrowing extends Model
     {
         return $this->hasOne(Returning::class);
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
+
+    public function books()
+    {
+        return $this->belongsToMany(Book::class);
+    }
 }

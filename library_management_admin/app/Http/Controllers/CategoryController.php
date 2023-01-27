@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCategoryRequest;
+use App\Models\Book;
 use App\Models\Category;
-use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
@@ -18,16 +18,6 @@ class CategoryController extends Controller
         $categories = Category::withCount('books')->get();
         // dd($categories->toArray());
         return view('category.index', compact('categories'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -50,18 +40,10 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        Category::with('books')->firstWhere('id', $id);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        $category = Category::find($id);
+        $books = Book::whereBelongsTo($category)->get();
+        $category = $category->name;
+        return view('category.show', compact('category', 'books'));
     }
 
     /**
@@ -74,6 +56,7 @@ class CategoryController extends Controller
     public function update(StoreCategoryRequest $request, $id)
     {
         Category::find($id)->update($request->all());
+        return redirect()->route('categories.index');
     }
 
     /**

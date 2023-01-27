@@ -6,12 +6,11 @@ use App\Exports\ExportBooks;
 use App\Models\Book;
 use App\Models\Image;
 use App\Models\Shelf;
-use Illuminate\Http\Request;
 use App\Http\Requests\StoreBookRequest;
+use App\Http\Requests\StoreBooksAsCsvRequest;
 use App\Imports\ImportBooks;
 use App\Models\Category;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 
 class BookController extends Controller
@@ -113,27 +112,14 @@ class BookController extends Controller
     public function destroy($id)
     {
         Book::find($id)->delete();
-
-        if (Image::where('imageable_id', $id)->exists()) {
-            $image = Image::firstWhere('imageable_id', $id);
-            Storage::delete('public/' . $image->filename);
-            $image->delete();
-        }
-
         return redirect()->route('books.index');
     }
 
     /**
      * Store books' data with importing from excel
      */
-    public function import(Request $request)
+    public function import(StoreBooksAsCsvRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'file' => 'required|file|mimes:xls,xlsx,csv'
-        ]);
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
-        }
         Excel::import(new ImportBooks, $request->file('file'));
         return back()->with(['success' => 'Stored books successfully']);
     }

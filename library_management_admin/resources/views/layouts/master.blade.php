@@ -7,7 +7,7 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Dashboard - Analytics | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
+    <title>Library Management System</title>
 
     <meta name="description" content="" />
 
@@ -121,7 +121,7 @@
                         </a>
                     </li>
                     <li class="menu-item">
-                        <a class="menu-link" href="#">
+                        <a class="menu-link" href="{{ route('issueBooks.index') }}">
                             <i class="menu-icon tf-icons bx bx-table"></i>
                             Issue Books
                         </a>

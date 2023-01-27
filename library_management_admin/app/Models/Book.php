@@ -2,14 +2,35 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Book extends Model
 {
     use HasFactory;
 
     protected $fillable = ['title', 'author', 'publisher', 'date_published', 'category_id', 'shelf_id'];
+
+    public function image()
+    {
+        return $this->morphOne(Image::class, 'imageable');
+    }
+
+    public function borrowings()
+    {
+        return $this->hasMany(Borrowing::class);
+    }
+
+    public function returnings()
+    {
+        return $this->hasMany(Returning::class);
+    }
+
+    public function borrowRequest()
+    {
+        return $this->hasOne(BorrowRequest::class);
+    }
 
     public function category()
     {
@@ -21,8 +42,10 @@ class Book extends Model
         return $this->belongsTo(Shelf::class);
     }
 
-    public function image()
+    public function delete()
     {
-        return $this->morphOne(Image::class, 'imageable');
+        Storage::delete('public/' . $this->image->filename);
+        $this->image()->delete();
+        parent::delete();
     }
 }

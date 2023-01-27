@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -12,6 +12,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
+    // use MustVerifyEmail;
     use HasApiTokens;
     use HasFactory;
     use HasProfilePhoto;
@@ -66,5 +67,20 @@ class User extends Authenticatable
     public function role()
     {
         return $this->belongsTo(Role::class);
+    }
+
+    public function borrowing()
+    {
+        return $this->hasMany(Borrowing::class);
+    }
+
+    public function returning()
+    {
+        return $this->hasMany(Returning::class);
+    }
+
+    public function borrowRequest()
+    {
+        return $this->hasOne(BorrowRequest::class);
     }
 }
