@@ -2,9 +2,9 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\BorrowRequestController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\IssueBookController;
 use App\Http\Controllers\ShelfController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -18,7 +18,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     // users
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     // issue books
-    Route::get('/issue-books', [IssueBookController::class, 'index'])->name('issueBooks.index');
+    Route::get('/borrow-requests', [BorrowRequestController::class, 'index'])->name('borrow-requests.index');
     // books
     Route::resource('/books', BookController::class);
     Route::post('/import-books', [BookController::class, 'import'])->name('books.import');

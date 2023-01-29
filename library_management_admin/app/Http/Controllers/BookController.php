@@ -27,7 +27,7 @@ class BookController extends Controller
             ->paginate(5);
         $shelves = Shelf::all();
         $categories = Category::all();
-        return view('books.index', compact('books', 'categories', 'shelves'));
+        return view('book.index', compact('books', 'categories', 'shelves'));
     }
 
     /**
@@ -82,7 +82,7 @@ class BookController extends Controller
         $book = Book::with(['category', 'image', 'shelf'])->firstWhere('id', $id);
         $categories = Category::all();
         $shelves = Shelf::all();
-        return view('books.show', compact('book', 'shelves', 'categories'));
+        return view('book.show', compact('book', 'shelves', 'categories'));
     }
 
     /**

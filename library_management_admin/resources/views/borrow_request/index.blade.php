@@ -5,7 +5,7 @@
         <div class="col-xl">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5>Shelf List</h5>
+                    <h5>Lend Requests</h5>
                 </div>
                 <div class="table-responsive text-nowrap">
                     <table class="table table-borderless">
@@ -17,10 +17,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($borrowRequests as $borrowRequest)
+                            @foreach ($data as $d)
                                 <tr>
-                                    <td>{{ $borrowRequest->book->title }}</td>
-                                    <td>{{ $borrowRequest->user->name }}</td>
+                                    <td>{{ $d->book->title }}</td>
+                                    <td>{{ $d->user->name }}</td>
                                     <td>
                                         <div class="d-flex align-items-center gap-2">
                                             <a href="#" class="btn btn-sm btn-info rounded">
