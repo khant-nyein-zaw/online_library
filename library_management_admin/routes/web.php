@@ -17,7 +17,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
     // users
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
-    // issue books
+    // borrow requests
     Route::get('/borrow-requests', [BorrowRequestController::class, 'index'])->name('borrow-requests.index');
     // books
     Route::resource('/books', BookController::class);

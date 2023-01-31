@@ -15,8 +15,23 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = Book::with(['category', 'image', 'shelf'])->get();
+        $books = Book::with(['category', 'image', 'shelf'])
+            ->orderBy('created_at', 'desc')
+            ->get();
         return response()->json(['books' => $books], 200);
+    }
+
+    public function search(Request $request)
+    {
+        $books = Book::with(['category', 'image', 'shelf'])
+            ->where('title', 'LIKE', '%' . $request->input('query') . '%')
+            ->orWhere('author', 'LIKE', '%' . $request->input('query') . '%')
+            ->orWhere('publisher', 'LIKE', '%' . $request->input('query') . '%')
+            ->orderBy('created_at', 'desc')
+            ->get();
+        return response()->json([
+            'books' => $books
+        ]);
     }
 
     public function sort()

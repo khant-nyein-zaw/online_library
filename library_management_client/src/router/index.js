@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "@/views/HomePage.vue";
 import BookList from "@/views/BookList.vue";
+import BookDetails from "@/views/BookDetails.vue";
+import CategoryList from "@/views/CategoryList.vue";
 
 const routes = [
   {
@@ -13,6 +15,17 @@ const routes = [
     path: "/book-list",
     name: "BookList",
     component: BookList,
+  },
+  {
+    path: "/details/:bookId",
+    name: "BookDetails",
+    component: BookDetails,
+    props: true,
+  },
+  {
+    path: "/categories",
+    name: "CategoryList",
+    component: CategoryList,
   },
 ];
 
