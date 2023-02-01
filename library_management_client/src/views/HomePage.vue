@@ -78,6 +78,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "HomePage",
   data() {
@@ -87,10 +88,15 @@ export default {
       searchKey: "",
     };
   },
+  computed: {
+    ...mapGetters({
+      headers: "getHeaders",
+    }),
+  },
   methods: {
     getBookList() {
       this.axios
-        .get("/api/books")
+        .get("/api/books", { headers: this.headers })
         .then((response) => {
           this.getImageUrl(response.data.books);
           this.bookList = response.data.books;
@@ -105,7 +111,7 @@ export default {
     },
     getCategories() {
       this.axios
-        .get("/api/categories")
+        .get("/api/categories", { headers: this.headers })
         .then((response) => {
           this.categories = response.data.categories;
         })

@@ -24,7 +24,7 @@ class ShelvesExport implements FromCollection, WithMapping, WithHeadings
     {
         return [
             $shelf->shelf_no,
-            $shelf->books_count
+            $shelf->books_count,
         ];
     }
 

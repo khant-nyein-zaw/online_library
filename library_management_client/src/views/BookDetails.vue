@@ -2,15 +2,19 @@
   <div class="section testimonials" v-if="book">
     <div class="container">
       <div class="row">
-        <div class="col-lg-7">
+        <div class="col-lg-5 offset-lg-2">
           <div class="card">
             <img :src="book.image.filename" class="card-img-top" />
             <div class="card-body">
-              <h3 class="card-title">{{ book.category.name }}</h3>
+              <h3 class="card-title">
+                <a href="#">{{ book.category.name }}</a>
+              </h3>
               <p class="card-text mb-0">
-                Date of publication - {{ book.date_published }}
+                <strong>Date of publication: {{ book.date_published }}</strong>
               </p>
-              <p class="card-text">Shelf Number - {{ book.shelf.shelf_no }}</p>
+              <p class="card-text">
+                <strong>Shelf Number: {{ book.shelf.shelf_no }}</strong>
+              </p>
             </div>
           </div>
         </div>
@@ -21,7 +25,9 @@
             <b class="d-block mb-3">
               {{ book.publisher }}
             </b>
-            <button class="btn btn-primary">Lend</button>
+            <button class="btn btn-primary" @click="requestToBorrow(book.id)">
+              Lend
+            </button>
           </div>
         </div>
       </div>
@@ -30,6 +36,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "BookDetails",
   props: {
@@ -43,22 +50,36 @@ export default {
       book: null,
     };
   },
+  computed: {
+    ...mapGetters({
+      headers: "getHeaders",
+      user: "getUser",
+    }),
+  },
   methods: {
     getBookDetails() {
       this.axios
-        .get(`/api/books/${this.bookId}`)
+        .get(`/api/books/${this.bookId}`, { headers: this.headers })
         .then((response) => {
           response.data.book.image.filename =
             "http://localhost:8000/storage/" +
             response.data.book.image.filename;
           this.book = response.data.book;
-          console.log(this.book);
         })
         .catch((err) => console.log(err));
     },
-    // requestToBorrow() {
-    //   this.axios.post("/");
-    // },
+    requestToBorrow(book_id) {
+      this.axios
+        .post(
+          "/api/borrow-requests",
+          { user_id: this.user.user.id, book_id },
+          { headers: this.headers }
+        )
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((err) => console.log(err));
+    },
   },
   mounted() {
     this.getBookDetails();

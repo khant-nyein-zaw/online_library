@@ -7,5 +7,6 @@ import VueAxios from "vue-axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 axios.defaults.baseURL = "http://localhost:8000";
+axios.defaults.withCredentials = true;
 
 createApp(App).use(store).use(VueAxios, axios).use(router).mount("#app");

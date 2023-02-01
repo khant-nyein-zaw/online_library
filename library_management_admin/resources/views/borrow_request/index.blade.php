@@ -19,15 +19,24 @@
                         <tbody>
                             @foreach ($data as $d)
                                 <tr>
-                                    <td>{{ $d->book->title }}</td>
                                     <td>{{ $d->user->name }}</td>
+                                    <td><a href="{{ route('books.show', $d->book->id) }}"
+                                            class="d-flex align-items-center gap-2">
+                                            @if ($d->book->image)
+                                                <div class="avatar avatar-l pull-up">
+                                                    <img src="{{ asset('storage/' . $d->book->image->filename) }}"
+                                                        alt="Avatar" class="rounded-circle" />
+                                                </div>
+                                            @endif
+                                            <strong>{{ $d->book->title }}</strong>
+                                        </a></td>
                                     <td>
                                         <div class="d-flex align-items-center gap-2">
                                             <a href="#" class="btn btn-sm btn-info rounded">
                                                 Accept
                                             </a>
                                             <a href="#" class="btn btn-sm btn-danger rounded">
-                                                Denied
+                                                Deny
                                             </a>
                                         </div>
                                     </td>

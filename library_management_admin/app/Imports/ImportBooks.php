@@ -15,7 +15,6 @@ class ImportBooks implements ToModel, WithHeadingRow
      */
     public function model(array $row)
     {
-        dd($row);
         return new Book([
             'title' => $row['title'],
             'author' => $row['author'],

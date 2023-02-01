@@ -55,6 +55,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "BookList",
   data() {
@@ -63,11 +64,16 @@ export default {
       sortBy: "",
     };
   },
+  computed: {
+    ...mapGetters({
+      headers: "getHeaders",
+    }),
+  },
   methods: {
     sort() {
       if (this.sortBy) {
         this.axios
-          .get(`/api/books/${this.sortBy}/all`)
+          .get(`/api/books/${this.sortBy}/all`, { headers: this.headers })
           .then((response) => {
             this.getImageUrl(response.data.books);
             this.bookList = response.data.books;
@@ -77,9 +83,13 @@ export default {
     },
     getBooksWithSearch() {
       this.axios
-        .post("/api/books/search", {
-          query: this.$route.query.searchKey,
-        })
+        .post(
+          "/api/books/search",
+          {
+            query: this.$route.query.searchKey,
+          },
+          { headers: this.headers }
+        )
         .then((response) => {
           this.getImageUrl(response.data.books);
           this.bookList = response.data.books;

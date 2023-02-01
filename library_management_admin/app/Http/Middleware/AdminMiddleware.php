@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,7 +20,7 @@ class AdminMiddleware
     {
         if ($request->user()->role_id !== 1) {
             Auth::logout();
-            abort(404);
+            abort(401);
         }
         return $next($request);
     }

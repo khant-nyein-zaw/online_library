@@ -15,15 +15,11 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         \App\Models\Role::factory()->create([
-            'role_name' => 'Admin',
+            'role_name' => 'admin',
         ]);
 
         \App\Models\Role::factory()->create([
-            'role_name' => 'Member',
-        ]);
-
-        \App\Models\Role::factory()->create([
-            'role_name' => 'Visitor',
+            'role_name' => 'member',
         ]);
     }
 }
