@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-8 offset-md-2">
+        <div class="col-md-6">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5>Member List</h5>
@@ -13,7 +13,7 @@
                             <tr>
                                 <th>Name</th>
                                 <th>Email</th>
-                                <th>Role</th>
+                                <th>Borrowed Books</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -30,8 +30,10 @@
                                             <strong>{{ $user->name }}</strong>
                                         </div>
                                     </td>
-                                    <td>{{ $user->email }}</td>
-                                    <td class="text-capitalize">{{ $user->role->role_name }}</td>
+                                    <td>
+                                        <a href="#">{{ $user->email }}</a>
+                                    </td>
+                                    <td>{{ $user->borrowings_count }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

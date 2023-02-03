@@ -42,11 +42,7 @@
                                             <span class="badge bg-label-primary me-1">{{ $book->publisher }}</span>
                                         </td>
                                         <td>{{ date('M d Y', strtotime($book->date_published)) }}</td>
-                                        @if ($book->category)
-                                            <td>{{ $book->category->name }}</td>
-                                        @else
-                                            <td class="text-warning text-capitalize">Please add category to this book!</td>
-                                        @endif
+                                        <td>{{ $book->category->name }}</td>
                                         <td>{{ $book->shelf->shelf_no }}</td>
                                     </tr>
                                 @endforeach

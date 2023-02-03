@@ -27,8 +27,8 @@ class StoreBorrowRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => ['required', 'integer', Rule::unique('borrow_requests', 'user_id')],
-            'book_id' => ['required', 'integer', Rule::unique('borrow_requests', 'book_id')],
+            'user_id' => ['required', 'integer'],
+            'book_id' => ['required', 'integer'],
         ];
     }
 

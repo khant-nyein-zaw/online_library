@@ -9,7 +9,7 @@ class BorrowRequest extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'book_id', 'status'];
+    protected $fillable = ['user_id', 'book_id'];
 
     public function user()
     {

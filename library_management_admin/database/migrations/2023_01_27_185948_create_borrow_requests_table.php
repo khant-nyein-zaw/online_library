@@ -15,9 +15,8 @@ return new class extends Migration
     {
         Schema::create('borrow_requests', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->unique()->constrained('users');
-            $table->foreignId('book_id')->unique()->constrained('books');
-            $table->integer('status')->default(0); // 0 -> pending | 1 -> accepted | 2 -> denied
+            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('book_id')->constrained('books');
             $table->timestamps();
         });
     }

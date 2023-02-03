@@ -11,7 +11,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::whereRelation('role', 'role_name', 'member')->get();
+        $users = User::whereRelation('role', 'role_name', 'member')->withCount('borrowings')->get();
         return view('member.index', compact('users'));
     }
 }

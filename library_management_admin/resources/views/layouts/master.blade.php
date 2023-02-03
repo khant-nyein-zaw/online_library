@@ -115,15 +115,15 @@
                         </a>
                     </li>
                     <li class="menu-item">
-                        <a class="menu-link" href="{{ route('users.index') }}">
-                            <i class="menu-icon tf-icons bx bx-user-circle"></i>
-                            Members
+                        <a class="menu-link" href="{{ route('issueBooks.index') }}">
+                            <i class="menu-icon tf-icons bx bx-cog"></i>
+                            Issue Books
                         </a>
                     </li>
                     <li class="menu-item">
-                        <a class="menu-link" href="{{ route('borrow-requests.index') }}">
-                            <i class="menu-icon tf-icons bx bx-table"></i>
-                            Lend Requests
+                        <a class="menu-link" href="{{ route('users.index') }}">
+                            <i class="menu-icon tf-icons bx bx-user-circle"></i>
+                            Members
                         </a>
                     </li>
                     <li class="menu-item">

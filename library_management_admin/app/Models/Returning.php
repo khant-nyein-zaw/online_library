@@ -16,13 +16,13 @@ class Returning extends Model
         return $this->belongsTo(Borrowing::class);
     }
 
-    public function users()
+    public function user()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsTo(User::class);
     }
 
-    public function books()
+    public function book()
     {
-        return $this->belongsToMany(Book::class);
+        return $this->belongsTo(Book::class);
     }
 }

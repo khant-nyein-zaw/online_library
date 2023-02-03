@@ -42,7 +42,7 @@ class BookController extends Controller
         if ($request->hasFile('image')) {
             $this->storeImage($request, $book->id);
         }
-        return back();
+        return back()->with(['success' => "$book->title was stored in library"]);
     }
 
     /**

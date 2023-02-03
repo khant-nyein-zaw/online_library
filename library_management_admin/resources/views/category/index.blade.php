@@ -46,7 +46,7 @@
                 @endif
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5>Shelf List</h5>
+                        <h5>Categories</h5>
                     </div>
                     <div class="table-responsive text-nowrap">
                         <table class="table table-borderless">
