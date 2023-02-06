@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="owl-carousel owl-banner owl-loaded owl-drag">
-            <div class="item item-1">
+            <div class="item item-3">
               <div class="header-text">
                 <span class="category">Our Books</span>
                 <h2>With online library, everything is easier.</h2>
@@ -58,7 +58,7 @@
           v-for="book in bookList"
           :key="book.id"
         >
-          <div class="events_item">
+          <div class="events_item" @click="showDetails(book.id)">
             <div class="thumb">
               <a href="#"><img :src="book.image.filename" alt="" /></a>
               <span class="category">{{ book.category.name }}</span>
@@ -126,6 +126,12 @@ export default {
       } else {
         alert("Please fill searchKey first");
       }
+    },
+    showDetails(bookId) {
+      this.$router.push({
+        name: "BookDetails",
+        params: { bookId },
+      });
     },
   },
   mounted() {

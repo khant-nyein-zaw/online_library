@@ -10,10 +10,10 @@
                 <a href="#">{{ book.category.name }}</a>
               </h3>
               <p class="card-text mb-0">
-                <strong>Date of publication: {{ book.date_published }}</strong>
+                <code>Date Of Publication: {{ book.date_published }}</code>
               </p>
               <p class="card-text">
-                <strong>Shelf Number: {{ book.shelf.shelf_no }}</strong>
+                <code>Shelf Number: {{ book.shelf.shelf_no }}</code>
               </p>
             </div>
           </div>
@@ -25,9 +25,17 @@
             <b class="d-block mb-3">
               {{ book.publisher }}
             </b>
-            <button class="btn btn-primary" @click="requestToBorrow(book.id)">
-              Lend
-            </button>
+            <div class="d-flex gap-2 align-items-center">
+              <button
+                class="btn btn-dark btn-sm"
+                @click="requestToBorrow(book.id)"
+              >
+                Send Request To Borrow
+              </button>
+              <button class="btn btn-primary btn-sm" @click="router.back()">
+                Back
+              </button>
+            </div>
           </div>
         </div>
       </div>

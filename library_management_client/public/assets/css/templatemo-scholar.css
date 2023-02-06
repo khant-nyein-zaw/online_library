@@ -96,6 +96,10 @@ figcaption {
   outline: 0;
 }
 
+code {
+  color: #7a6ad8 !important;
+}
+
 .clearfix:after {
   content: ".";
   display: block;
@@ -184,7 +188,7 @@ Global Styles
 */
 html,
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Poppins', sans-serif !important;
 }
 
 ::selection {

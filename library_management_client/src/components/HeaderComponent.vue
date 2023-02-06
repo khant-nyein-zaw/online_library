@@ -16,17 +16,14 @@
                 <router-link :to="{ name: 'Home' }">Home</router-link>
               </li>
               <li class="scroll-to-section">
-                <router-link :to="{ name: 'BookList' }"
-                  >Book Library</router-link
-                >
-              </li>
-              <li class="scroll-to-section">
                 <router-link :to="{ name: 'CategoryList' }">
                   Categories
                 </router-link>
               </li>
               <li class="scroll-to-section">
-                <router-link :to="{ name: 'Home' }"> Lend </router-link>
+                <router-link :to="{ name: 'UserBookList' }"
+                  >My Book List</router-link
+                >
               </li>
               <li class="scroll-to-section">
                 <router-link :to="{ name: 'Login' }">Login</router-link>

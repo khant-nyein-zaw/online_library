@@ -21,6 +21,7 @@ class BookController extends Controller
         return response()->json(['books' => $books], 200);
     }
 
+    // search books by user
     public function search(Request $request)
     {
         $books = Book::with(['category', 'image', 'shelf'])
@@ -34,6 +35,7 @@ class BookController extends Controller
         ]);
     }
 
+    // sort books by adding time
     public function sort()
     {
         $books = Book::when(request('sortBy') === 'asc', function ($query) {

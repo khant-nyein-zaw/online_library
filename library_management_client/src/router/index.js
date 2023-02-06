@@ -3,6 +3,8 @@ import Home from "@/views/HomePage.vue";
 import BookList from "@/views/BookList.vue";
 import BookDetails from "@/views/BookDetails.vue";
 import CategoryList from "@/views/CategoryList.vue";
+import UserBookList from "@/views/UserBookList.vue";
+import CategoryBookList from "@/views/CategoryBookList.vue";
 import Login from "@/views/auth/LoginPage.vue";
 import Register from "@/views/auth/RegisterPage.vue";
 import store from "@/store";
@@ -31,9 +33,25 @@ const routes = [
     component: CategoryList,
   },
   {
+    path: "/user-books",
+    name: "UserBookList",
+    component: UserBookList,
+  },
+  {
+    path: "/categories/:categoryId",
+    name: "CategoryBookList",
+    component: CategoryBookList,
+    props: true,
+  },
+  {
     path: "/login",
     name: "Login",
     component: Login,
+    beforeEnter: (to, from, next) => {
+      if (!store.state.authenticated) {
+        next();
+      }
+    },
   },
   {
     path: "/register",
