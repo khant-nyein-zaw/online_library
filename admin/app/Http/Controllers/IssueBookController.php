@@ -22,7 +22,7 @@ class IssueBookController extends Controller
      */
     public function storeBorrowing(StoreBorrowingRequest $request)
     {
-        Borrowing::create($request->all());
+        Borrowing::create($request->validated());
         return back()->with(["success" => "Book issued"]);
     }
 }

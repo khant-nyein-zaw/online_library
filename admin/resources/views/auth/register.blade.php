@@ -27,7 +27,7 @@
                     class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block mt-1 w-full"
                     id="role_id">
                     <option value="1">Admin</option>
-                    <option value="2">Member</option>
+                    <option value="2">User</option>
                 </select>
             </div>
 
