@@ -28,7 +28,6 @@ class StoreBorrowingRequest extends FormRequest
         return [
             'user_id' => ['required', 'integer', Rule::exists('users', 'id')],
             'book_id' => ['required', 'integer', Rule::exists('books', 'id')],
-            'date_borrowed' => ['required', 'date_equals:' . Carbon::now()->format('m/d/Y')],
             'due_date' => ['required', 'date']
         ];
     }

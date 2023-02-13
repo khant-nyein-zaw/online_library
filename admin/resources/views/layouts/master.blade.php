@@ -115,9 +115,9 @@
                         </a>
                     </li>
                     <li class="menu-item">
-                        <a class="menu-link" href="{{ route('issueBooks.index') }}">
+                        <a class="menu-link" href="{{ route('borrowings.index') }}">
                             <i class="menu-icon tf-icons bx bx-cog"></i>
-                            Issue Books
+                            Borrowings
                         </a>
                     </li>
                     <li class="menu-item">

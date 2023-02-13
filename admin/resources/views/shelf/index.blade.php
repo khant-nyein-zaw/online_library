@@ -44,6 +44,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
+            @if (count($shelves))
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5>Shelf List</h5>
@@ -64,10 +65,12 @@
                                     <td>{{ $shelf->books_count }}</td>
                                     <td>
                                         <div class="d-flex align-items-center gap-2">
+                                            @if ($shelf->books_count)
                                             <a href="{{ route('shelves.show', $shelf->id) }}"
                                                 class="btn btn-sm btn-info rounded">
                                                 <i class='bx bx-detail'></i>
                                             </a>
+                                            @endif
                                             <form action="{{ route('shelves.destroy', $shelf->id) }}" method="post"
                                                 class="d-inline">
                                                 @method('DELETE')
@@ -84,6 +87,7 @@
                     </table>
                 </div>
             </div>
+            @endif
         </div>
     </div>
 @endsection

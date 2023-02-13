@@ -14,6 +14,7 @@
                         <table class="table table-borderless">
                             <thead>
                                 <tr>
+                                    <th>ID</th>
                                     <th>Title</th>
                                     <th>Author</th>
                                     <th>Publisher</th>
@@ -25,6 +26,7 @@
                             <tbody>
                                 @foreach ($books as $book)
                                     <tr>
+                                        <td>{{ $book->id }}</td>
                                         <td>
                                             <a href="{{ route('books.show', $book->id) }}"
                                                 class="d-flex align-items-center gap-2">

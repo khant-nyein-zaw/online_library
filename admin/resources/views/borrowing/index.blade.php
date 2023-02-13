@@ -14,7 +14,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     @endif
-                    <form action="{{ route('issueBooks.storeBorrowing') }}" method="POST">
+                    <form action="{{ route('borrowings.store') }}" method="POST">
                         @csrf
                         <div class="mb-3">
                             <label class="form-label">Book ID</label>
@@ -29,14 +29,6 @@
                             <input type="number" class="form-control @error('user_id') is-invalid @enderror" name="user_id"
                                 value="{{ old('user_id') }}" placeholder="Enter User ID" />
                             @error('user_id')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Issued Date</label>
-                            <input type="date" class="form-control @error('date_borrowed') is-invalid @enderror"
-                                name="date_borrowed" value="{{ old('date_borrowed') }}" />
-                            @error('date_borrowed')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
@@ -57,7 +49,7 @@
         </div>
         <div class="col-xl-7">
             <div class="card">
-                <h5 class="card-header">Books Borrowed Currently</h5>
+                <h5 class="card-header">Issued Book List</h5>
                 <div class="table-responsive text-nowrap">
                     <table class="table table-borderless">
                         <thead>

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('borrowing_id')->constrained('borrowings');
             $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('book_id')->constrained('books');
+            $table->foreignId('book_id')->constrained('books')->onDelete('cascade');
             $table->date('date_returned');
             $table->date('due_date');
             $table->decimal('fine');

@@ -64,10 +64,12 @@
                                         <td>{{ $category->books_count }}</td>
                                         <td>
                                             <div class="d-flex align-items-center gap-2">
-                                                <a href="{{ route('categories.show', $category->id) }}"
-                                                    class="btn btn-sm btn-info rounded">
-                                                    <i class='bx bx-detail'></i>
-                                                </a>
+                                                @if ($category->books_count)
+                                                    <a href="{{ route('categories.show', $category->id) }}"
+                                                        class="btn btn-sm btn-info rounded">
+                                                        <i class='bx bx-detail'></i>
+                                                    </a>
+                                                @endif
                                                 <form action="{{ route('categories.destroy', $category->id) }}"
                                                     method="post" class="d-inline">
                                                     @method('DELETE')

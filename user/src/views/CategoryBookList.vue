@@ -5,21 +5,21 @@
         <div class="col-lg-12 text-center">
           <div class="section-heading">
             <h6>Books</h6>
-            <h2>{{ categoryId }}</h2>
+            <h2>{{ category.name }}</h2>
           </div>
         </div>
-        <div class="col-lg-12 col-md-6" v-for="book in bookList" :key="book.id">
+        <div class="col-lg-12 col-md-6" v-for="book in category.books" :key="book.id">
           <div class="item">
             <div class="row">
               <div class="col-lg-3">
-                <div class="image">
+                <div class="image" v-if="book.image">
                   <img :src="book.image.filename" alt="" />
                 </div>
               </div>
               <div class="col-lg-9">
                 <ul>
                   <li>
-                    <span class="category">{{ book.category.name }}</span>
+                    <span class="category">{{ category.name }}</span>
                     <h4>{{ book.title }}</h4>
                   </li>
                   <li>
@@ -59,7 +59,7 @@ export default {
   },
   data() {
     return {
-      bookList: [],
+      category : {}
     };
   },
   computed: {
@@ -69,7 +69,28 @@ export default {
   },
   methods: {
     getBooksInCategory() {
-      console.log("running");
+      this.axios.get(`/api/categories/${this.categoryId}`, {
+        headers: this.headers
+      })
+      .then(response => {
+        this.getImageUrl(response.data.category.books);
+        this.category = response.data.category;
+      })
+      .catch(err => console.log(err));
+    },
+    getImageUrl(books) {
+      books.forEach((book) => {
+        if(book.image){
+        book.image.filename =
+          "http://localhost:8000/storage/" + book.image.filename;  
+        }
+      });
+    },
+    showDetails(bookId) {
+      this.$router.push({
+        name: "BookDetails",
+        params: { bookId },
+      });
     },
   },
   mounted() {

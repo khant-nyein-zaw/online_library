@@ -29,7 +29,7 @@ class CategoryController extends Controller
     public function store(StoreCategoryRequest $request)
     {
         Category::create($request->all());
-        return back();
+        return back()->with(['success' =>  'New category was created']);
     }
 
     /**

@@ -11,6 +11,7 @@
                     <table class="table table-borderless">
                         <thead>
                             <tr>
+                                <th>ID</th>
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Borrowed Books</th>
@@ -19,6 +20,7 @@
                         <tbody>
                             @foreach ($users as $user)
                                 <tr>
+                                    <td>{{ $user->id }}</td>
                                     <td>
                                         <div class="d-flex align-items-center gap-2">
                                             @if ($user->image)

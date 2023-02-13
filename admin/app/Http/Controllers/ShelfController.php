@@ -30,7 +30,7 @@ class ShelfController extends Controller
     public function store(StoreShelfRequest $request)
     {
         Shelf::create($request->all());
-        return back()->with(['success' => 'Stored shelf successfully']);
+        return back()->with(['success' => 'New shelf was created']);
     }
 
     /**

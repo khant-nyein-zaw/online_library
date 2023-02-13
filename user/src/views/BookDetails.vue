@@ -32,7 +32,7 @@
               >
                 Send Request To Borrow
               </button>
-              <button class="btn btn-primary btn-sm" @click="router.back()">
+              <button class="btn btn-primary btn-sm" @click="$router.back()">
                 Back
               </button>
             </div>
