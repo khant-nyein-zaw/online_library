@@ -1,80 +1,66 @@
 <template>
-  <div class="main-banner" id="top">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="owl-carousel owl-banner owl-loaded owl-drag">
-            <div class="item item-3">
-              <div class="header-text">
-                <span class="category">Our Books</span>
-                <h2>With online library, everything is easier.</h2>
-                <p>
-                  Search your books by author name, book title or ISBN numbers
-                </p>
-                <div class="buttons">
-                  <!-- ***** Serach Start ***** -->
-                  <div class="search-input">
-                    <form id="search" @submit.prevent="search">
-                      <input
-                        type="text"
-                        placeholder="Type Something"
-                        id="searchText"
-                        v-model="searchKey"
-                        class="form-control"
+  <div class="row">
+    <div class="col-md-12 col-12">
+      <!-- card  -->
+      <div class="card" v-if="bookList.length">
+        <!-- card header  -->
+        <div class="card-header bg-white py-4">
+          <h4 class="mb-0">Recently added books</h4>
+        </div>
+        <!-- table  -->
+        <div class="table-responsive">
+          <table class="table text-nowrap mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>ID</th>
+                <th>Book Title</th>
+                <th>Author</th>
+                <th>Category</th>
+                <th>Shelf No</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="book in bookList" :key="book.id">
+                <td>{{ book.id }}</td>
+                <td class="align-middle">
+                  <div class="d-flex align-items-center">
+                    <span class="avatar avatar-sm">
+                      <img
+                        alt="avatar"
+                        :src="book.image.filename"
+                        class="rounded-circle"
                       />
-                      <i class="fa fa-search"></i>
-                    </form>
+                    </span>
+                    <div class="ms-3 lh-1">
+                      <h5 class="mb-1">
+                        <router-link
+                          :to="{
+                            name: 'BookDetails',
+                            params: { bookId: book.id },
+                          }"
+                          class="text-inherit"
+                          >{{ book.title }}</router-link
+                        >
+                      </h5>
+                    </div>
                   </div>
-                  <!-- ***** Serach Start ***** -->
-                </div>
-              </div>
-            </div>
-          </div>
+                </td>
+                <td class="align-middle">{{ book.author }}</td>
+                <td class="align-middle">
+                  <span class="badge bg-primary">{{ book.category.name }}</span>
+                </td>
+                <td class="align-middle">{{ book.shelf.shelf_no }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- card footer  -->
+        <div class="card-footer bg-white text-center">
+          <a href="#" class="link-primary">View All Books</a>
         </div>
       </div>
     </div>
   </div>
-  <section class="section courses" id="courses">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12 text-center">
-          <div class="section-heading">
-            <h6>Latest Books</h6>
-            <h2>Latest Books</h2>
-          </div>
-        </div>
-      </div>
-      <ul class="event_filter">
-        <li>
-          <a class="is_active" href="#">Show All</a>
-        </li>
-        <li v-for="category in categories" :key="category.id">
-          <a href="#">{{ category.name }}</a>
-        </li>
-      </ul>
-      <div class="row event_box">
-        <div
-          class="col-lg-4 col-md-6 align-self-center mb-30 event_outer col-md-6 design"
-          v-for="book in bookList"
-          :key="book.id"
-        >
-          <div class="events_item" @click="showDetails(book.id)">
-            <div class="thumb">
-              <a href="#"><img :src="book.image.filename" alt="" /></a>
-              <span class="category">{{ book.category.name }}</span>
-              <span class="price">
-                <h6>{{ book.shelf.shelf_no }}</h6>
-              </span>
-            </div>
-            <div class="down-content">
-              <span class="author">{{ book.author }}</span>
-              <h4>{{ book.title }}</h4>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 </template>
 
 <script>
@@ -126,12 +112,6 @@ export default {
       } else {
         alert("Please fill searchKey first");
       }
-    },
-    showDetails(bookId) {
-      this.$router.push({
-        name: "BookDetails",
-        params: { bookId },
-      });
     },
   },
   mounted() {

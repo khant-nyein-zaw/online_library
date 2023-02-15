@@ -1,62 +1,71 @@
 <template>
-  <div class="contact-us section" id="contact">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-6 align-self-center">
-          <div class="section-heading">
-            <h6>
-              <router-link to="/register">Register</router-link> if you don't
-              have an account.
-            </h6>
-            <h2>Login</h2>
-            <p>
-              Thank you for choosing our templates. We provide you best CSS
-              templates at absolutely 100% free of charge. You may support us by
-              sharing our website to your friends.
-            </p>
+  <div class="row align-items-center justify-content-center g-0 min-vh-100">
+    <div class="col-12 col-md-8 col-lg-6 col-xxl-4 py-8 py-xl-0">
+      <!-- Card -->
+      <div class="card smooth-shadow-md">
+        <!-- Card body -->
+        <div class="card-body p-6">
+          <div class="mb-4">
+            <a href="#"
+              ><img
+                src="assets/images/brand/logo/logo-primary.svg"
+                class="mb-2"
+                alt=""
+            /></a>
+            <p class="mb-6">Please enter your user information.</p>
           </div>
-        </div>
-        <div class="col-lg-6">
-          <div class="contact-us-content">
-            <form id="contact-form" @submit.prevent="login">
-              <div class="row">
-                <div class="col-lg-12">
-                  <fieldset>
-                    <input
-                      type="email"
-                      v-model="fields.email"
-                      id="email"
-                      placeholder="Your E-mail..."
-                      required
-                    />
-                  </fieldset>
-                </div>
-                <div class="col-lg-12">
-                  <fieldset>
-                    <input
-                      type="password"
-                      v-model="fields.password"
-                      id="password"
-                      placeholder="Your Password"
-                      required
-                    />
-                  </fieldset>
-                </div>
-                <div class="col-lg-12">
-                  <fieldset>
-                    <button
-                      type="submit"
-                      id="form-submit"
-                      class="orange-button"
-                      :disabled="processing"
-                    >
-                      {{ processing ? "Please wait" : "Sign In" }}
-                    </button>
-                  </fieldset>
+          <!-- Form -->
+          <form @submit.prevent="login">
+            <!-- Validation Errors -->
+            <div class="alert alert-danger" v-if="message">
+              {{ message }}
+            </div>
+
+            <!-- Username -->
+            <div class="mb-3">
+              <label for="email" class="form-label">Username or email</label>
+              <input
+                type="email"
+                id="email"
+                class="form-control"
+                v-model="fields.email"
+                placeholder="Email address here"
+                required
+              />
+            </div>
+            <!-- Password -->
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input
+                type="password"
+                id="password"
+                class="form-control"
+                v-model="fields.password"
+                placeholder="**************"
+                required
+              />
+            </div>
+            <div>
+              <!-- Button -->
+              <div class="d-grid">
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  :disabled="processing"
+                >
+                  {{ processing ? "Please Wait" : "Sign In" }}
+                </button>
+              </div>
+
+              <div class="d-md-flex justify-content-between mt-4">
+                <div class="mb-2 mb-md-0">
+                  <router-link to="/register" class="fs-5"
+                    >Create An Account</router-link
+                  >
                 </div>
               </div>
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -74,6 +83,7 @@ export default {
         password: "",
       },
       processing: false,
+      message: "",
     };
   },
   methods: {
@@ -89,7 +99,7 @@ export default {
           if (response.data.user) {
             this.signIn(response.data);
           } else {
-            console.log(response.data);
+            this.message = response.data.message;
           }
         })
         .catch((err) => console.log(err))

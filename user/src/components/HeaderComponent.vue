@@ -1,49 +1,47 @@
 <template>
-  <!-- ***** Header Area Start ***** -->
-  <header class="header-area header-sticky" style="background-color: #7a6ad8">
-    <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <nav class="main-nav">
-            <!-- ***** Logo Start ***** -->
-            <router-link to="/" class="logo">
-              <h1>Online Library</h1>
-            </router-link>
-            <!-- ***** Logo End ***** -->
-            <!-- ***** Menu Start ***** -->
-            <ul class="nav">
-              <li class="scroll-to-section">
-                <router-link :to="{ name: 'Home' }">Home</router-link>
-              </li>
-              <li class="scroll-to-section">
-                <router-link :to="{ name: 'CategoryList' }">
-                  Categories
-                </router-link>
-              </li>
-              <li class="scroll-to-section">
-                <router-link :to="{ name: 'UserBookList' }"
-                  >My Book List</router-link
-                >
-              </li>
-              <li class="scroll-to-section">
-                <router-link :to="{ name: 'Login' }">Login</router-link>
-              </li>
-              <li class="scroll-to-section">
-                <button class="btn btn-danger btn-sm" @click="logout">
-                  Logout
-                </button>
-              </li>
-            </ul>
-            <a class="menu-trigger">
-              <span>Menu</span>
-            </a>
-            <!-- ***** Menu End ***** -->
-          </nav>
-        </div>
-      </div>
+  <!-- Sidebar -->
+  <nav class="navbar-vertical navbar">
+    <div class="nav-scroller">
+      <!-- Brand logo -->
+      <a class="navbar-brand" href="#">
+        <img src="assets/images/brand/logo/logo.svg" alt="" />
+      </a>
+      <!-- Navbar nav -->
+      <ul class="navbar-nav flex-column" id="sideNavbar">
+        <li class="nav-item">
+          <router-link :to="{ name: 'Home' }" class="nav-link has-arrow">
+            <i class="fa-solid fa-house nav-icon icon-xs me-2"></i> Home
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link
+            :to="{ name: 'CategoryList' }"
+            class="nav-link has-arrow"
+          >
+            <i class="fa-solid fa-bars nav-icon icon-xs me-2"></i> Categories
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link
+            :to="{ name: 'UserBookList' }"
+            class="nav-link has-arrow"
+          >
+            <i class="fa-solid fa-book nav-icon icon-xs me-2"></i> My Books
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link :to="{ name: 'Login' }" class="nav-link has-arrow">
+            <i class="fa-solid fa-unlock nav-icon icon-xs me-2"></i> Sign In
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" @click="logout">
+            <i class="fa-solid fa-lock nav-icon icon-xs me-2"></i> Logout
+          </a>
+        </li>
+      </ul>
     </div>
-  </header>
-  <!-- ***** Header Area End ***** -->
+  </nav>
 </template>
 
 <script>
