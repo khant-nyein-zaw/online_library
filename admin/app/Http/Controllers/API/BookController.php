@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Models\Book;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SearchBooksRequest;
 
 class BookController extends Controller
 {
@@ -22,33 +23,18 @@ class BookController extends Controller
     }
 
     // search books by user
-    public function search(Request $request)
+    public function search(SearchBooksRequest $request)
     {
-        $books = Book::with(['category', 'image', 'shelf'])
-            ->where('title', 'LIKE', '%' . $request->input('query') . '%')
-            ->orWhere('author', 'LIKE', '%' . $request->input('query') . '%')
-            ->orWhere('publisher', 'LIKE', '%' . $request->input('query') . '%')
-            ->orderBy('created_at', 'desc')
+        $books = Book::when(request('sortBy'), function ($query) {
+            $query->orderBy('created_at', request('sortBy'));
+        })
+            ->with(['category', 'image', 'shelf'])
+            ->where('title', 'LIKE', '%' . $request->searchKey . '%')
+            ->orWhere('author', 'LIKE', '%' . $request->searchKey . '%')
             ->get();
         return response()->json([
             'books' => $books
         ]);
-    }
-
-    // sort books by adding time
-    public function sort()
-    {
-        $books = Book::when(request('sortBy') === 'asc', function ($query) {
-            $query->orderBy('created_at', 'asc');
-        })
-            ->when(request('sortBy') === 'desc', function ($query) {
-                $query->orderBy('created_at', 'desc');
-            })
-            ->with(['category', 'image', 'shelf'])
-            ->get();
-        return response()->json([
-            'books' => $books
-        ], 200);
     }
 
     /**

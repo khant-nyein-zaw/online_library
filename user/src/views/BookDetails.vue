@@ -1,42 +1,29 @@
 <template>
-  <div class="section testimonials" v-if="book">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-5 offset-lg-2">
-          <div class="card">
-            <img :src="book.image.filename" class="card-img-top" />
-            <div class="card-body">
-              <h3 class="card-title">
-                <a href="#">{{ book.category.name }}</a>
-              </h3>
-              <p class="card-text mb-0">
-                <code>Date Of Publication: {{ book.date_published }}</code>
-              </p>
-              <p class="card-text">
-                <code>Shelf Number: {{ book.shelf.shelf_no }}</code>
-              </p>
-            </div>
+  <div class="container" v-if="book">
+    <div class="row">
+      <div class="col-lg-5 offset-lg-2">
+        <div class="card">
+          <img :src="book.image.filename" class="card-img-top" />
+          <div class="card-header">
+            <h3>
+              <a href="#">{{ book.title }}</a>
+            </h3>
           </div>
         </div>
-        <div class="col-lg-5 align-self-center">
-          <div class="section-heading">
-            <h6>{{ book.author }}</h6>
-            <h2>{{ book.title }}</h2>
-            <b class="d-block mb-3">
-              {{ book.publisher }}
-            </b>
-            <div class="d-flex gap-2 align-items-center">
-              <button
-                class="btn btn-dark btn-sm"
-                @click="requestToBorrow(book.id)"
-              >
-                Send Request To Borrow
-              </button>
-              <button class="btn btn-primary btn-sm" @click="$router.back()">
-                Back
-              </button>
-            </div>
-          </div>
+      </div>
+      <div class="col-lg-5 align-self-center">
+        <h6>{{ book.author }}</h6>
+        <h2>{{ book.category.name }}</h2>
+        <b class="d-block mb-3">
+          {{ book.publisher }}
+        </b>
+        <div class="d-flex gap-2 align-items-center">
+          <button class="btn btn-dark btn-sm" @click="sendRequest(book.id)">
+            Borrow
+          </button>
+          <button class="btn btn-primary btn-sm" @click="$router.back()">
+            Back
+          </button>
         </div>
       </div>
     </div>
@@ -56,6 +43,7 @@ export default {
   data() {
     return {
       book: null,
+      message: "",
     };
   },
   computed: {
@@ -76,7 +64,7 @@ export default {
         })
         .catch((err) => console.log(err));
     },
-    requestToBorrow(book_id) {
+    sendRequest(book_id) {
       this.axios
         .post(
           "/api/borrow-requests",

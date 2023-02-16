@@ -21,7 +21,8 @@ class BorrowRequestController extends Controller
         }
         $data = BorrowRequest::create($request->all());
         return response()->json([
-            'data' => $data
+            'data' => $data,
+            'message' => 'You request is sent successfully'
         ]);
     }
 }

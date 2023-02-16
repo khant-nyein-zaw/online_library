@@ -1,17 +1,19 @@
 <template>
   <div id="db-wrapper">
-    <Header />
+    <NavBar />
     <div id="page-content">
       <div class="header">
         <!-- navbar -->
         <nav class="navbar-classic navbar navbar-expand-lg">
-          <a id="nav-toggle" href="#"
-            ><i class="fa-solid fa-bars nav-icon me-2 icon-xs"></i
-          ></a>
           <div class="ms-lg-3 d-none d-md-none d-lg-block">
             <!-- Form -->
-            <form class="d-flex align-items-center">
-              <input type="search" class="form-control" placeholder="Search" />
+            <form class="d-flex align-items-center" @submit.prevent="search">
+              <input
+                type="search"
+                class="form-control"
+                placeholder="Search Books"
+                v-model="searchKey"
+              />
             </form>
           </div>
         </nav>
@@ -21,16 +23,27 @@
       </div>
     </div>
   </div>
-
-  <!-- <router-view /> -->
 </template>
 
 <script>
-import Header from "@/components/HeaderComponent.vue";
+import NavBar from "@/components/NavBarComponent.vue";
 export default {
   name: "App",
   components: {
-    Header,
+    NavBar,
+  },
+  data() {
+    return {
+      searchKey: "",
+    };
+  },
+  methods: {
+    search() {
+      this.$router.push({
+        name: "BookList",
+        query: { searchKey: this.searchKey },
+      });
+    },
   },
 };
 </script>

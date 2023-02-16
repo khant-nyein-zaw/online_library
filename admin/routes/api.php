@@ -14,12 +14,11 @@ Route::middleware('auth:sanctum')->group(function () {
     // books
     Route::get('/books', [BookController::class, 'index']);
     Route::get('/books/{book}', [BookController::class, 'show']);
-    Route::get('/books/{sortBy}/all', [BookController::class, 'sort']);
     Route::post('/books/search', [BookController::class, 'search']);
 
     // category
     Route::get('/categories', [CategoryController::class, 'index']);
-    Route::get('/categories/{category}',[CategoryController::class, 'show']);
+    Route::get('/categories/{category}', [CategoryController::class, 'show']);
 
     // borrowings
     Route::get('/borrowings', [BorrowingController::class, 'index']);

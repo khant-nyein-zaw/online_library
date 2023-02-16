@@ -135,7 +135,7 @@
                     <li class="menu-item">
                         <a class="menu-link" href="{{ route('shelves.index') }}">
                             <i class="menu-icon tf-icons bx bx-library"></i>
-                            Shelf
+                            Shelves
                         </a>
                     </li>
                     <li class="menu-item">

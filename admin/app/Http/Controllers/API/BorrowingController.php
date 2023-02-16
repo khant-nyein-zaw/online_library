@@ -13,7 +13,7 @@ class BorrowingController extends Controller
      */
     public function index()
     {
-        $borrowings = Borrowing::with(['book', 'user'])->get();
+        $borrowings = Borrowing::with(['book' => [ 'image', 'category', 'shelf' ], 'user'])->get();
         foreach ($borrowings as $borrowing) {
             $tday = Carbon::now();
             $dueDate = Carbon::parse($borrowing->due_date);
