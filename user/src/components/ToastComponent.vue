@@ -1,13 +1,10 @@
 <template>
-  <div
-    class="toast-container position-fixed bottom-0 end-0 p-3"
-    v-if="!isClosed"
-  >
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
     <div id="liveToast" class="toast show fade" role="alert">
       <div class="toast-header">
         <strong class="me-auto">Notification</strong>
         <small></small>
-        <button type="button" class="btn-close" @click="closeToast"></button>
+        <button type="button" class="btn-close" @click="close"></button>
       </div>
       <div class="toast-body">
         <small>{{ message }}</small>
@@ -22,14 +19,9 @@ export default {
   props: {
     message: String,
   },
-  data() {
-    return {
-      isClosed: false,
-    };
-  },
   methods: {
-    closeToast() {
-      this.isClosed = true;
+    close() {
+      this.$emit("close");
     },
   },
 };

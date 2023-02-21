@@ -15,10 +15,10 @@ class BorrowingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($userId = null, $bookId = null)
     {
         $borrowings = Borrowing::with(['book', 'user'])->get();
-        return view('borrowing.index', compact('borrowings'));
+        return view('borrowing.index', compact('borrowings', 'userId', 'bookId'));
     }
 
     /**
@@ -29,14 +29,16 @@ class BorrowingController extends Controller
      */
     public function store(StoreBorrowingRequest $request)
     {
-        Borrowing::updateOrCreate([
-            'user_id' => $request->user_id,
-            'book_id' => $request->book_id
-        ]
-        ,[
-            'date_borrowed' => Carbon::now('Asia/Yangon'),
-            'due_date' => $request->due_date
-        ]);
+        Borrowing::updateOrCreate(
+            [
+                'user_id' => $request->user_id,
+                'book_id' => $request->book_id
+            ],
+            [
+                'date_borrowed' => Carbon::now('Asia/Yangon'),
+                'due_date' => $request->due_date
+            ]
+        );
         BorrowRequest::where([
             ['user_id', $request->user_id],
             ['book_id', $request->book_id]

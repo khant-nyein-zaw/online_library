@@ -17,9 +17,10 @@ const routes = [
     component: Home,
   },
   {
-    path: "/book-list",
+    path: "/book-list/:searchKey",
     name: "BookList",
     component: BookList,
+    props: true,
   },
   {
     path: "/details/:bookId",

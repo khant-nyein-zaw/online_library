@@ -28,12 +28,16 @@
       </div>
     </div>
   </div>
+  <!-- Toast Noti -->
+  <Toast v-if="message" :message="message" />
 </template>
 
 <script>
+import Toast from "@/components/ToastComponent.vue";
 import { mapGetters } from "vuex";
 export default {
   name: "BookDetails",
+  components: { Toast },
   props: {
     bookId: {
       type: String,
@@ -72,7 +76,7 @@ export default {
           { headers: this.headers }
         )
         .then((response) => {
-          console.log(response.data);
+          this.message = response.data.message;
         })
         .catch((err) => console.log(err));
     },

@@ -1,93 +1,80 @@
 <template>
   <div class="row">
-    <div class="col-md-12 col-12">
+    <div class="col-12 text-center">
+      <h6>Books</h6>
+      <h3>Recently added books</h3>
+    </div>
+    <!-- search bar for books -->
+    <SearchBar />
+    <div class="col-md-12 col-12 mt-5" v-if="bookList.length">
       <!-- card  -->
-      <div class="card" v-if="bookList.length">
-        <!-- card header  -->
-        <div class="card-header bg-white py-4">
-          <h4 class="mb-0">Recently added books</h4>
-        </div>
-        <!-- table  -->
-        <div class="table-responsive">
-          <table class="table text-nowrap mb-0">
-            <thead class="table-light">
-              <tr>
-                <th>ID</th>
-                <th>Book Title</th>
-                <th>Author</th>
-                <th>Category</th>
-                <th>Shelf No</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="book in bookList" :key="book.id">
-                <td>{{ book.id }}</td>
-                <td class="align-middle">
-                  <div class="d-flex align-items-center">
-                    <span class="avatar avatar-sm">
-                      <img
-                        alt="avatar"
-                        :src="book.image.filename"
-                        class="rounded-circle"
-                      />
-                    </span>
-                    <div class="ms-3 lh-1">
-                      <h5 class="mb-1">
-                        <router-link
-                          :to="{
-                            name: 'BookDetails',
-                            params: { bookId: book.id },
-                          }"
-                          class="text-inherit"
-                          >{{ book.title }}</router-link
-                        >
-                      </h5>
-                    </div>
-                  </div>
-                </td>
-                <td class="align-middle">{{ book.author }}</td>
-                <td class="align-middle">
-                  <span class="badge bg-primary">{{ book.category.name }}</span>
-                </td>
-                <td class="align-middle">{{ book.shelf.shelf_no }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <!-- card footer  -->
-        <div class="card-footer bg-white text-center">
-          <a href="#" class="link-primary">View All Books</a>
+      <div class="row">
+        <div class="col-12 col-lg-6" v-for="book in bookList" :key="book.id">
+          <!-- image overlay -->
+          <div class="card mb-3 bg-dark text-center">
+            <div class="card-body">
+              <h2 class="card-title mb-3 text-white">
+                {{ book.title }}
+              </h2>
+              <h5 class="card-title text-white">
+                {{ book.author }}
+              </h5>
+              <h6 class="card-subtitle text-white mb-3">
+                {{ book.category.name }}
+              </h6>
+              <button
+                class="btn btn-outline-info btn-sm"
+                @click="sendRequest(book.id)"
+              >
+                Borrow
+              </button>
+            </div>
+            <img :src="book.image.filename" class="card-img-bottom" alt="..." />
+          </div>
         </div>
       </div>
     </div>
+    <!-- Loading spinner -->
+    <div class="text-center my-3" v-else-if="processing">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
   </div>
+  <Toast v-if="message" :message="message" @close="message = ''" />
 </template>
 
 <script>
+import SearchBar from "@/components/SearchBarComponent.vue";
+import Toast from "@/components/ToastComponent.vue";
 import { mapGetters } from "vuex";
 export default {
   name: "HomePage",
+  components: { SearchBar, Toast },
   data() {
     return {
-      categories: [],
       bookList: [],
-      searchKey: "",
+      processing: false,
+      message: "",
     };
   },
   computed: {
     ...mapGetters({
       headers: "getHeaders",
+      user: "getUser",
     }),
   },
   methods: {
     getBookList() {
+      this.processing = true;
       this.axios
         .get("/api/books", { headers: this.headers })
         .then((response) => {
           this.getImageUrl(response.data.books);
           this.bookList = response.data.books;
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.log(err))
+        .finally(() => (this.processing = false));
     },
     getImageUrl(books) {
       books.forEach((book) => {
@@ -95,27 +82,20 @@ export default {
           "http://localhost:8000/storage/" + book.image.filename;
       });
     },
-    getCategories() {
+    sendRequest(book_id) {
       this.axios
-        .get("/api/categories", { headers: this.headers })
+        .post(
+          "/api/borrow-requests",
+          { user_id: this.user.user.id, book_id },
+          { headers: this.headers }
+        )
         .then((response) => {
-          this.categories = response.data.categories;
+          this.message = response.data.message;
         })
         .catch((err) => console.log(err));
     },
-    search() {
-      if (this.searchKey) {
-        this.$router.push({
-          name: "BookList",
-          query: { searchKey: this.searchKey },
-        });
-      } else {
-        alert("Please fill searchKey first");
-      }
-    },
   },
   mounted() {
-    this.getCategories();
     this.getBookList();
   },
 };

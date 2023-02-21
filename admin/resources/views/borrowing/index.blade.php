@@ -9,7 +9,7 @@
                 </div>
                 <div class="card-body">
                     @if (Session::has('success'))
-                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
                             <strong>{{ Session::get('success') }}</strong>
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
@@ -17,18 +17,18 @@
                     <form action="{{ route('borrowings.store') }}" method="POST">
                         @csrf
                         <div class="mb-3">
-                            <label class="form-label">Book ID</label>
-                            <input type="number" class="form-control @error('book_id') is-invalid @enderror" name="book_id"
-                                value="{{ old('book_id') }}" placeholder="Enter Book ID" />
-                            @error('book_id')
+                            <label class="form-label">User ID</label>
+                            <input type="number" class="form-control @error('user_id') is-invalid @enderror" name="user_id"
+                                value="{{ old('user_id', $userId) }}" placeholder="Enter User ID" />
+                            @error('user_id')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">User ID</label>
-                            <input type="number" class="form-control @error('user_id') is-invalid @enderror" name="user_id"
-                                value="{{ old('user_id') }}" placeholder="Enter User ID" />
-                            @error('user_id')
+                            <label class="form-label">Book ID</label>
+                            <input type="number" class="form-control @error('book_id') is-invalid @enderror" name="book_id"
+                                value="{{ old('book_id', $bookId) }}" placeholder="Enter Book ID" />
+                            @error('book_id')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>

@@ -11,7 +11,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::withCount('books')->get();
+        $categories = Category::with('books.image')->get();
         return response()->json([
             'categories' => $categories
         ]);
@@ -23,7 +23,8 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id){
+    public function show($id)
+    {
         $category = Category::find($id);
         $books = Book::with(['shelf', 'image'])->whereBelongsTo($category)->get();
         return response()->json([

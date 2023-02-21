@@ -2,7 +2,14 @@
   <div class="row">
     <div class="col-12 text-center mb-3">
       <h6>Search Results</h6>
-      <h2>{{ $route.query.searchKey }}</h2>
+      <h2
+        v-if="!isEditing"
+        @click="isEditing = !isEditing"
+        class="cursor-pointer"
+      >
+        {{ searchKey }}
+      </h2>
+      <SearchBar v-if="isEditing" @refresh="getBooksWithSearch" />
     </div>
     <div class="col-12" v-if="bookList.length">
       <div class="row">
@@ -24,7 +31,6 @@
           v-for="book in bookList"
           :key="book.id"
         >
-          <!-- image overlay -->
           <div class="card mb-3 bg-dark text-center">
             <div class="card-body">
               <h2 class="card-title mb-3 text-white">
@@ -67,10 +73,14 @@
 
 <script>
 import Toast from "@/components/ToastComponent.vue";
+import SearchBar from "@/components/SearchBarComponent.vue";
 import { mapGetters } from "vuex";
 export default {
   name: "BookList",
-  components: { Toast },
+  components: { Toast, SearchBar },
+  props: {
+    searchKey: String,
+  },
   data() {
     return {
       bookList: [],
@@ -78,6 +88,7 @@ export default {
       message: "",
       processing: false,
       notFound: false,
+      isEditing: false,
     };
   },
   computed: {
@@ -94,7 +105,7 @@ export default {
           .post(
             `/api/books/search`,
             {
-              searchKey: this.$route.query.searchKey,
+              searchKey: this.searchKey,
               sortBy: this.sortBy,
             },
             {
@@ -109,13 +120,16 @@ export default {
           .finally(() => (this.processing = false));
       }
     },
-    getBooksWithSearch() {
+    getBooksWithSearch(searchKey = this.searchKey) {
+      while (this.bookList.length) {
+        this.bookList.pop();
+      }
       this.processing = true;
       this.axios
         .post(
           `/api/books/search`,
           {
-            searchKey: this.$route.query.searchKey,
+            searchKey,
           },
           {
             headers: this.headers,

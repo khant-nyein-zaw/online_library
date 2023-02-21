@@ -5,6 +5,7 @@ use App\Http\Controllers\API\BookController;
 use App\Http\Controllers\API\BorrowingController;
 use App\Http\Controllers\API\BorrowRequestController;
 use App\Http\Controllers\API\CategoryController;
+use App\Http\Controllers\API\ReturningController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [AuthController::class, 'authenticate']);
@@ -25,4 +26,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // borrow request
     Route::post('/borrow-requests', [BorrowRequestController::class, 'store']);
+
+    // returnings
+    Route::post('/returnings', [ReturningController::class, 'store']);
 });

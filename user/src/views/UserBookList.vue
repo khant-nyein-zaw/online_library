@@ -78,17 +78,35 @@
           </table>
         </div>
       </div>
+      <!-- Loading spinner -->
+      <div class="text-center my-3" v-else-if="processing">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+      <!-- alert msg -->
+      <div class="alert alert-secondary" v-else-if="!borrowings.length">
+        <strong>There's no borrowed books for you now!</strong>
+        <router-link to="/" class="ms-1"
+          >Check out some of latest books.</router-link
+        >
+      </div>
     </div>
   </div>
+  <Toast v-if="message" :message="message" @close="message = ''" />
 </template>
 
 <script>
+import Toast from "@/components/ToastComponent.vue";
 import { mapGetters } from "vuex";
 export default {
   name: "UserBookList",
+  components: { Toast },
   data() {
     return {
       borrowings: [],
+      message: "",
+      processing: false,
     };
   },
   computed: {
@@ -99,6 +117,7 @@ export default {
   },
   methods: {
     getBorrowedBooks() {
+      this.processing = true;
       this.axios
         .get("/api/borrowings", {
           headers: this.headers,
@@ -107,10 +126,27 @@ export default {
           this.getImageUrl(response.data.borrowings);
           this.borrowings = response.data.borrowings;
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.log(err))
+        .finally(() => (this.processing = false));
     },
-    returnBook(borrowingId) {
-      console.log("return", borrowingId);
+    returnBook(borrowing_id) {
+      this.axios
+        .post(
+          "/api/returnings",
+          {
+            borrowing_id,
+          },
+          {
+            headers: this.headers,
+          }
+        )
+        .then((response) => {
+          this.message = response.data.message;
+        })
+        .catch((err) => console.log(err))
+        .finally(() => {
+          setInterval(() => this.$router.push("/"), 3000);
+        });
     },
     getImageUrl(borrowings) {
       borrowings.forEach((element) => {

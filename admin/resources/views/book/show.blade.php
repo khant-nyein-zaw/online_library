@@ -7,8 +7,7 @@
                 @if ($book->image)
                     <img class="card-img-top" src="{{ asset('storage/' . $book->image->filename) }}" />
                 @else
-                    <img class="card-img-top"
-                        src="{{ asset('storage/default-image-icon-missing-picture-page-vector-40546530.jpg') }}">
+                    <img class="card-img-top" src="{{ asset('storage/DEFAULT.jpg') }}">
                 @endif
                 <div class="card-img-overlay">
                     <h5 class="card-title text-white">{{ $book->title }}</h5>

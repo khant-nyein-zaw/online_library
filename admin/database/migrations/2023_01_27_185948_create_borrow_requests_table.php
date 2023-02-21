@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('borrow_requests', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('book_id')->constrained('books');
             $table->timestamps();
         });
