@@ -7,7 +7,8 @@
         <button type="button" class="btn-close" @click="close"></button>
       </div>
       <div class="toast-body">
-        <small>{{ message }}</small>
+        <p>{{ message }}</p>
+        <small>Reloading in {{ reloadTime }}</small>
       </div>
     </div>
   </div>
@@ -18,11 +19,24 @@ export default {
   name: "ToastComponent",
   props: {
     message: String,
+    reload: Boolean,
+  },
+  data() {
+    return {
+      reloadTime: 5,
+    };
   },
   methods: {
     close() {
       this.$emit("close");
     },
+  },
+  mounted() {
+    if (this.reload) {
+      setInterval(() => {
+        this.reloadTime = this.reloadTime - 1;
+      }, 1000);
+    }
   },
 };
 </script>

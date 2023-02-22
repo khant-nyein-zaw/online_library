@@ -4,12 +4,16 @@
       <h6>Search Results</h6>
       <h2
         v-if="!isEditing"
-        @click="isEditing = !isEditing"
+        @dblclick="isEditing = !isEditing"
         class="cursor-pointer"
       >
         {{ searchKey }}
       </h2>
-      <SearchBar v-if="isEditing" @refresh="getBooksWithSearch" />
+      <SearchBar
+        v-if="isEditing"
+        @refresh="getBooksWithSearch"
+        @dblclick="isEditing = !isEditing"
+      />
     </div>
     <div class="col-12" v-if="bookList.length">
       <div class="row">
@@ -78,11 +82,9 @@ import { mapGetters } from "vuex";
 export default {
   name: "BookList",
   components: { Toast, SearchBar },
-  props: {
-    searchKey: String,
-  },
   data() {
     return {
+      searchKey: "",
       bookList: [],
       sortBy: "",
       message: "",
@@ -120,7 +122,8 @@ export default {
           .finally(() => (this.processing = false));
       }
     },
-    getBooksWithSearch(searchKey = this.searchKey) {
+    getBooksWithSearch(searchKey) {
+      this.searchKey = searchKey;
       while (this.bookList.length) {
         this.bookList.pop();
       }
@@ -172,7 +175,11 @@ export default {
     },
   },
   mounted() {
-    this.getBooksWithSearch();
+    this.searchKey = this.$route.query.searchKey;
+    this.getBooksWithSearch(this.searchKey);
+  },
+  updated() {
+    this.$route.query.searchKey = this.searchKey;
   },
 };
 </script>

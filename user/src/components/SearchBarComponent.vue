@@ -34,7 +34,7 @@ export default {
         if (this.$route.name !== "BookList") {
           this.$router.push({
             name: "BookList",
-            params: { searchKey: this.searchKey },
+            query: { searchKey: this.searchKey },
           });
         } else {
           this.$emit("refresh", this.searchKey);

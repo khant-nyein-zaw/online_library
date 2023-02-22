@@ -54,10 +54,7 @@
                   }}</span>
                 </td>
                 <td class="align-middle">
-                  <span :class="[borrowing.period <= 1 ? 'text-danger' : '']"
-                    >{{ borrowing.period }}
-                    {{ borrowing.period <= 1 ? "day" : "days" }}</span
-                  >
+                  <small class="text-primary">{{ borrowing.period }}</small>
                 </td>
                 <td class="align-middle">
                   <small>{{ borrowing.date_borrowed }}</small>
@@ -93,7 +90,7 @@
       </div>
     </div>
   </div>
-  <Toast v-if="message" :message="message" @close="message = ''" />
+  <Toast v-if="message" :message="message" reload @close="message = ''" />
 </template>
 
 <script>
@@ -145,7 +142,7 @@ export default {
         })
         .catch((err) => console.log(err))
         .finally(() => {
-          setInterval(() => this.$router.push("/"), 3000);
+          setTimeout(() => location.reload(), 5000);
         });
     },
     getImageUrl(borrowings) {

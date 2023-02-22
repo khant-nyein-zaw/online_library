@@ -13,8 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('books', function (Blueprint $table) {
-            $table->foreignId('category_id')->after('shelf_id')->constrained('categories')->onUpdate('cascade')->onDelete('cascade');
+        Schema::create('authors', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->longText('biography');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('books', function (Blueprint $table) {
-            $table->dropColumn('category_id');
-        });
+        Schema::dropIfExists('authors');
     }
 };

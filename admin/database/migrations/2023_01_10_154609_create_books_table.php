@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('author');
+            $table->string('ISBN');
             $table->string('publisher');
             $table->date('date_published');
             $table->timestamps();

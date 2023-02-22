@@ -14,6 +14,12 @@
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     @endif
+                    @if (Session::has('message'))
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>{{ Session::get('message') }}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
                     <form action="{{ route('borrowings.store') }}" method="POST">
                         @csrf
                         <div class="mb-3">
@@ -54,8 +60,8 @@
                     <table class="table table-borderless">
                         <thead>
                             <tr>
-                                <th>Book</th>
-                                <th>User</th>
+                                <th>Issued Book</th>
+                                <th>To</th>
                                 <th>Issued Date</th>
                                 <th>Due Date</th>
                             </tr>

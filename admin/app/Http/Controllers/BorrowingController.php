@@ -29,21 +29,25 @@ class BorrowingController extends Controller
      */
     public function store(StoreBorrowingRequest $request)
     {
-        Borrowing::updateOrCreate(
-            [
-                'user_id' => $request->user_id,
-                'book_id' => $request->book_id
-            ],
-            [
-                'date_borrowed' => Carbon::now('Asia/Yangon'),
-                'due_date' => $request->due_date
-            ]
-        );
+        if (Borrowing::where([
+            ['book_id', $request->book_id],
+            ['user_id', $request->user_id]
+        ])->exists()) {
+            return back()->with(['message' => 'Book already issued!']);
+        }
+
+        Borrowing::create([
+            'user_id' => $request->user_id,
+            'book_id' => $request->book_id,
+            'date_borrowed' => Carbon::now('Asia/Yangon'),
+            'due_date' => $request->due_date
+        ]);
+
         BorrowRequest::where([
             ['user_id', $request->user_id],
             ['book_id', $request->book_id]
         ])->delete();
-        return back()->with(["success" => "Book issued"]);
+        return redirect()->route('borrowings.index')->with(["success" => "Book issued"]);
     }
 
     /**

@@ -9,7 +9,11 @@
     <div class="col-md-12 col-12 mt-5" v-if="bookList.length">
       <!-- card  -->
       <div class="row">
-        <div class="col-12 col-lg-6" v-for="book in bookList" :key="book.id">
+        <div
+          class="col-12 col-sm-6 col-md-4"
+          v-for="book in bookList"
+          :key="book.id"
+        >
           <!-- image overlay -->
           <div class="card mb-3 bg-dark text-center">
             <div class="card-body">
@@ -35,7 +39,10 @@
       </div>
     </div>
     <!-- Loading spinner -->
-    <div class="text-center my-3" v-else-if="processing">
+    <div
+      class="row justify-content-center align-items-center min-vh-100"
+      v-else-if="processing"
+    >
       <div class="spinner-border" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>

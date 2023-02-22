@@ -1,12 +1,12 @@
 <template>
-  <div class="container" v-if="book">
-    <div class="row">
+  <div class="container">
+    <div class="row my-5" v-if="book">
       <div class="col-lg-5 offset-lg-2">
         <div class="card">
           <img :src="book.image.filename" class="card-img-top" />
           <div class="card-header">
-            <h3>
-              <a href="#">{{ book.title }}</a>
+            <h3 class="text-dark fw-bold text-uppercase text-center">
+              {{ book.title }}
             </h3>
           </div>
         </div>
@@ -27,9 +27,19 @@
         </div>
       </div>
     </div>
+    <div
+      class="row justify-content-center align-items-center min-vh-100"
+      v-else-if="processing"
+    >
+      <!-- Loading spinner -->
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
   </div>
+
   <!-- Toast Noti -->
-  <Toast v-if="message" :message="message" />
+  <Toast v-if="message" :message="message" @close="message = ''" />
 </template>
 
 <script>
@@ -48,6 +58,7 @@ export default {
     return {
       book: null,
       message: "",
+      processing: false,
     };
   },
   computed: {
@@ -58,6 +69,7 @@ export default {
   },
   methods: {
     getBookDetails() {
+      this.processing = true;
       this.axios
         .get(`/api/books/${this.bookId}`, { headers: this.headers })
         .then((response) => {
@@ -66,7 +78,8 @@ export default {
             response.data.book.image.filename;
           this.book = response.data.book;
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.log(err))
+        .finally(() => (this.processing = false));
     },
     sendRequest(book_id) {
       this.axios

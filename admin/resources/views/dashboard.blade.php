@@ -143,8 +143,9 @@
                                 <tr>
                                     <th>Borrow ID</th>
                                     <th>Book</th>
-                                    <th>User</th>
+                                    <th>From</th>
                                     <th>Overdue</th>
+                                    <th>Returned Date</th>
                                     <th>Fine</th>
                                     <th></th>
                                 </tr>
@@ -165,8 +166,9 @@
                                                 <strong>{{ $returning->book->title }}</strong>
                                             </a>
                                         </td>
-                                        <td>{{ $returning->user->name }}</td>
-                                        <td>{{ $returning->date_returned }}</td>
+                                        <td class="text-primary fw-bold">{{ $returning->user->name }}</td>
+                                        <td>{{ $returning->overdue }}</td>
+                                        <td>{{ date('M d Y', strtotime($returning->date_returned)) }}</td>
                                         <td>${{ $returning->fine }}</td>
                                     </tr>
                                 @endforeach

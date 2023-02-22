@@ -16,7 +16,11 @@
         </div>
         <div class="card-body">
           <div class="row">
-            <div class="col-6" v-for="book in category.books" :key="book.id">
+            <div
+              class="col-6 col-md-4"
+              v-for="book in category.books"
+              :key="book.id"
+            >
               <div
                 class="card cursor-pointer"
                 @click="
