@@ -22,16 +22,6 @@
             </div>
 
             <div class="mt-4">
-                <x-jet-label for="role_id" value="{{ __('Role') }}" />
-                <select name="role_id"
-                    class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block mt-1 w-full"
-                    id="role_id">
-                    <option value="1">Admin</option>
-                    <option value="2">User</option>
-                </select>
-            </div>
-
-            <div class="mt-4">
                 <x-jet-label for="password" value="{{ __('Password') }}" />
                 <x-jet-input id="password" class="block mt-1 w-full" type="password" name="password" required
                     autocomplete="new-password" />

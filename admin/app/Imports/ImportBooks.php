@@ -15,11 +15,13 @@ class ImportBooks implements ToModel, WithHeadingRow
      */
     public function model(array $row)
     {
+        // dd($row);
         return new Book([
             'title' => $row['title'],
-            'author' => $row['author'],
+            'ISBN' => $row['isbn'],
             'publisher' => $row['publisher'],
             'date_published' => $row['date_published'],
+            'author_id' => $row['author_id'],
             'category_id' => $row['category_id'],
             'shelf_id' => $row['shelf_id']
         ]);

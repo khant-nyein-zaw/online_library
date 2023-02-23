@@ -9,6 +9,7 @@ use App\Models\Shelf;
 use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\StoreBooksAsCsvRequest;
 use App\Imports\ImportBooks;
+use App\Models\Author;
 use App\Models\Category;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
@@ -22,12 +23,13 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = Book::with(['category', 'image', 'shelf'])
+        $books = Book::with(['author', 'category', 'image', 'shelf'])
             ->orderBy('created_at', 'desc')
             ->paginate(5);
         $shelves = Shelf::all();
         $categories = Category::all();
-        return view('book.index', compact('books', 'categories', 'shelves'));
+        $authors = Author::all();
+        return view('book.index', compact('books', 'authors', 'categories', 'shelves'));
     }
 
     /**
@@ -38,37 +40,11 @@ class BookController extends Controller
      */
     public function store(StoreBookRequest $request)
     {
-        $book = Book::create($request->only(['title', 'author', 'publisher', 'date_published', 'category_id', 'shelf_id']));
+        $book = Book::create($request->only(['title', 'ISBN', 'publisher', 'date_published', 'author_id', 'category_id', 'shelf_id']));
         if ($request->hasFile('image')) {
             $this->storeImage($request, $book->id);
         }
         return back()->with(['success' => "$book->title was stored in library"]);
-    }
-
-    /**
-     * store new book image
-     */
-    public function storeImage($request, $bookId)
-    {
-        $newFileName = uniqid() . "_" . $request->file('image')->getClientOriginalName();
-
-        if (Image::where('imageable_id', $bookId)->exists()) {
-            // delete current file from storage
-            $filename = Image::where('imageable_id', $bookId)->pluck('filename')->first();
-            Storage::delete('public/' . $filename);
-            // update new image
-            $request->file('image')->storeAs('public', $newFileName);
-            Image::where('imageable_id', $bookId)->update([
-                'filename' => $newFileName
-            ]);
-        } else {
-            $request->file('image')->storeAs('public', $newFileName);
-            Image::create([
-                'filename' => $newFileName,
-                'imageable_id' => $bookId,
-                'imageable_type' => Book::class
-            ]);
-        }
     }
 
     /**
@@ -79,10 +55,11 @@ class BookController extends Controller
      */
     public function show($id)
     {
-        $book = Book::with(['category', 'image', 'shelf'])->firstWhere('id', $id);
+        $book = Book::with(['author', 'category', 'image', 'shelf'])->firstWhere('id', $id);
+        $authors = Author::all();
         $categories = Category::all();
         $shelves = Shelf::all();
-        return view('book.show', compact('book', 'shelves', 'categories'));
+        return view('book.show', compact('book', 'authors', 'shelves', 'categories'));
     }
 
     /**
@@ -94,7 +71,7 @@ class BookController extends Controller
      */
     public function update(StoreBookRequest $request, $id)
     {
-        Book::find($id)->update($request->only(['title', 'author', 'publisher', 'date_published', 'category_id', 'shelf_id']));
+        Book::find($id)->update($request->only(['title', 'ISBN', 'publisher', 'date_published', 'author_id', 'category_id', 'shelf_id']));
 
         if ($request->hasFile('image')) {
             $this->storeImage($request, $id);
@@ -130,5 +107,31 @@ class BookController extends Controller
     public function exportBooks()
     {
         return Excel::download(new ExportBooks, 'books.csv', \Maatwebsite\Excel\Excel::CSV);
+    }
+
+    /**
+     * store new book image
+     */
+    private function storeImage($request, $bookId)
+    {
+        $newFileName = uniqid() . "_" . $request->file('image')->getClientOriginalName();
+
+        if (Image::where('imageable_id', $bookId)->exists()) {
+            // delete current file from storage
+            $filename = Image::where('imageable_id', $bookId)->pluck('filename')->first();
+            Storage::delete('public/' . $filename);
+            // update new image
+            $request->file('image')->storeAs('public', $newFileName);
+            Image::where('imageable_id', $bookId)->update([
+                'filename' => $newFileName
+            ]);
+        } else {
+            $request->file('image')->storeAs('public', $newFileName);
+            Image::create([
+                'filename' => $newFileName,
+                'imageable_id' => $bookId,
+                'imageable_type' => Book::class
+            ]);
+        }
     }
 }

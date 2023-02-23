@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\File;
 
@@ -29,12 +27,13 @@ class StoreBookRequest extends FormRequest
     {
         return [
             'title' => ['required', 'max:255', Rule::unique('books', 'title')->ignore($this->book)],
-            'author' => 'required|max:255',
+            'ISBN' => ['required', 'regex:/(ISBN[-]*(1[03])*[ ]*(: ){0,1})*(([0-9Xx][- ]*){13}|([0-9Xx][- ]*){10})/'],
             'publisher' => 'required|max:255',
             'date_published' => 'required|date',
             'category_id' => 'required|integer',
+            'shelf_id' => 'required|integer',
+            'author_id' => 'required|integer',
             'image' => File::image(),
-            'shelf_id' => 'required|integer'
         ];
     }
 

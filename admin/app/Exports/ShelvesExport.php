@@ -31,8 +31,8 @@ class ShelvesExport implements FromCollection, WithMapping, WithHeadings
     public function headings(): array
     {
         return [
-            'shelf_no',
-            'books',
+            'Shelf No.',
+            'Book Count',
         ];
     }
 }

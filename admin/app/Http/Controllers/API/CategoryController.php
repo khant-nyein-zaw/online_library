@@ -16,22 +16,4 @@ class CategoryController extends Controller
             'categories' => $categories
         ]);
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $category = Category::find($id);
-        $books = Book::with(['shelf', 'image'])->whereBelongsTo($category)->get();
-        return response()->json([
-            'category' => [
-                'name' => $category->name,
-                'books' => $books
-            ]
-        ], 200);
-    }
 }

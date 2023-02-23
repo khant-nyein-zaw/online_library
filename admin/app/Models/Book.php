@@ -10,13 +10,30 @@ class Book extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'author', 'publisher', 'date_published', 'ISBN', 'category_id', 'shelf_id'];
+    protected $fillable = ['title', 'ISBN', 'publisher', 'date_published', 'author_id', 'category_id', 'shelf_id'];
 
     public function image()
     {
         return $this->morphOne(Image::class, 'imageable');
     }
 
+    // parent relations
+    public function author()
+    {
+        return $this->belongsTo(Author::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function shelf()
+    {
+        return $this->belongsTo(Shelf::class);
+    }
+
+    // child relations
     public function borrowings()
     {
         return $this->hasMany(Borrowing::class);
@@ -32,19 +49,11 @@ class Book extends Model
         return $this->hasMany(BorrowRequest::class);
     }
 
-    public function category()
-    {
-        return $this->belongsTo(Category::class);
-    }
-
-    public function shelf()
-    {
-        return $this->belongsTo(Shelf::class);
-    }
-
     public function delete()
     {
-        Storage::delete('public/' . $this->image->filename);
+        if ($this->image) {
+            Storage::delete('public/' . $this->image->filename);
+        }
         $this->image()->delete();
         parent::delete();
     }

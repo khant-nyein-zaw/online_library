@@ -12,7 +12,7 @@
                 <div class="card-img-overlay">
                     <h5 class="card-title text-white">{{ $book->title }}</h5>
                     <p class="card-text">
-                        {{ $book->author }}
+                        {{ $book->author->name }}
                     </p>
                     <div class="d-flex justify-content-center align-items-center gap-2">
                         @if ($book->category)
@@ -47,10 +47,10 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Author</label>
-                            <input type="text" class="form-control @error('author') is-invalid @enderror" name="author"
-                                value="{{ old('author', $book->author) }}" placeholder="eg. J. K. Rowling" />
-                            @error('author')
+                            <label class="form-label">ISBN</label>
+                            <input type="text" class="form-control @error('ISBN') is-invalid @enderror" name="ISBN"
+                                value="{{ old('ISBN', $book->ISBN) }}" placeholder="eg. ISBN 978-3-16-148410-0" />
+                            @error('ISBN')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
@@ -72,12 +72,27 @@
                             @enderror
                         </div>
                         <div class="mb-3">
+                            <label class="form-label">Author</label>
+                            <select name="author_id" class="form-select @error('author_id') is-invalid @enderror">
+                                <option>Choose Author</option>
+                                @foreach ($authors as $author)
+                                    <option {{ old('author_id', $author->id) == $author->id ? 'selected' : '' }}
+                                        value="{{ $author->id }}">{{ $author->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('author_id')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label">Shelf Number</label>
                             <select name="shelf_id" class="form-select @error('shelf_id') is-invalid @enderror">
                                 <option>Choose Shelf Number</option>
                                 @foreach ($shelves as $shelf)
                                     <option value="{{ $shelf->id }}"
-                                        {{ $shelf->id === $book->shelf->id ? 'selected' : '' }}>{{ $shelf->shelf_no }}
+                                        {{ old('shelf_id', $shelf->id) == $book->shelf->id ? 'selected' : '' }}>
+                                        {{ $shelf->shelf_no }}
                                     </option>
                                 @endforeach
                             </select>
@@ -91,7 +106,7 @@
                                 <option>Choose Category</option>
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->id }}"
-                                        {{ $category->id === $book->category->id ? 'selected' : '' }}>
+                                        {{ old('category_id', $category->id) == $book->category->id ? 'selected' : '' }}>
                                         {{ $category->name }}
                                     </option>
                                 @endforeach

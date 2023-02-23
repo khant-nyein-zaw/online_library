@@ -108,36 +108,61 @@
                             Dashboard
                         </a>
                     </li>
+
                     <li class="menu-item">
-                        <a class="menu-link" href="{{ route('books.index') }}">
-                            <i class="menu-icon tf-icons bx bx-book-content"></i>
-                            Books
+                        <a class="menu-link menu-toggle" href="#">
+                            <i class="menu-icon tf-icons bx bx-layer"> </i>
+                            Library
                         </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a class="menu-link" href="{{ route('books.index') }}">
+                                    Books
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a class="menu-link" href="{{ route('authors.index') }}">
+                                    Authors
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a class="menu-link" href="{{ route('categories.index') }}">
+                                    Category
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a class="menu-link" href="{{ route('shelves.index') }}">
+                                    Shelves
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="menu-item">
-                        <a class="menu-link" href="{{ route('borrowings.index') }}">
+                        <a class="menu-link menu-toggle" href="#">
                             <i class="menu-icon tf-icons bx bx-rename"></i>
-                            Borrowings
+                            Issue Book
                         </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a class="menu-link" href="{{ route('borrowings.index') }}">
+                                    Borrowings
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a class="menu-link" href="{{ route('returnings.index') }}">
+                                    Returnings
+                                </a>
+                            </li>
+                        </ul>
                     </li>
+
                     <li class="menu-item">
                         <a class="menu-link" href="{{ route('users.index') }}">
                             <i class="menu-icon tf-icons bx bx-user-circle"></i>
                             Members
                         </a>
                     </li>
-                    <li class="menu-item">
-                        <a class="menu-link" href="{{ route('categories.index') }}">
-                            <i class="menu-icon tf-icons bx bx-category"></i>
-                            Category
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a class="menu-link" href="{{ route('shelves.index') }}">
-                            <i class="menu-icon tf-icons bx bx-library"></i>
-                            Shelves
-                        </a>
-                    </li>
+
                     <li class="menu-item">
                         <form action="{{ route('logout') }}" method="POST" class="menu-link d-inline">
                             @csrf
@@ -157,10 +182,7 @@
         </div>
     </div>
     <!-- Core JS -->
-    <!-- build:js assets/vendor/js/core.js -->
     <script src="{{ asset('assets/vendor/libs/jquery/jquery.js') }}"></script>
-    {{-- <script src="{{ asset('assets/vendor/libs/popper/popper.js') }}"></script> --}}
-    {{-- <script src="{{ asset('assets/vendor/js/bootstrap.js') }}"></script> --}}
     <script src="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
 
     <script src="{{ asset('assets/vendor/js/menu.js') }}"></script>

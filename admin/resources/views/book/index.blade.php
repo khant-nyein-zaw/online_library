@@ -1,6 +1,12 @@
 @extends('layouts.master')
 
 @section('content')
+    <!-- Alert -->
+    @if (!count($categories) || !count($authors) || !count($shelves))
+        <div class="alert alert-warning">
+            <small>Please create authors or categories or shelves first to insert books!</small>
+        </div>
+    @endif
     <!-- Book List -->
     @if (count($books))
         <div class="row mb-4">
@@ -39,7 +45,7 @@
                                                 <strong>{{ $book->title }}</strong>
                                             </a>
                                         </td>
-                                        <td>{{ $book->author }}</td>
+                                        <td>{{ $book->author->name }}</td>
                                         <td>
                                             <span class="badge bg-label-primary me-1">{{ $book->publisher }}</span>
                                         </td>
@@ -74,8 +80,9 @@
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="modalCenterTitle">Please include title, author,
-                                            publisher, date_published, category_id and shelf_id headings</h5>
+                                        <h5 class="modal-title">
+                                            Export books data
+                                        </h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
@@ -92,6 +99,11 @@
                                                         <small class="text-danger">{{ $message }}</small>
                                                     @enderror
                                                 </div>
+                                                <small class="text-muted">
+                                                    Please include title, isbn,
+                                                    publisher, date_published, author_id, category_id and shelf_id
+                                                    headings
+                                                </small>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -125,10 +137,10 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Author</label>
-                            <input type="text" class="form-control @error('author') is-invalid @enderror" name="author"
-                                value="{{ old('author') }}" placeholder="eg. J. K. Rowling" />
-                            @error('author')
+                            <label class="form-label">ISBN</label>
+                            <input type="text" class="form-control @error('ISBN') is-invalid @enderror" name="ISBN"
+                                value="{{ old('ISBN') }}" placeholder="eg. ISBN 978-3-16-148410-0" />
+                            @error('ISBN')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
@@ -148,32 +160,58 @@
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Shelf Number</label>
-                            <select name="shelf_id" class="form-select @error('shelf_id') is-invalid @enderror">
-                                <option>Choose Shelf Number</option>
-                                @foreach ($shelves as $shelf)
-                                    <option value="{{ $shelf->id }}">{{ $shelf->shelf_no }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('shelf_id')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Category</label>
-                            <select name="category_id" class="form-select @error('category_id') is-invalid @enderror">
-                                <option>Choose Category</option>
-                                @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('category_id')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
+
+                        @if (count($authors))
+                            <div class="mb-3">
+                                <label class="form-label">Author</label>
+                                <select name="author_id" class="form-select @error('author_id') is-invalid @enderror">
+                                    <option>Choose Author</option>
+                                    @foreach ($authors as $author)
+                                        <option {{ old('author_id') == $author->id ? 'selected' : '' }}
+                                            value="{{ $author->id }}">{{ $author->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('author_id')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        @endif
+
+                        @if (count($categories))
+                            <div class="mb-3">
+                                <label class="form-label">Category</label>
+                                <select name="category_id" class="form-select @error('category_id') is-invalid @enderror">
+                                    <option>Choose Category</option>
+                                    @foreach ($categories as $category)
+                                        <option {{ old('category_id') == $category->id ? 'selected' : '' }}
+                                            value="{{ $category->id }}">{{ $category->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('category_id')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        @endif
+
+                        @if (count($shelves))
+                            <div class="mb-3">
+                                <label class="form-label">Shelf Number</label>
+                                <select name="shelf_id" class="form-select @error('shelf_id') is-invalid @enderror">
+                                    <option>Choose Shelf Number</option>
+                                    @foreach ($shelves as $shelf)
+                                        <option {{ old('shelf_id') == $shelf->id ? 'selected' : '' }}
+                                            value="{{ $shelf->id }}">{{ $shelf->shelf_no }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('shelf_id')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        @endif
+
                         <div class="mb-3">
                             <label class="form-label">Image</label>
                             <input type="file" class="form-control @error('image') is-invalid @enderror"

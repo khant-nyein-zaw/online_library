@@ -13,10 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
-            $table->id();
-            $table->string('name')->unique();
-            $table->timestamps();
+        Schema::table('books', function (Blueprint $table) {
+            $table->foreignId('author_id')->after('date_published')->constrained('authors')->onDelete('cascade');
         });
     }
 
@@ -27,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
+        Schema::table('books', function (Blueprint $table) {
+            $table->dropColumn('author_id');
+        });
     }
 };

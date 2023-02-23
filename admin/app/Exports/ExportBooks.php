@@ -11,7 +11,7 @@ class ExportBooks implements FromCollection, WithMapping, WithHeadings
 {
     public function collection()
     {
-        return Book::with('category', 'image', 'shelf')->get();
+        return Book::with('author', 'category', 'image', 'shelf')->get();
     }
 
     /**
@@ -21,10 +21,11 @@ class ExportBooks implements FromCollection, WithMapping, WithHeadings
     {
         return [
             $book->title,
-            $book->author,
+            $book->ISBN,
             $book->publisher,
             $book->date_published,
-            $book->category ? $book->category->name : "No Category Added",
+            $book->author->name,
+            $book->category->name,
             $book->image ? $book->image->filename : "No Image Added",
             $book->shelf->shelf_no
         ];
@@ -33,13 +34,14 @@ class ExportBooks implements FromCollection, WithMapping, WithHeadings
     public function headings(): array
     {
         return [
-            'title',
-            'author',
-            'publisher',
-            'date of publication',
-            'category',
-            'image',
-            'shelf_no'
+            'Iitle',
+            'ISBN',
+            'Publisher',
+            'Date of publication',
+            'Author',
+            'Category',
+            'Image',
+            'Shelf No'
         ];
     }
 }
