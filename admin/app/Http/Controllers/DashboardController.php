@@ -18,15 +18,7 @@ class DashboardController extends Controller
         $booksAvailable = Book::whereDoesntHave('borrowings')->paginate(3);
         $borrowings = Borrowing::all()->count();
         $users = User::withWhereHas("borrowings")->count();
-        $returnings = Returning::with(['borrowing', 'user', 'book'])->paginate(5);
-
-        foreach ($returnings as $index) {
-            $returnedDate = Carbon::parse($index->date_returned);
-            $dueDate = Carbon::parse($index->due_date);
-            $index->overdue = $returnedDate->diffForHumans($dueDate);
-        }
-
-        return view("dashboard", compact("toBorrows", "users", "borrowings", "returnings", "booksAvailable"));
+        return view("admin.dashboard", compact("toBorrows", "users", "borrowings", "booksAvailable"));
     }
 
     /**

@@ -17,7 +17,7 @@ class CategoryController extends Controller
     {
         $categories = Category::withCount('books')->get();
         // dd($categories->toArray());
-        return view('category.index', compact('categories'));
+        return view('admin.category.index', compact('categories'));
     }
 
     /**
@@ -43,7 +43,7 @@ class CategoryController extends Controller
         $category = Category::find($id);
         $books = Book::whereBelongsTo($category)->get();
         $category = $category->name;
-        return view('category.show', compact('category', 'books'));
+        return view('admin.category.show', compact('category', 'books'));
     }
 
     /**

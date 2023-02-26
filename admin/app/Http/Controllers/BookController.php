@@ -23,13 +23,20 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = Book::with(['author', 'category', 'image', 'shelf'])
+        $books = Book::when(request('search_query'), function ($query) {
+            $query->where('title', 'LIKE', '%' . request('search_query') .  '%');
+            $query->orWhere('ISBN', 'LIKE', '%' . request('search_query') .  '%');
+        })
+            ->with(['author', 'category', 'image', 'shelf'])
             ->orderBy('created_at', 'desc')
             ->paginate(5);
         $shelves = Shelf::all();
         $categories = Category::all();
         $authors = Author::all();
-        return view('book.index', compact('books', 'authors', 'categories', 'shelves'));
+
+        $books->appends(request()->all());
+
+        return view('admin.book.index', compact('books', 'authors', 'categories', 'shelves'));
     }
 
     /**
@@ -59,7 +66,7 @@ class BookController extends Controller
         $authors = Author::all();
         $categories = Category::all();
         $shelves = Shelf::all();
-        return view('book.show', compact('book', 'authors', 'shelves', 'categories'));
+        return view('admin.book.show', compact('book', 'authors', 'shelves', 'categories'));
     }
 
     /**
@@ -111,12 +118,16 @@ class BookController extends Controller
 
     /**
      * store new book image
+     * @param  \Illuminate\Http\Request  $request
+     * @param int $id
      */
     private function storeImage($request, $bookId)
     {
         $newFileName = uniqid() . "_" . $request->file('image')->getClientOriginalName();
 
-        if (Image::where('imageable_id', $bookId)->exists()) {
+        $imageExists = Image::where('imageable_id', $bookId)->exists() ? (Image::firstWhere('id', $bookId)->imageable_type === Book::class ? true : false) : false;
+
+        if ($imageExists) {
             // delete current file from storage
             $filename = Image::where('imageable_id', $bookId)->pluck('filename')->first();
             Storage::delete('public/' . $filename);

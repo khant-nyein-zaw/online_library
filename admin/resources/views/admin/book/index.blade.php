@@ -10,10 +10,21 @@
     <!-- Book List -->
     @if (count($books))
         <div class="row mb-4">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="col-sm-6">
+                        <form action="{{ route('books.index') }}" method="get">
+                            <label class="form-label">Search Books</label>
+                            <input type="search" name="search_query" class="form-control"
+                                placeholder="Search Books by Title or ISBN">
+                        </form>
+                    </div>
+                </div>
+            </div>
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5>Recently added books</h5>
+                        <h5>{{ request('search_query') ? 'Search Results' : 'Recently added books' }}</h5>
                         <a href="{{ route('books.export') }}" class="btn btn-info">Download Book List</a>
                     </div>
                     <div class="table-responsive text-nowrap">
@@ -62,6 +73,25 @@
                     </div>
                 </div>
             </div>
+        </div>
+    @elseif (!count($books) && request('search_query'))
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="col-sm-6">
+                    <form action="{{ route('books.index') }}" method="get">
+                        <label class="form-label">Search Books</label>
+                        <input type="search" name="search_query" class="form-control"
+                            placeholder="Search Books by Title or ISBN">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="alert alert-warning">
+            <small>No matching results!</small>
+        </div>
+    @else
+        <div class="alert alert-warning">
+            <small>No book has been created!</small>
         </div>
     @endif
     <!-- create new book form -->

@@ -15,8 +15,8 @@ class AuthorController extends Controller
      */
     public function index()
     {
-        $authors = Author::with(['books', 'image'])->get();
-        return view('author.index', compact('authors'));
+        $authors = Author::withCount('books')->get();
+        return view('admin.author.index', compact('authors'));
     }
 
     /**
@@ -45,7 +45,7 @@ class AuthorController extends Controller
     public function show($id)
     {
         $author = Author::with(['books.image', 'image'])->withCount('books')->firstWhere('id', $id);
-        return view('author.show', compact('author'));
+        return view('admin.author.show', compact('author'));
     }
 
     /**
@@ -85,7 +85,9 @@ class AuthorController extends Controller
     {
         $newFileName = uniqid() . "_" . $request->file('image')->getClientOriginalName();
 
-        if (Image::where('imageable_id', $authorId)->exists()) {
+        $imageExists = Image::where('imageable_id', $authorId)->exists() ? (Image::firstWhere('id', $authorId)->imageable_type === Author::class ? true : false) : false;
+
+        if ($imageExists) {
             // delete current file from storage
             $filename = Image::where('imageable_id', $authorId)->pluck('filename')->first();
             Storage::delete('public/' . $filename);
@@ -94,7 +96,6 @@ class AuthorController extends Controller
             Image::where('imageable_id', $authorId)->update([
                 'filename' => $newFileName
             ]);
-            dd('yes');
         } else {
             $request->file('image')->storeAs('public', $newFileName);
             Image::create([

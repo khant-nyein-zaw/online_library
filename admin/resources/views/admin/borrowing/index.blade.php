@@ -53,41 +53,49 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-7">
-            <div class="card">
-                <h5 class="card-header">Issued Book List</h5>
-                <div class="table-responsive text-nowrap">
-                    <table class="table table-borderless">
-                        <thead>
-                            <tr>
-                                <th>Issued Book</th>
-                                <th>To</th>
-                                <th>Issued Date</th>
-                                <th>Due Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($borrowings as $borrowing)
+        @if (count($borrowings))
+            <div class="col-xl-7">
+                <div class="card">
+                    <h5 class="card-header">Issued Book List</h5>
+                    <div class="table-responsive text-nowrap">
+                        <table class="table table-borderless">
+                            <thead>
                                 <tr>
-                                    <td><a href="{{ route('books.show', $borrowing->book_id) }}"
-                                            class="d-flex align-items-center gap-2">
-                                            @if ($borrowing->book->image)
-                                                <div class="avatar avatar-l pull-up">
-                                                    <img src="{{ asset('storage/' . $borrowing->book->image->filename) }}"
-                                                        alt="Avatar" class="rounded-circle" />
-                                                </div>
-                                            @endif
-                                            <strong>{{ $borrowing->book->title }}</strong>
-                                        </a></td>
-                                    <td class="text-primary fw-bold">{{ $borrowing->user->name }}</td>
-                                    <td>{{ date('M d Y', strtotime($borrowing->date_borrowed)) }}</td>
-                                    <td>{{ date('M d Y', strtotime($borrowing->due_date)) }}</td>
+                                    <th>Issued Book</th>
+                                    <th>To</th>
+                                    <th>Issued Date</th>
+                                    <th>Due Date</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($borrowings as $borrowing)
+                                    <tr>
+                                        <td><a href="{{ route('books.show', $borrowing->book_id) }}"
+                                                class="d-flex align-items-center gap-2">
+                                                @if ($borrowing->book->image)
+                                                    <div class="avatar avatar-l pull-up">
+                                                        <img src="{{ asset('storage/' . $borrowing->book->image->filename) }}"
+                                                            alt="Avatar" class="rounded-circle" />
+                                                    </div>
+                                                @endif
+                                                <strong>{{ $borrowing->book->title }}</strong>
+                                            </a></td>
+                                        <td class="text-primary fw-bold">{{ $borrowing->user->name }}</td>
+                                        <td>{{ date('M d Y', strtotime($borrowing->date_borrowed)) }}</td>
+                                        <td>{{ date('M d Y', strtotime($borrowing->due_date)) }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
+        @else
+            <div class="col-xl-7">
+                <div class="alert alert-info">
+                    All books are available to issue.
+                </div>
+            </div>
+        @endif
     </div>
 @endsection

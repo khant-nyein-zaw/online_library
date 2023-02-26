@@ -10,6 +10,6 @@ class ReturningController extends Controller
     public function index()
     {
         $returnings = Returning::with(['book', 'user'])->get();
-        return view('returning.index', compact('returnings'));
+        return view('admin.returning.index', compact('returnings'));
     }
 }

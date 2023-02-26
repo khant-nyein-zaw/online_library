@@ -18,7 +18,7 @@ class BorrowingController extends Controller
     public function index($userId = null, $bookId = null)
     {
         $borrowings = Borrowing::with(['book', 'user'])->get();
-        return view('borrowing.index', compact('borrowings', 'userId', 'bookId'));
+        return view('admin.borrowing.index', compact('borrowings', 'userId', 'bookId'));
     }
 
     /**

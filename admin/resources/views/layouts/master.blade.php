@@ -145,12 +145,12 @@
                         <ul class="menu-sub">
                             <li class="menu-item">
                                 <a class="menu-link" href="{{ route('borrowings.index') }}">
-                                    Borrowings
+                                    Not Available in Stocks
                                 </a>
                             </li>
                             <li class="menu-item">
                                 <a class="menu-link" href="{{ route('returnings.index') }}">
-                                    Returnings
+                                    Returns
                                 </a>
                             </li>
                         </ul>

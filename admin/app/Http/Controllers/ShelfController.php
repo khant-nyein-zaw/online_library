@@ -18,7 +18,7 @@ class ShelfController extends Controller
     public function index()
     {
         $shelves = Shelf::withCount('books')->get();
-        return view('shelf.index', compact('shelves'));
+        return view('admin.shelf.index', compact('shelves'));
     }
 
     /**
@@ -44,7 +44,7 @@ class ShelfController extends Controller
         $shelf = Shelf::find($id);
         $books = Book::whereBelongsTo($shelf)->get();
         $shelf_no = $shelf->shelf_no;
-        return view('shelf.show', compact('books', 'shelf_no'));
+        return view('admin.shelf.show', compact('books', 'shelf_no'));
     }
 
     /**

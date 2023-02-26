@@ -115,7 +115,7 @@
                                                 <strong>{{ $book->title }}</strong>
                                             </a>
                                         </td>
-                                        <td>{{ $book->author }}</td>
+                                        <td>{{ $book->author->name }}</td>
                                         <td>
                                             <span class="badge bg-label-primary me-1">{{ $book->publisher }}</span>
                                         </td>

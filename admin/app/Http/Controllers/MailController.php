@@ -9,6 +9,6 @@ class MailController extends Controller
 {
     public function sendMail()
     {
-        Mail::to('khantnyeinzaw6@gmail.com')->send(new ReturnBooks());
+        Mail::to('khantnyeinzaw6@gmail.com')->send(new ReturnBooks);
     }
 }

@@ -51,8 +51,8 @@
             </div>
         </div>
     @else
-        <div class="">
-            There are no returning data right now.
+        <div class="alert alert-info">
+            There are no returns right now.
         </div>
     @endif
 @endsection
