@@ -34,19 +34,9 @@ class Book extends Model
     }
 
     // child relations
-    public function borrowings()
+    public function issuedBook()
     {
-        return $this->hasMany(Borrowing::class);
-    }
-
-    public function returnings()
-    {
-        return $this->hasMany(Returning::class);
-    }
-
-    public function borrowRequests()
-    {
-        return $this->hasMany(BorrowRequest::class);
+        return $this->hasOne(IssuedBook::class);
     }
 
     public function delete()

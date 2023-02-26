@@ -20,20 +20,28 @@
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     @endif
-                    <form action="{{ route('borrowings.store') }}" method="POST">
+                    <form action="#" method="POST">
                         @csrf
                         <div class="mb-3">
                             <label class="form-label">User ID</label>
-                            <input type="number" class="form-control @error('user_id') is-invalid @enderror" name="user_id"
-                                value="{{ old('user_id', $userId) }}" placeholder="Enter User ID" />
+                            <select name="user_id" class="form-select">
+                                <option value="">Choose User</option>
+                                @foreach ($users as $user)
+                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                @endforeach
+                            </select>
                             @error('user_id')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Book ID</label>
-                            <input type="number" class="form-control @error('book_id') is-invalid @enderror" name="book_id"
-                                value="{{ old('book_id', $bookId) }}" placeholder="Enter Book ID" />
+                            <select name="book_id" class="form-select">
+                                <option value="">Choose Book</option>
+                                @foreach ($books as $book)
+                                    <option value="{{ $book->id }}">{{ $book->name }}</option>
+                                @endforeach
+                            </select>
                             @error('book_id')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
@@ -53,7 +61,7 @@
                 </div>
             </div>
         </div>
-        @if (count($borrowings))
+        @if (count($issuedBooks))
             <div class="col-xl-7">
                 <div class="card">
                     <h5 class="card-header">Issued Book List</h5>
@@ -68,7 +76,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($borrowings as $borrowing)
+                                {{-- @foreach ($borrowings as $borrowing)
                                     <tr>
                                         <td><a href="{{ route('books.show', $borrowing->book_id) }}"
                                                 class="d-flex align-items-center gap-2">
@@ -84,7 +92,7 @@
                                         <td>{{ date('M d Y', strtotime($borrowing->date_borrowed)) }}</td>
                                         <td>{{ date('M d Y', strtotime($borrowing->due_date)) }}</td>
                                     </tr>
-                                @endforeach
+                                @endforeach --}}
                             </tbody>
                         </table>
                     </div>

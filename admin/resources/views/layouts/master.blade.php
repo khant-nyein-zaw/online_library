@@ -138,22 +138,10 @@
                         </ul>
                     </li>
                     <li class="menu-item">
-                        <a class="menu-link menu-toggle" href="#">
+                        <a class="menu-link" href="{{ route('issuedBooks.index') }}">
                             <i class="menu-icon tf-icons bx bx-rename"></i>
                             Issue Book
                         </a>
-                        <ul class="menu-sub">
-                            <li class="menu-item">
-                                <a class="menu-link" href="{{ route('borrowings.index') }}">
-                                    Not Available in Stocks
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a class="menu-link" href="{{ route('returnings.index') }}">
-                                    Returns
-                                </a>
-                            </li>
-                        </ul>
                     </li>
 
                     <li class="menu-item">

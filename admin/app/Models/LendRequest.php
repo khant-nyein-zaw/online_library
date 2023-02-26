@@ -5,16 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Borrowing extends Model
+class LendRequest extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['book_id', 'user_id', 'date_borrowed', 'due_date'];
-
-    public function returning()
-    {
-        return $this->hasOne(Returning::class);
-    }
+    protected $fillable = ['user_id', 'book_id', 'duration'];
 
     public function user()
     {

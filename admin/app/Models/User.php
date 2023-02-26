@@ -69,18 +69,8 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
-    public function borrowings()
+    public function issuedBooks()
     {
-        return $this->hasMany(Borrowing::class);
-    }
-
-    public function returnings()
-    {
-        return $this->hasMany(Returning::class);
-    }
-
-    public function borrowRequests()
-    {
-        return $this->hasMany(BorrowRequest::class);
+        return $this->hasMany(IssuedBook::class);
     }
 }
