@@ -1,5 +1,6 @@
 import { createStore } from "vuex";
 import router from "@/router";
+import axios from "axios";
 
 const user = JSON.parse(localStorage.getItem("user"));
 const headers = user
@@ -14,10 +15,12 @@ export default createStore({
     authenticated,
     user,
     headers,
+    notifications: [],
   },
   getters: {
     getUser: (state) => state.user,
     getHeaders: (state) => state.headers,
+    getNotifications: (state) => (state = state.notifications),
   },
   mutations: {
     set_authenticated: (state, value) => {
@@ -34,6 +37,9 @@ export default createStore({
     remove_headers: (state, value) => {
       state.headers = value;
     },
+    set_notifications: (state, value) => {
+      state.notifications = value;
+    },
   },
   actions: {
     login: ({ commit }, data) => {
@@ -48,6 +54,16 @@ export default createStore({
       commit("set_authenticated", false);
       commit("remove_headers", {});
       localStorage.removeItem("user");
+    },
+    getUserNotifications: ({ getters, commit }) => {
+      axios
+        .get("/api/notifications", {
+          headers: getters.getHeaders,
+        })
+        .then((response) =>
+          commit("set_notifications", response.data.notifications)
+        )
+        .catch((err) => console.log(err));
     },
   },
   modules: {},

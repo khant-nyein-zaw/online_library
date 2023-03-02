@@ -10,7 +10,9 @@ class IssuedBook extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'book_id', 'issued_date', 'due_date', 'returned_date', 'status'];
+    protected $fillable = ['user_id', 'book_id', 'issued_date', 'due_date', 'returned_date', 'fine', 'status'];
+
+    public $timestamps = false;
 
     protected $casts = [
         'status' => IssuedBookStatus::class

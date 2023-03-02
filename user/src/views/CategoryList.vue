@@ -30,9 +30,13 @@
                   })
                 "
               >
-                <img :src="book.image.filename" class="card-img-top" />
+                <img
+                  v-if="book.image"
+                  :src="book.image.filename"
+                  class="card-img-top"
+                />
                 <div class="card-body">
-                  <h6 class="card-text text-muted">{{ book.author }}</h6>
+                  <h6 class="card-text text-muted">{{ book.author.name }}</h6>
                 </div>
               </div>
             </div>
@@ -71,8 +75,10 @@ export default {
     },
     getImageUrl(books) {
       books.forEach((book) => {
-        book.image.filename =
-          "http://localhost:8000/storage/" + book.image.filename;
+        if (book.image) {
+          book.image.filename =
+            "http://localhost:8000/storage/" + book.image.filename;
+        }
       });
     },
   },

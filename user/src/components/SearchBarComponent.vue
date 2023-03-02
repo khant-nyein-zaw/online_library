@@ -1,15 +1,17 @@
 <template>
-  <div class="d-flex justify-content-center">
-    <!-- Form -->
-    <form @submit.prevent="search" class="w-50 my-2">
-      <input
-        type="search"
-        class="form-control form-control-sm"
-        :class="{ 'is-invalid': isInputEmpty }"
-        placeholder="Search your favorite books by author name or title"
-        v-model="searchKey"
-      />
-    </form>
+  <!-- Form -->
+  <div class="card my-2">
+    <div class="card-body py-1">
+      <form @submit.prevent="search" class="w-50 mx-auto">
+        <input
+          type="search"
+          class="form-control border border-0"
+          :class="{ 'is-invalid': isInputEmpty }"
+          placeholder="Search your favorite books by author name, title, ISBN or category"
+          v-model="searchKey"
+        />
+      </form>
+    </div>
   </div>
 </template>
 

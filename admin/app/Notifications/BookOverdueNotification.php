@@ -58,7 +58,7 @@ class BookOverdueNotification extends Notification
     {
         return [
             'fine' => $this->issuedBook->fine,
-            'bookTitle' => $this->issuedBook->book->title
+            'bookTitle' => $this->issuedBook->book->title,
         ];
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreBooksAsCsvRequest extends FormRequest
+class StoreIssuedBookRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,9 @@ class StoreBooksAsCsvRequest extends FormRequest
     public function rules()
     {
         return [
-            'file' => 'required|file|mimes:xls,xlsx,csv'
+            'user_id' => 'required|integer',
+            'book_id' => 'required|integer',
+            'duration' => 'required|integer|min:1|max:10'
         ];
     }
 }

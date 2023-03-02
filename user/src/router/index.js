@@ -4,6 +4,7 @@ import BookList from "@/views/BookList.vue";
 import BookDetails from "@/views/BookDetails.vue";
 import CategoryList from "@/views/CategoryList.vue";
 import UserBookList from "@/views/UserBookList.vue";
+import LendRequest from "@/views/LendRequestPage.vue";
 import Login from "@/views/auth/LoginPage.vue";
 import Register from "@/views/auth/RegisterPage.vue";
 import store from "@/store";
@@ -35,6 +36,12 @@ const routes = [
     path: "/user-books",
     name: "UserBookList",
     component: UserBookList,
+  },
+  {
+    path: "/lend-request/:bookId",
+    name: "LendRequest",
+    component: LendRequest,
+    props: true,
   },
   {
     path: "/login",

@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\ExportBooks;
 use App\Models\Book;
 use App\Models\Image;
 use App\Models\Shelf;
-use App\Http\Requests\StoreBookRequest;
-use App\Http\Requests\StoreBooksAsCsvRequest;
-use App\Imports\ImportBooks;
 use App\Models\Author;
 use App\Models\Category;
-use Illuminate\Support\Facades\Storage;
+use App\Exports\ExportBooks;
+use App\Imports\ImportBooks;
+use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Requests\StoreBookRequest;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class BookController extends Controller
 {
@@ -23,9 +25,19 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = Book::when(request('search_query'), function ($query) {
-            $query->where('title', 'LIKE', '%' . request('search_query') .  '%');
-            $query->orWhere('ISBN', 'LIKE', '%' . request('search_query') .  '%');
+        $books = Book::when(request('search_query'), function (Builder $query) {
+            $key = request('search_query');
+
+            $query->where('title', 'LIKE', '%' . $key .  '%');
+            $query->orWhere('ISBN', 'LIKE', '%' . $key .  '%');
+
+            $query->orWhereHas('author', function (Builder $query) use ($key) {
+                $query->where('name', 'LIKE', '%' . $key . '%');
+            });
+
+            $query->orWhereHas('category', function (Builder $query) use ($key) {
+                $query->where('name', 'LIKE', '%' . $key . '%');
+            });
         })
             ->with(['author', 'category', 'image', 'shelf'])
             ->orderBy('created_at', 'desc')
@@ -102,8 +114,12 @@ class BookController extends Controller
     /**
      * Store books' data with importing from excel
      */
-    public function import(StoreBooksAsCsvRequest $request)
+    public function import(Request $request)
     {
+        Validator::make($request->all(), [
+            'file' => 'required|file|mimes:xls,xlsx,csv'
+        ])->validate();
+
         Excel::import(new ImportBooks, $request->file('file'));
         return back()->with(['success' => 'Stored books successfully']);
     }

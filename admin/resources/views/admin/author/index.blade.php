@@ -81,15 +81,22 @@
                             <tbody>
                                 @foreach ($authors as $author)
                                     <tr>
-                                        <td>{{ $author->name }}</td>
+                                        <td>
+                                            <a href="{{ route('authors.show', $author->id) }}"
+                                                class="d-flex align-items-center gap-2">
+                                                @if ($author->image)
+                                                    <div class="avatar avatar-l pull-up">
+                                                        <img src="{{ asset('storage/' . $author->image->filename) }}"
+                                                            alt="Avatar" class="rounded-circle" />
+                                                    </div>
+                                                @endif
+                                                <strong>{{ $author->name }}</strong>
+                                            </a>
+                                        </td>
                                         <td>{{ Str::words($author->bio, 4, '...') }}</td>
                                         <td>{{ $author->books_count }}</td>
                                         <td>
                                             <div class="d-flex align-items-center gap-2">
-                                                <a href="{{ route('authors.show', $author->id) }}"
-                                                    class="btn btn-sm btn-info rounded">
-                                                    <i class='bx bx-detail'></i>
-                                                </a>
                                                 <form action="{{ route('authors.destroy', $author->id) }}" method="post"
                                                     class="d-inline">
                                                     @method('DELETE')

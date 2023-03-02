@@ -76,7 +76,7 @@
                             <select name="author_id" class="form-select @error('author_id') is-invalid @enderror">
                                 <option>Choose Author</option>
                                 @foreach ($authors as $author)
-                                    <option {{ old('author_id', $author->id) == $author->id ? 'selected' : '' }}
+                                    <option {{ old('author_id', $author->id) == $book->author_id ? 'selected' : '' }}
                                         value="{{ $author->id }}">{{ $author->name }}
                                     </option>
                                 @endforeach
@@ -91,7 +91,7 @@
                                 <option>Choose Shelf Number</option>
                                 @foreach ($shelves as $shelf)
                                     <option value="{{ $shelf->id }}"
-                                        {{ old('shelf_id', $shelf->id) == $book->shelf->id ? 'selected' : '' }}>
+                                        {{ old('shelf_id', $shelf->id) == $book->shelf_id ? 'selected' : '' }}>
                                         {{ $shelf->shelf_no }}
                                     </option>
                                 @endforeach
@@ -106,7 +106,7 @@
                                 <option>Choose Category</option>
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->id }}"
-                                        {{ old('category_id', $category->id) == $book->category->id ? 'selected' : '' }}>
+                                        {{ old('category_id', $category->id) == $book->category_id ? 'selected' : '' }}>
                                         {{ $category->name }}
                                     </option>
                                 @endforeach

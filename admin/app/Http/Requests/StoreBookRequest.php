@@ -26,8 +26,8 @@ class StoreBookRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => ['required', 'max:255', Rule::unique('books', 'title')->ignore($this->book)],
-            'ISBN' => ['required', 'regex:/(ISBN[-]*(1[03])*[ ]*(: ){0,1})*(([0-9Xx][- ]*){13}|([0-9Xx][- ]*){10})/'],
+            'title' => ['required', 'max:255', Rule::unique('books', 'title')->ignore($this->route('book'))],
+            'ISBN' => ['required', 'regex:/(ISBN[-]*(1[03])*[ ]*(: ){0,1})*(([0-9Xx][- ]*){13}|([0-9Xx][- ]*){10})/', Rule::unique('books', 'ISBN')->ignore($this->route('book'))],
             'publisher' => 'required|max:255',
             'date_published' => 'required|date',
             'category_id' => 'required|integer',

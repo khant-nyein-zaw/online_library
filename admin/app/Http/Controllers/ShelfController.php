@@ -43,8 +43,8 @@ class ShelfController extends Controller
     {
         $shelf = Shelf::find($id);
         $books = Book::whereBelongsTo($shelf)->get();
-        $shelf_no = $shelf->shelf_no;
-        return view('admin.shelf.show', compact('books', 'shelf_no'));
+        $shelf = Shelf::firstWhere("id", $id);
+        return view('admin.shelf.show', compact('books', 'shelf'));
     }
 
     /**

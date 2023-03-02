@@ -42,7 +42,7 @@ class CategoryController extends Controller
     {
         $category = Category::find($id);
         $books = Book::whereBelongsTo($category)->get();
-        $category = $category->name;
+        $category = $category->firstWhere('id', $id);
         return view('admin.category.show', compact('category', 'books'));
     }
 

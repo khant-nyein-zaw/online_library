@@ -5,9 +5,9 @@
       <h2
         v-if="!isEditing"
         @dblclick="isEditing = !isEditing"
-        class="cursor-pointer"
+        class="searchTitle"
       >
-        {{ searchKey }}
+        <span>{{ searchKey }}</span>
       </h2>
       <SearchBar
         v-if="isEditing"
@@ -19,11 +19,7 @@
       <div class="row">
         <div class="col-12 mb-3">
           <div class="float-end">
-            <select
-              v-model="sortBy"
-              class="form-select form-select-sm"
-              @change="sort"
-            >
+            <select v-model="sortBy" class="form-select" @change="sort">
               <option value="">Sorting</option>
               <option value="asc">Oldest</option>
               <option value="desc">Latest</option>
@@ -35,25 +31,43 @@
           v-for="book in bookList"
           :key="book.id"
         >
-          <div class="card mb-3 bg-dark text-center">
+          <div
+            class="card mb-3 bg-dark text-center"
+            @click="
+              $router.push({ name: 'BookDetails', params: { bookId: book.id } })
+            "
+            style="cursor: pointer"
+          >
             <div class="card-body">
               <h2 class="card-title mb-3 text-white">
                 {{ book.title }}
               </h2>
               <h5 class="card-title text-white">
-                {{ book.author }}
+                {{ book.author.name }}
               </h5>
               <h6 class="card-subtitle text-white mb-3">
                 {{ book.category.name }}
               </h6>
               <button
                 class="btn btn-outline-info btn-sm"
-                @click="sendRequest(book.id)"
+                @click="
+                  $router.push({
+                    name: 'LendRequest',
+                    params: {
+                      bookId: book.id,
+                    },
+                  })
+                "
               >
                 Borrow
               </button>
             </div>
-            <img :src="book.image.filename" class="card-img-bottom" alt="..." />
+            <img
+              v-if="book.image"
+              :src="book.image.filename"
+              class="card-img-bottom"
+              alt="..."
+            />
           </div>
         </div>
       </div>
@@ -72,16 +86,14 @@
     </div>
   </div>
   <!-- Toast Noti -->
-  <Toast v-if="message" :message="message" />
 </template>
 
 <script>
-import Toast from "@/components/ToastComponent.vue";
 import SearchBar from "@/components/SearchBarComponent.vue";
 import { mapGetters } from "vuex";
 export default {
   name: "BookList",
-  components: { Toast, SearchBar },
+  components: { SearchBar },
   data() {
     return {
       searchKey: "",
@@ -149,22 +161,12 @@ export default {
         .catch((err) => console.log(err))
         .finally(() => (this.processing = false));
     },
-    sendRequest(book_id) {
-      this.axios
-        .post(
-          "/api/borrow-requests",
-          { user_id: this.user.user.id, book_id },
-          { headers: this.headers }
-        )
-        .then((response) => {
-          this.message = response.data.message;
-        })
-        .catch((err) => console.log(err));
-    },
     getImageUrl(books) {
       books.forEach((book) => {
-        book.image.filename =
-          "http://localhost:8000/storage/" + book.image.filename;
+        if (book.image) {
+          book.image.filename =
+            "http://localhost:8000/storage/" + book.image.filename;
+        }
       });
     },
     showDetails(bookId) {
@@ -183,3 +185,9 @@ export default {
   },
 };
 </script>
+
+<style>
+.searchTitle span {
+  cursor: pointer;
+}
+</style>

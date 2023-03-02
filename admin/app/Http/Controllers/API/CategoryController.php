@@ -11,7 +11,9 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::with('books.image')->get();
+        $categories = Category::with(['books' => [
+            'author', 'image'
+        ]])->get();
         return response()->json([
             'categories' => $categories
         ]);

@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-12 col-12">
       <!-- card  -->
-      <div class="card" v-if="borrowings.length">
+      <div class="card" v-if="issuedBooks.length">
         <!-- card header  -->
         <div class="card-header bg-white py-4">
           <h4 class="mb-0">Your Books</h4>
@@ -15,21 +15,22 @@
                 <th>Issue ID</th>
                 <th>Book Title</th>
                 <th>Category</th>
-                <th>Period</th>
-                <th>Issued Date</th>
+                <th>Remaining Period</th>
+                <th>Status</th>
                 <th>Due Date</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="borrowing in borrowings" :key="borrowing.id">
-                <td class="align-middle text-primary">{{ borrowing.id }}</td>
+              <tr v-for="issue in issuedBooks" :key="issue.id">
+                <td class="align-middle text-primary">{{ issue.id }}</td>
                 <td class="align-middle">
                   <div class="d-flex align-items-center">
-                    <span class="avatar avatar-sm" v-if="borrowing.book.image">
+                    <span class="avatar avatar-sm" v-if="issue.book.image">
                       <img
                         alt="avatar"
-                        :src="borrowing.book.image.filename"
+                        v-if="issue.book.image"
+                        :src="issue.book.image.filename"
                         class="rounded-circle"
                       />
                     </span>
@@ -38,11 +39,11 @@
                         <router-link
                           :to="{
                             name: 'BookDetails',
-                            params: { bookId: borrowing.book_id },
+                            params: { bookId: issue.book_id },
                           }"
                           class="text-inherit"
                         >
-                          {{ borrowing.book.title }}
+                          {{ issue.book.title }}
                         </router-link>
                       </h5>
                     </div>
@@ -50,21 +51,29 @@
                 </td>
                 <td class="align-middle">
                   <span class="badge bg-primary">{{
-                    borrowing.book.category.name
+                    issue.book.category.name
                   }}</span>
                 </td>
                 <td class="align-middle">
-                  <small class="text-primary">{{ borrowing.period }}</small>
+                  <small class="text-primary">{{ issue.period }}</small>
                 </td>
                 <td class="align-middle">
-                  <small>{{ borrowing.date_borrowed }}</small>
+                  <span
+                    class="badge"
+                    :class="{
+                      'bg-danger': issue.status === 'overdue',
+                      'bg-primary': issue.status === 'issued',
+                      'bg-success': issue.status === 'returned',
+                    }"
+                    >{{ issue.status }}</span
+                  >
                 </td>
                 <td class="align-middle">
-                  <small>{{ borrowing.due_date }}</small>
+                  <small>{{ issue.due_date }}</small>
                 </td>
-                <td>
+                <td v-if="issue.status === 'issued'">
                   <button
-                    @click="returnBook(borrowing.id)"
+                    @click="changeStatus(issue.id)"
                     class="btn btn-sm btn-success"
                   >
                     Return
@@ -82,7 +91,7 @@
         </div>
       </div>
       <!-- alert msg -->
-      <div class="alert alert-secondary" v-else-if="!borrowings.length">
+      <div class="alert alert-secondary" v-else-if="!issuedBooks.length">
         <strong>There's no borrowed books for you now!</strong>
         <router-link to="/" class="ms-1"
           >Check out some of latest books.</router-link
@@ -101,7 +110,7 @@ export default {
   components: { Toast },
   data() {
     return {
-      borrowings: [],
+      issuedBooks: [],
       message: "",
       processing: false,
     };
@@ -116,37 +125,37 @@ export default {
     getBorrowedBooks() {
       this.processing = true;
       this.axios
-        .get("/api/borrowings", {
+        .get("/api/user-issued-books", {
           headers: this.headers,
         })
         .then((response) => {
-          this.getImageUrl(response.data.borrowings);
-          this.borrowings = response.data.borrowings;
+          this.getImageUrl(response.data.issuedBooks);
+          this.issuedBooks = response.data.issuedBooks;
         })
         .catch((err) => console.log(err))
         .finally(() => (this.processing = false));
     },
-    returnBook(borrowing_id) {
+    changeStatus(issueId) {
       this.axios
-        .post(
-          "/api/returnings",
+        .patch(
+          `/api/user-issued-books/${issueId}`,
           {
-            borrowing_id,
+            issueId,
           },
           {
             headers: this.headers,
           }
         )
         .then((response) => {
-          this.message = response.data.message;
+          if (response.data.message) {
+            this.message = response.data.message;
+            setTimeout(() => location.reload(), 5000);
+          }
         })
-        .catch((err) => console.log(err))
-        .finally(() => {
-          setTimeout(() => location.reload(), 5000);
-        });
+        .catch((err) => console.log(err));
     },
-    getImageUrl(borrowings) {
-      borrowings.forEach((element) => {
+    getImageUrl(issuedBooks) {
+      issuedBooks.forEach((element) => {
         if (element.book.image) {
           element.book.image.filename =
             "http://localhost:8000/storage/" + element.book.image.filename;

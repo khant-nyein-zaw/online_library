@@ -3,8 +3,37 @@
 @section('content')
     <div class="row">
         <h3 class="text-center py-3 border-bottom border-primary border-3">
-            <span class="badge bg-label-primary">Shelf {{ $shelf_no }}</span>
+            <span class="badge bg-label-primary">Shelf {{ $shelf->shelf_no }}</span>
         </h3>
+        <div class="col-md-12">
+            <div class="card mb-4">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0">Update shelf number</h5>
+                </div>
+                <div class="card-body">
+                    <form action="{{ route('shelves.update', $shelf->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label">Shelf No</label>
+                            <div class="col-sm-4">
+                                <input type="text" name="shelf_no"
+                                    class="form-control @error('shelf_no') is-invalid @enderror"
+                                    value="{{ old('shelf_no', $shelf->shelf_no) }}" placeholder="Add shelf number" />
+                            </div>
+                            @error('shelf_no')
+                                <small class="text-danger offset-sm-2">{{ $message }}</small>
+                            @enderror
+                        </div>
+                        <div class="row justify-content-end">
+                            <div class="col-sm-10">
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
         @foreach ($books as $book)
             <div class="col-md-4">
                 <div class="card bg-dark border-0 text-white">

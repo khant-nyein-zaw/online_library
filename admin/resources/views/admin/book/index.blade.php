@@ -10,14 +10,16 @@
     <!-- Book List -->
     @if (count($books))
         <div class="row mb-4">
-            <div class="card mb-3">
-                <div class="card-body">
-                    <div class="col-sm-6">
-                        <form action="{{ route('books.index') }}" method="get">
-                            <label class="form-label">Search Books</label>
-                            <input type="search" name="search_query" class="form-control"
-                                placeholder="Search Books by Title or ISBN">
-                        </form>
+            <div class="col-12">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="col-sm-6">
+                            <form action="{{ route('books.index') }}" method="get">
+                                <label class="form-label">Search Books</label>
+                                <input type="search" name="search_query" class="form-control"
+                                    placeholder="Search Books by Title or ISBN">
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

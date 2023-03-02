@@ -7,8 +7,9 @@
         <button type="button" class="btn-close" @click="close"></button>
       </div>
       <div class="toast-body">
-        <p>{{ message }}</p>
-        <small>Reloading in {{ reloadTime }}</small>
+        <p class="text-muted fs-tiny">{{ message }}</p>
+        <small v-if="reload">Reloading in {{ reloadTime }}</small>
+        <small v-if="redirect">Redirecting in {{ redirectTime }}</small>
       </div>
     </div>
   </div>
@@ -20,10 +21,12 @@ export default {
   props: {
     message: String,
     reload: Boolean,
+    redirect: Boolean,
   },
   data() {
     return {
       reloadTime: 5,
+      redirectTime: 5,
     };
   },
   methods: {
@@ -36,6 +39,12 @@ export default {
       setInterval(() => {
         this.reloadTime = this.reloadTime - 1;
       }, 1000);
+    }
+    if (this.redirect) {
+      setInterval(() => {
+        this.redirectTime = this.redirectTime - 1;
+      }, 1000);
+      setTimeout(() => this.$router.push("/"), 5000);
     }
   },
 };
