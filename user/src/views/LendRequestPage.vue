@@ -9,7 +9,7 @@
             <a href="#">
               <h3 class="fw-bold text-primary">Online Library</h3>
             </a>
-            <small> Please fill how many days you want to borrow </small>
+            <small> Please fill how many days you want to lend </small>
           </div>
           <!-- Form -->
           <form @submit.prevent="makeLendRequest">
@@ -74,7 +74,7 @@
     </div>
   </div>
   <!-- Toast Noti -->
-  <Toast v-if="message" :message="message" redirect @close="message = ''" />
+  <Toast v-if="message" :message="message" @close="message = ''" />
 </template>
 
 <script>
@@ -114,7 +114,15 @@ export default {
         .then((response) => {
           if (response.data.messages) {
             this.errors = response.data.messages;
+          } else if (response.data.message) {
+            this.message =
+              response.data.message +
+              " Please wait for library staff's response";
+            this.fields.duration = "";
+            this.errors = {};
           } else {
+            this.fields.duration = "";
+            this.errors = {};
             this.message =
               "Request to lend the book has been made.Please wait for library staff's response";
           }

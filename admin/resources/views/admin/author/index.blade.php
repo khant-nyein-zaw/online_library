@@ -72,6 +72,7 @@
                         <table class="table table-borderless">
                             <thead>
                                 <tr>
+                                    <th>ID</th>
                                     <th>Author Name</th>
                                     <th>Bio</th>
                                     <th>Books</th>
@@ -81,6 +82,7 @@
                             <tbody>
                                 @foreach ($authors as $author)
                                     <tr>
+                                        <td>{{ $author->id }}</td>
                                         <td>
                                             <a href="{{ route('authors.show', $author->id) }}"
                                                 class="d-flex align-items-center gap-2">

@@ -45,48 +45,50 @@
                 </div>
             @endif
             @if (count($shelves))
-            <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5>Shelf List</h5>
-                </div>
-                <div class="table-responsive text-nowrap">
-                    <table class="table table-borderless">
-                        <thead>
-                            <tr>
-                                <th>Shelf Number</th>
-                                <th>Books</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($shelves as $shelf)
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5>Shelf List</h5>
+                    </div>
+                    <div class="table-responsive text-nowrap">
+                        <table class="table table-borderless">
+                            <thead>
                                 <tr>
-                                    <td>{{ $shelf->shelf_no }}</td>
-                                    <td>{{ $shelf->books_count }}</td>
-                                    <td>
-                                        <div class="d-flex align-items-center gap-2">
-                                            @if ($shelf->books_count)
-                                            <a href="{{ route('shelves.show', $shelf->id) }}"
-                                                class="btn btn-sm btn-info rounded">
-                                                <i class='bx bx-detail'></i>
-                                            </a>
-                                            @endif
-                                            <form action="{{ route('shelves.destroy', $shelf->id) }}" method="post"
-                                                class="d-inline">
-                                                @method('DELETE')
-                                                @csrf
-                                                <button class="btn btn-sm btn-danger rounded" type="submit">
-                                                    <i class="bx bx-trash"></i>
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </td>
+                                    <th>ID</th>
+                                    <th>Shelf Number</th>
+                                    <th>Books</th>
+                                    <th></th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($shelves as $shelf)
+                                    <tr>
+                                        <td>{{ $shelf->id }}</td>
+                                        <td>{{ $shelf->shelf_no }}</td>
+                                        <td>{{ $shelf->books_count }}</td>
+                                        <td>
+                                            <div class="d-flex align-items-center gap-2">
+                                                @if ($shelf->books_count)
+                                                    <a href="{{ route('shelves.show', $shelf->id) }}"
+                                                        class="btn btn-sm btn-info rounded">
+                                                        <i class='bx bx-detail'></i>
+                                                    </a>
+                                                @endif
+                                                <form action="{{ route('shelves.destroy', $shelf->id) }}" method="post"
+                                                    class="d-inline">
+                                                    @method('DELETE')
+                                                    @csrf
+                                                    <button class="btn btn-sm btn-danger rounded" type="submit">
+                                                        <i class="bx bx-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
             @endif
         </div>
     </div>

@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -59,6 +60,7 @@ class BookOverdueNotification extends Notification
         return [
             'fine' => $this->issuedBook->fine,
             'bookTitle' => $this->issuedBook->book->title,
+            'dueDate' => Carbon::parse($this->issuedBook->due_date)->format('M d Y')
         ];
     }
 }

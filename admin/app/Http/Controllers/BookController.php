@@ -42,13 +42,18 @@ class BookController extends Controller
             ->with(['author', 'category', 'image', 'shelf'])
             ->orderBy('created_at', 'desc')
             ->paginate(5);
-        $shelves = Shelf::all();
-        $categories = Category::all();
-        $authors = Author::all();
 
         $books->appends(request()->all());
 
-        return view('admin.book.index', compact('books', 'authors', 'categories', 'shelves'));
+        return view('admin.book.index', compact('books'));
+    }
+
+    public function create()
+    {
+        $shelves = Shelf::all();
+        $categories = Category::all();
+        $authors = Author::all();
+        return view('admin.book.create', compact('authors', 'categories', 'shelves'));
     }
 
     /**
@@ -129,7 +134,7 @@ class BookController extends Controller
      */
     public function exportBooks()
     {
-        return Excel::download(new ExportBooks, 'books.csv', \Maatwebsite\Excel\Excel::CSV);
+        return Excel::download(new ExportBooks, 'booklist.csv', \Maatwebsite\Excel\Excel::CSV);
     }
 
     /**

@@ -19,14 +19,16 @@
           :key="book.id"
         >
           <!-- image overlay -->
-          <div
-            class="card mb-3 bg-dark text-center"
-            @click="
-              $router.push({ name: 'BookDetails', params: { bookId: book.id } })
-            "
-            style="cursor: pointer"
-          >
-            <div class="card-body">
+          <div class="card mb-3 bg-dark text-center">
+            <div
+              class="card-body"
+              @click.self="
+                $router.push({
+                  name: 'BookDetails',
+                  params: { bookId: book.id },
+                })
+              "
+            >
               <h2 class="card-title mb-3 text-white">
                 {{ book.title }}
               </h2>

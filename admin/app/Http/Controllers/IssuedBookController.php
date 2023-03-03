@@ -54,11 +54,11 @@ class IssuedBookController extends Controller
     public function destroy($id)
     {
         $status = IssuedBook::firstWhere('id', $id)->status;
-        if (!$status === IssuedBookStatus::Issued) {
+        if ($status === IssuedBookStatus::Issued || $status === IssuedBookStatus::Overdue) {
+            return back()->with('denied', 'Remove the issued record after user had returned book');
+        } else {
             IssuedBook::find($id)->delete();
             return back()->with('removed', 'Selected issued record was removed');
-        } else {
-            return back()->with('denied', 'Selected issued record can\' be deleted currently');
         }
     }
 }

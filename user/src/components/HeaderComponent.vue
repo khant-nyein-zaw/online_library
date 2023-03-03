@@ -44,17 +44,20 @@
                   :class="{ 'bg-light': !markAsRead }"
                   v-for="noti in notifications"
                   :key="noti.id"
-                  @click="markNotiAsRead(noti.id)"
                 >
-                  <a href="#" class="text-muted">
+                  <a
+                    href="#"
+                    class="text-muted"
+                    @click="markNotiAsRead(noti.id)"
+                  >
                     <h5 class="mb-1 text-primary">
                       Overdue Notice for {{ noti.data["bookTitle"] }}
                     </h5>
-                    <p class="mb-0">
-                      {{ noti.data["bookTitle"] }} have expired due date.Please
-                      return as soon as possible and pay
-                      {{ noti.data["fine"] }} kyats as fine.
-                    </p>
+                    <small class="mb-0">
+                      {{ noti.data["bookTitle"] }} have expired at
+                      {{ noti.data["dueDate"] }}.Please return as soon as
+                      possible and pay {{ noti.data["fine"] }} kyats as fine.
+                    </small>
                   </a>
                 </li>
                 <li
