@@ -18,13 +18,8 @@ class NotificationController extends Controller
 
     public function markNotification(Request $request)
     {
-        auth()->user()
-            ->unreadNotifications
-            ->when($request->input('id'), function ($query) use ($request) {
-                $query->where('id', $request->input('id'));
-            })
-            ->markAsRead();
-
+        $notification = auth()->user()->notifications()->firstWhere('id', $request->id);
+        $notification->markAsRead();
         return response()->noContent();
     }
 }

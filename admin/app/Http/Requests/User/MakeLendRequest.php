@@ -17,11 +17,7 @@ class MakeLendRequest extends FormRequest
      */
     public function authorize()
     {
-        $recordCount = LendRequest::where(function (Builder $query) {
-            $query->where('user_id', $this->user()->id)
-                ->where('book_id', $this->input('book_id'));
-        })->count();
-        return $recordCount ? false : true;
+        return true;
     }
 
     /**

@@ -16,6 +16,7 @@
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Issued Books</th>
+                                    <th>Overdue</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -37,6 +38,7 @@
                                             <a href="#">{{ $user->email }}</a>
                                         </td>
                                         <td>{{ $user->issued_books_count }}</td>
+                                        <td>{{ count($user->issuedBooks) }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

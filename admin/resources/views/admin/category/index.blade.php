@@ -52,6 +52,7 @@
                         <table class="table table-borderless">
                             <thead>
                                 <tr>
+                                    <th>ID</th>
                                     <th>Category</th>
                                     <th>Books</th>
                                     <th></th>
@@ -60,6 +61,7 @@
                             <tbody>
                                 @foreach ($categories as $category)
                                     <tr>
+                                        <td>{{ $category->id }}</td>
                                         <td>{{ $category->name }}</td>
                                         <td>{{ $category->books_count }}</td>
                                         <td>
