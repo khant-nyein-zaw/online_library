@@ -29,12 +29,12 @@
             <i class="fa-solid fa-book nav-icon icon-xs me-2"></i> My Books
           </router-link>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" v-if="!this.authenticated">
           <router-link :to="{ name: 'Login' }" class="nav-link has-arrow">
             <i class="fa-solid fa-unlock nav-icon icon-xs me-2"></i> Sign In
           </router-link>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" v-else>
           <a class="nav-link" href="#" @click="logout">
             <i class="fa-solid fa-lock nav-icon icon-xs me-2"></i> Logout
           </a>
@@ -45,8 +45,12 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "HeaderComponent",
+  computed: {
+    ...mapState(["authenticated"]),
+  },
   methods: {
     logout() {
       this.$store.dispatch("logout");

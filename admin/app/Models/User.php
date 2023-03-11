@@ -27,6 +27,8 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'phone',
+        'address',
         'password',
         'role_id'
     ];
@@ -69,8 +71,22 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
+    public function image()
+    {
+        return $this->morphOne(Image::class, 'imageable');
+    }
+
     public function issuedBooks()
     {
         return $this->hasMany(IssuedBook::class);
+    }
+
+    public function delete()
+    {
+        if ($this->image) {
+            Storage::delete('public/' . $this->image->filename);
+        }
+        $this->image()->delete();
+        parent::delete();
     }
 }

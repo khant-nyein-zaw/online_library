@@ -102,7 +102,11 @@ export default {
             this.message = response.data.message;
           }
         })
-        .catch((err) => console.log(err))
+        .catch((err) => {
+          if (err.response.status === 403) {
+            this.message = "The credentials are failed to authorize";
+          }
+        })
         .finally(() => (this.processing = false));
     },
   },

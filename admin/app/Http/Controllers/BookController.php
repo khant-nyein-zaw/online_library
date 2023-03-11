@@ -146,7 +146,7 @@ class BookController extends Controller
     {
         $newFileName = uniqid() . "_" . $request->file('image')->getClientOriginalName();
 
-        $imageExists = Image::where('imageable_id', $bookId)->exists() ? (Image::firstWhere('id', $bookId)->imageable_type === Book::class ? true : false) : false;
+        $imageExists = Image::where('imageable_id', $bookId)->exists() ? (Image::firstWhere('imageable_id', $bookId)->imageable_type === Book::class ? true : false) : false;
 
         if ($imageExists) {
             // delete current file from storage
