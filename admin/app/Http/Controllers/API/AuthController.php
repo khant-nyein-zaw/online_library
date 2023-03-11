@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\User\RegisterRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
@@ -29,18 +30,22 @@ class AuthController extends Controller
     {
         $credentials = $request->only(['email', 'password']);
 
-        if (!Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials)) {
+            if ($request->user()->role_id !== 2) {
+                return response()->json([], 403);
+            }
+
+            $user = User::firstWhere('email', $request->email);
+
+            return response()->json([
+                'user' => $user,
+                'access_token' => $user->createToken(time())->plainTextToken
+            ]);
+        } else {
             return response()->json([
                 'status' => 'Login failed',
                 'message' => 'The credentials do not match our record!'
             ]);
         }
-
-        $user = User::firstWhere('email', $request->email);
-
-        return response()->json([
-            'user' => $user,
-            'access_token' => $user->createToken(time())->plainTextToken
-        ]);
     }
 }

@@ -9,6 +9,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\IssuedBookController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\ProfileController;
 
 Route::redirect('/', 'login', 301);
 Route::get('/login', [AuthController::class, 'login'])->name('login');
@@ -19,8 +20,16 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
     Route::delete('/lend-requests/{id}', [DashboardController::class, 'destroyLendRequest'])->name('dashboard.destroyLendRequest');
 
+    // admin profile
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::patch('/profile/reset-password/{id}', [ProfileController::class, 'resetPassword'])->name('profile.resetPassword');
+    Route::put('/profile/update/{id}', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/profile/upload-photo/{id}', [ProfileController::class, 'uploadPhoto'])->name('profile.uploadPhoto');
+    Route::delete('/profile/reset-photo/{id}', [ProfileController::class, 'resetPhoto'])->name('profile.resetPhoto');
+
     // users
     Route::get('/members', [MemberController::class, 'index'])->name('members.index');
+    Route::post('/members/change-role', [MemberController::class, 'changeRole'])->name('members.changeRole');
 
     // books
     Route::resource('/books', BookController::class);

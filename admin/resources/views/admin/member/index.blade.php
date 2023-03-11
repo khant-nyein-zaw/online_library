@@ -16,12 +16,13 @@
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Issued Books</th>
-                                    <th>Overdue</th>
+                                    <th>Overdue Books</th>
+                                    <th>Change Role</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($users as $user)
-                                    <tr>
+                                    <tr data-userid="{{ $user->id }}">
                                         <td>{{ $user->id }}</td>
                                         <td>
                                             <div class="d-flex align-items-center gap-2">
@@ -39,6 +40,17 @@
                                         </td>
                                         <td>{{ $user->issued_books_count }}</td>
                                         <td>{{ count($user->issuedBooks) }}</td>
+                                        <td>
+                                            @if ($user->id !== auth()->user()->id)
+                                                <select id="roleId" class="form-select">
+                                                    @foreach ($roles as $role)
+                                                        <option value="{{ $role->id }}"
+                                                            {{ $role->id === $user->role_id ? 'selected' : '' }}>
+                                                            {{ $role->main_role }}</option>
+                                                    @endforeach
+                                                </select>
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -53,3 +65,35 @@
         </div>
     </div>
 @endsection
+
+@push('script')
+    <script>
+        $(document).ready(function() {
+            $('#roleId').on('change', function() {
+                let roleId = $(this).val();
+                let userId = $(this).parent().parent().data('userid');
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: "post",
+                    url: `{{ route('members.changeRole') }}`,
+                    data: {
+                        roleId,
+                        userId
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            location.reload();
+                        }
+                    }
+                })
+            })
+        });
+    </script>
+@endpush

@@ -85,7 +85,7 @@ class AuthorController extends Controller
     {
         $newFileName = uniqid() . "_" . $request->file('image')->getClientOriginalName();
 
-        $imageExists = Image::where('imageable_id', $authorId)->exists() ? (Image::firstWhere('id', $authorId)->imageable_type === Author::class ? true : false) : false;
+        $imageExists = Image::where('imageable_id', $authorId)->exists() ? (Image::firstWhere('imageable_id', $authorId)->imageable_type === Author::class ? true : false) : false;
 
         if ($imageExists) {
             // delete current file from storage
