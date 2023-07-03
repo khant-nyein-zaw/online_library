@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Enums\IssuedBookStatus;
 use App\Http\Requests\StoreIssuedBookRequest;
+use App\Mail\BookIssued;
 use App\Models\Book;
 use App\Models\IssuedBook;
 use App\Models\User;
 use App\Notifications\BookOverdueNotification;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Mail;
 
 class IssuedBookController extends Controller
 {
@@ -30,7 +32,7 @@ class IssuedBookController extends Controller
                 ->where('book_id', $inputs['book_id']);
         })->exists();
 
-        if ($recordExists) {
+        if ((bool) $recordExists) {
             return back()->with('recordExists', 'You have already issued selected book to that user');
         }
 
@@ -38,6 +40,11 @@ class IssuedBookController extends Controller
         $inputs['due_date'] = Carbon::now()->addDays($duration);
 
         IssuedBook::create($inputs);
+
+        $book = Book::find($inputs['book_id']);
+        $user = User::find($inputs['user_id']);
+
+        Mail::to($user)->send(new BookIssued($book));
 
         return back()->with(['success' => 'Book was issued to the user sucessfully']);
     }

@@ -45,6 +45,6 @@ class Book extends Model
             Storage::delete('public/' . $this->image->filename);
         }
         $this->image()->delete();
-        parent::delete();
+        $this->delete();
     }
 }

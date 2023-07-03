@@ -2,26 +2,26 @@
 
 namespace App\Notifications;
 
-use Carbon\Carbon;
+use App\Models\Book;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class BookOverdueNotification extends Notification
+class BookExpiredNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    public $issuedBook;
+    public $book;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($issuedBook)
+    public function __construct(Book $book)
     {
-        $this->issuedBook = $issuedBook;
+        $this->book = $book;
     }
 
     /**
@@ -32,7 +32,7 @@ class BookOverdueNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail', 'database'];
+        return ['mail'];
     }
 
     /**
@@ -44,9 +44,8 @@ class BookOverdueNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!');
+            ->subject('Book Expiration')
+            ->line($this->book->title . " has been expired.Please return the book immediately.");
     }
 
     /**
@@ -58,9 +57,7 @@ class BookOverdueNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'fine' => $this->issuedBook->fine,
-            'bookTitle' => $this->issuedBook->book->title,
-            'dueDate' => Carbon::parse($this->issuedBook->due_date)->format('M d Y')
+            //
         ];
     }
 }

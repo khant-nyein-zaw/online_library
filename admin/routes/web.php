@@ -16,6 +16,7 @@ Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/register', [AuthController::class, 'register'])->name('register');
 
 Route::middleware(['auth', 'admin'])->group(function () {
+
     // dashboard actions
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
     Route::delete('/lend-requests/{id}', [DashboardController::class, 'destroyLendRequest'])->name('dashboard.destroyLendRequest');
