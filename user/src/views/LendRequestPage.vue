@@ -72,9 +72,10 @@
         </div>
       </div>
     </div>
+
+    <!-- Toast Noti -->
+    <Toast v-if="message" :message="message" @close="message = ''" />
   </div>
-  <!-- Toast Noti -->
-  <Toast v-if="message" :message="message" @close="message = ''" />
 </template>
 
 <script>

@@ -92,5 +92,14 @@
         <div class="alert alert-warning">
             <small>No book has been created!</small>
         </div>
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5>{{ request('search_query') ? 'Search Results' : 'Recently added books' }}</h5>
+                <div class="d-flex justify-content-center gap-2">
+                    <a href="{{ route('books.create') }}" class="btn btn-primary">Add new book</a>
+                    <a href="{{ route('books.export') }}" class="btn btn-info">Download Book List</a>
+                </div>
+            </div>
+        </div>
     @endif
 @endsection
